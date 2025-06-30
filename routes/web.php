@@ -2,11 +2,9 @@
 
 use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
+// Non-localized routes (Dashboard and Settings - English only)
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -20,4 +18,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', [Settings\AppearanceController::class, 'edit'])->name('settings.appearance.edit');
 });
 
-require __DIR__.'/auth.php';
+// Localized routes (Frontend - English and Bengali)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function () {
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
+    
+    // Include auth routes
+    require __DIR__.'/auth.php';
+});
