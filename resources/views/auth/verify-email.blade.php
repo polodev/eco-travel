@@ -1,4 +1,4 @@
-<x-layouts.auth :title="__('Verify Email')">
+<x-customer-frontend-layout::layout :title="__('Verify Email')">
     <!-- Verify Email Card -->
     <div
         class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -35,4 +35,4 @@
             </div>
         </div>
     </div>
-</x-layouts.auth>
+</x-customer-frontend-layout::layout>

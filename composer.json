@@ -11,8 +11,14 @@
     "require": {
         "php": "^8.2",
         "blade-ui-kit/blade-icons": "^1.8",
+        "internachi/modular": "^2.3",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "mcamara/laravel-localization": "^2.3",
+        "modules/admin-dashboard-layout": "*",
+        "modules/customer-account-layout": "*",
+        "modules/customer-frontend-layout": "*",
+        "modules/test": "*",
         "owenvoke/blade-fontawesome": "^2.9"
     },
     "require-dev": {
@@ -78,5 +84,14 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "app-modules/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ]
 }
