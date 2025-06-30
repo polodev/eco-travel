@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -56,5 +57,40 @@ class User extends Authenticatable
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    /**
+     * Check if user has a specific role
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Check if user has any of the specified roles
+     */
+    public function hasAnyRole(array|string $roles): bool
+    {
+        if (is_string($roles)) {
+            return $this->hasRole($roles);
+        }
+        return in_array($this->role, $roles);
+    }
+
+    /**
+     * Check if user has all specified roles (only true if exactly one role and user has it)
+     */
+    public function hasAllRoles(array $roles): bool
+    {
+        return count($roles) === 1 && $this->hasRole($roles[0]);
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
     }
 }
