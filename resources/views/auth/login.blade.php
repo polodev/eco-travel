@@ -1,7 +1,8 @@
 <x-customer-frontend-layout::layout :title="__('messages.login')">
     <!-- Login Card -->
-    <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="max-w-md mx-auto">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="p-6">
             <div class="text-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('messages.login') }}</h1>
@@ -43,6 +44,7 @@
                     </p>
                 </div>
             @endif
+        </div>
         </div>
     </div>
 </x-customer-frontend-layout::layout>
