@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cb62e96d41c75c581abf29a1e3d019d",
+    "content-hash": "1557766be8d9d16264063a183937e5fc",
     "packages": [
         {
             "name": "blade-ui-kit/blade-icons",
@@ -3228,6 +3228,38 @@
                     "Modules\\Test\\Tests\\": "tests/",
                     "Modules\\Test\\Database\\Factories\\": "database/factories/",
                     "Modules\\Test\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/user-data",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/user-data",
+                "reference": "bd6a859cad129e05695f6bb6134be545ca1bb37c"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\UserData\\Providers\\UserDataServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\UserData\\": "src/",
+                    "Modules\\UserData\\Tests\\": "tests/",
+                    "Modules\\UserData\\Database\\Factories\\": "database/factories/",
+                    "Modules\\UserData\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [

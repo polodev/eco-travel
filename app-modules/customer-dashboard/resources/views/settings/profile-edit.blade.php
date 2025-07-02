@@ -7,18 +7,18 @@
             stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-        <a href="{{ route('settings.profile.edit') }}"
+        <a href="{{ route('settings.profile') }}"
             class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.profile') }}</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-        <span class="text-gray-500 dark:text-gray-400">{{ __('messages.profile') }}</span>
+        <span class="text-gray-500 dark:text-gray-400">{{ __('messages.edit') }}</span>
     </div>
 
     <!-- Page Title -->
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('messages.profile') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('messages.edit_profile') }}</h1>
         <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('messages.update_name_email') }}</p>
     </div>
 
@@ -33,6 +33,16 @@
                     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
                     <div class="p-6">
                         <!-- Profile Form -->
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-lg font-medium text-gray-800 dark:text-gray-200">
+                                {{ __('messages.profile_information') }}
+                            </h2>
+                            <a href="{{ route('settings.profile') }}"
+                                class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                {{ __('messages.cancel') }}
+                            </a>
+                        </div>
+
                         <form class="max-w-md mb-10" action="{{ route('settings.profile.update') }}" method="POST">
                             @csrf
                             @method('PUT')
