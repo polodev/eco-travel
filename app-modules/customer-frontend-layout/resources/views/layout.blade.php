@@ -101,12 +101,14 @@
                             
                             <div x-show="open" @click.away="open = false" x-transition
                                  class="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
-                                <a href="{{ route('dashboard') }}" class="block px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    Dashboard
+                                <a href="{{ route('customer-dashboard.index') }}" class="block px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    {{ __('messages.my_account') }}
                                 </a>
-                                <a href="#" class="block px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    My Account
-                                </a>
+                                @if(auth()->check() && auth()->user()->hasAnyRole(['developer', 'admin', 'employee', 'accounts']))
+                                    <a href="{{ route('admin-dashboard.index') }}" class="block px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                        {{ __('messages.admin_dashboard') }}
+                                    </a>
+                                @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="block w-full text-left px-3 py-2 text-xs text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
@@ -221,12 +223,14 @@
                             
                             <div x-show="open" @click.away="open = false" x-transition
                                  class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
-                                <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {{ __('messages.dashboard') }}
+                                <a href="{{ route('customer-dashboard.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    {{ __('messages.my_account') }}
                                 </a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    My Account
-                                </a>
+                                @if(auth()->check() && auth()->user()->hasAnyRole(['developer', 'admin', 'employee', 'accounts']))
+                                    <a href="{{ route('admin-dashboard.index') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                        {{ __('messages.admin_dashboard') }}
+                                    </a>
+                                @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
