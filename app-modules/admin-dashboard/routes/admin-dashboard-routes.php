@@ -10,6 +10,6 @@ Route::middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts
         })->name('index');
         
         Route::resource('users', UserController::class);
-        Route::get('users-json', [UserController::class, 'indexJson'])->name('users.json');
+        Route::post('users-json', [UserController::class, 'indexJson'])->name('users.json');
     });
 });
