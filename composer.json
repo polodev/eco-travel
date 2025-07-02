@@ -22,6 +22,7 @@
         "modules/customer-dashboard": "*",
         "modules/customer-frontend-layout": "*",
         "modules/test": "*",
+        "modules/user-data": "*",
         "owenvoke/blade-fontawesome": "^2.9",
         "yajra/laravel-datatables-oracle": "^12.4"
     },

@@ -12,9 +12,16 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function show(Request $request): View
+    {
+        return view('customer-dashboard::settings.profile-view', [
+            'user' => $request->user(),
+        ]);
+    }
+
     public function edit(Request $request): View
     {
-        return view('customer-dashboard::settings.profile', [
+        return view('customer-dashboard::settings.profile-edit', [
             'user' => $request->user(),
         ]);
     }
@@ -43,7 +50,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return to_route('settings.profile.edit')->with('status', __('Profile updated successfully'));
+        return to_route('settings.profile')->with('status', __('Profile updated successfully'));
     }
 
     public function destroy(Request $request): RedirectResponse
