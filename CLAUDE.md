@@ -108,9 +108,45 @@ Route::group([
 3. **Route Localization**: Implemented proper Laravel Localization middleware instead of manual approach
 4. **Mobile Navigation**: Fixed hamburger menu functionality with correct Alpine.js state management
 
+## Asset Management
+### Third-Party Asset Organization
+- **Location**: `/public/vendor/` directory for all third-party libraries
+- **Organization Pattern**: Library-based structure where each third-party library gets its own folder
+
+### Standard Library Structure
+```
+public/vendor/library-name/
+├── css/                       # Stylesheets (.css, .min.css)
+├── js/                        # JavaScript files (.js, .min.js)
+├── images/                    # Library-specific images
+├── themes/                    # Theme variations (if applicable)
+├── plugins/                   # Extension plugins (if applicable)
+└── fonts/                     # Font files (.woff, .ttf, etc.)
+```
+
+### Supported Asset Types
+- **CSS**: Stylesheets and minified versions
+- **JavaScript**: Scripts and minified versions  
+- **Fonts**: Icon fonts and custom typefaces (.woff, .ttf, .eot, .svg)
+- **Images**: Icons, backgrounds, UI elements (.png, .jpg, .gif)
+- **Maps**: Source maps for debugging (.map files)
+- **Documentation**: README, LICENSE, and HTML docs
+
+### Common Third-Party Libraries
+- **CSS Frameworks**: Bootstrap, Tailwind CSS, Bulma
+- **JavaScript Libraries**: jQuery, Alpine.js, Select2, Choices.js
+- **UI Components**: DataTables, Owl Carousel, Magnific Popup
+- **Date/Time**: Flatpickr date picker
+- **Alerts/Modals**: SweetAlert, SweetAlert2
+- **Icons**: Flaticon, FontAwesome
+- **Laravel Packages**: Telescope, Log Viewer, Media Library
+
+
+
 ## Development Notes
 - All layouts implement consistent dark mode support
 - Mobile-first responsive design throughout
 - Comprehensive translation system for customer-facing content
 - Modular architecture allows easy extension and maintenance
 - Test module provides complete layout testing capabilities
+- Third-party assets organized in vendor directory for maintainability
