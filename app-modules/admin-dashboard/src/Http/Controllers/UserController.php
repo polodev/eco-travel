@@ -62,70 +62,90 @@ class UserController extends Controller
             }, true)
             ->addColumn('role_badge', function (User $user) {
                 if (!$user->role) {
-                    return '<span class="badge bg-secondary">No Role</span>';
+                    return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">No Role</span>';
                 }
                 
                 $badgeClasses = [
-                    'developer' => 'bg-info',
-                    'admin' => 'bg-warning text-dark',
-                    'employee' => 'bg-primary',
-                    'accounts' => 'bg-success',
-                    'customer' => 'bg-light text-dark'
+                    'developer' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                    'admin' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                    'employee' => 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+                    'accounts' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                    'customer' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
                 ];
                 
-                $badgeClass = $badgeClasses[$user->role] ?? 'bg-secondary';
+                $badgeClass = $badgeClasses[$user->role] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
                 
-                return '<span class="badge ' . $badgeClass . '">' . Str::headline($user->role) . '</span>';
+                return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $badgeClass . '">' . Str::headline($user->role) . '</span>';
             })
             ->addColumn('email_verified_badge', function (User $user) {
                 if ($user->email_verified_at) {
-                    return '<span class="badge bg-success">
-                                <i class="fas fa-check-circle me-1"></i>Verified
+                    return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                Verified
                             </span>';
                 } else {
-                    return '<span class="badge bg-warning text-dark">
-                                <i class="fas fa-exclamation-circle me-1"></i>Unverified
+                    return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
+                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                Unverified
                             </span>';
                 }
             })
             ->addColumn('action', function (User $user) {
-                $actions = '';
+                $actions = '<div class="flex items-center space-x-2">';
                 
-                $actions .= '<a class="btn btn-sm btn-success me-1" href="' . route('admin-dashboard.users.show', $user->id) . '" title="View">
-                                <i class="fas fa-eye"></i>
+                $actions .= '<a href="' . route('admin-dashboard.users.show', $user->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 transition-colors" title="View">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
                              </a>';
                              
-                $actions .= '<a class="btn btn-sm btn-info me-1" href="' . route('admin-dashboard.users.edit', $user->id) . '" title="Edit">
-                                <i class="fas fa-edit"></i>
+                $actions .= '<a href="' . route('admin-dashboard.users.edit', $user->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 transition-colors" title="Edit">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
                              </a>';
                 
                 // Only show delete for non-critical roles
                 if (!in_array($user->role, ['developer', 'admin'])) {
-                    $actions .= '<button class="btn btn-sm btn-danger" onclick="deleteUser(' . $user->id . ')" title="Delete">
-                                    <i class="fas fa-trash"></i>
+                    $actions .= '<button onclick="deleteUser(' . $user->id . ')" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 transition-colors" title="Delete">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
                                  </button>';
                 }
                 
+                $actions .= '</div>';
                 return $actions;
             })
             ->addColumn('created_at_formatted', function (User $user) {
-                return '<span title="' . $user->created_at->format('Y-m-d H:i:s') . '">' . 
-                       $user->created_at->format('M d, Y') . 
-                       '</span><br><small class="text-muted">' . 
-                       $user->created_at->diffForHumans() . 
-                       '</small>';
+                return '<div class="text-sm">
+                            <div class="text-gray-900 dark:text-gray-100">' . $user->created_at->format('M d, Y') . '</div>
+                            <div class="text-gray-500 dark:text-gray-400 text-xs">' . $user->created_at->diffForHumans() . '</div>
+                        </div>';
             })
             ->addColumn('last_login_formatted', function (User $user) {
-                // Add last_login_at column to users table migration if needed
                 if (isset($user->last_login_at) && $user->last_login_at) {
-                    return '<span title="' . $user->last_login_at->format('Y-m-d H:i:s') . '">' . 
-                           $user->last_login_at->format('M d, Y') . 
-                           '</span><br><small class="text-muted">' . 
-                           $user->last_login_at->diffForHumans() . 
-                           '</small>';
+                    return '<div class="text-sm">
+                                <div class="text-gray-900 dark:text-gray-100">' . $user->last_login_at->format('M d, Y') . '</div>
+                                <div class="text-gray-500 dark:text-gray-400 text-xs">' . $user->last_login_at->diffForHumans() . '</div>
+                            </div>';
                 } else {
-                    return '<span class="text-muted">Never</span>';
+                    return '<span class="text-gray-500 dark:text-gray-400 text-sm">Never</span>';
                 }
+            })
+            ->setRowClass(function (User $user) {
+                $classes = 'hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors';
+                if ($user->role === 'developer') {
+                    $classes .= ' bg-blue-50 dark:bg-blue-900/20';
+                } elseif ($user->role === 'admin') {
+                    $classes .= ' bg-yellow-50 dark:bg-yellow-900/20';
+                }
+                return $classes;
             })
             ->rawColumns(['action', 'created_at_formatted', 'last_login_formatted', 'role_badge', 'email_verified_badge'])
             ->toJson();

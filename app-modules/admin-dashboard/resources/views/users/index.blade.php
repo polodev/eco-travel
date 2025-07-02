@@ -1,7 +1,7 @@
 <x-admin-dashboard-layout::layout>
-    <div class="p-4 bg-white dark:bg-gray-800">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
         <!-- Filter Section -->
-        <div class="mb-6">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">User Management</h2>
                 <div class="flex space-x-2">
@@ -69,11 +69,13 @@
         <input type="hidden" id="ending_date_of_user_created_at">
         
         <!-- DataTable Info -->
-        <div id="datatable-info-custom" class="mb-4 text-sm text-gray-600 dark:text-gray-400"></div>
+        <div class="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+            <div id="datatable-info-custom" class="text-sm text-gray-600 dark:text-gray-400"></div>
+        </div>
         
         <!-- Multi-select Actions -->
-        <div id="multi-select-actions" class="mb-4" style="display: none;">
-            <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 flex justify-between items-center">
+        <div id="multi-select-actions" class="px-6 py-3 bg-blue-50 dark:bg-blue-900 border-b border-blue-200 dark:border-blue-700" style="display: none;">
+            <div class="flex justify-between items-center">
                 <span class="text-blue-800 dark:text-blue-200">
                     <strong><span id="number_of_row_selected_text">0</span></strong> users selected
                 </span>
@@ -91,30 +93,15 @@
             </div>
         </div>
         
-        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
-            <div class="overflow-x-auto">
-                <table id="user-table" class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-16">ID</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-32">Created At</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-20">Verified</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-24">Role</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-32">Last Login</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-32">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        <!-- DataTable will populate this -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- DataTable Container -->
+        <div class="overflow-hidden">
+            <table id="user-table" class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <!-- DataTables will handle thead and tbody -->
+            </table>
         </div>
         
-        <!-- Go to Page Number -->
-        <div class="mt-4">
+        <!-- Page Navigation -->
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
             <div class="flex items-center space-x-2 max-w-xs">
                 <input type="number" value="1" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" id="datatable-page-number">
                 <button id="datatable-page-number-button" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600" type="button">
@@ -129,61 +116,16 @@
         const current_route_name = 'admin-dashboard.users.index';
         
         $(document).ready(function() {
-            // DataTable configuration
-            var columns = [
-                {
-                    data: 'id',
-                    name: 'id',
-                    searchable: true,
-                },
-                {
-                    data: 'created_at_formatted',
-                    name: 'created_at',
-                    searchable: false,
-                    orderable: true
-                },
-                {
-                    data: 'name',
-                    name: 'name',
-                    searchable: true,
-                },
-                {
-                    data: 'email',
-                    name: 'email',
-                    searchable: true,
-                },
-                {
-                    data: 'email_verified_badge',
-                    name: 'email_verified_at',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'role_badge',
-                    name: 'role',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'last_login_formatted',
-                    name: 'last_login_at',
-                    searchable: false,
-                    orderable: true
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    searchable: false,
-                    orderable: false
-                }
-            ];
-            
-            var data_table_args = {
+            // DataTable configuration with backend-driven columns
+            var userTable = $('#user-table').DataTable({
                 processing: true,
                 serverSide: true,
                 searchDelay: 500,
                 pageLength: 25,
                 lengthMenu: [10, 25, 50, 100, 200],
+                scrollX: true,
+                autoWidth: false,
+                responsive: false,
                 ajax: {
                     url: '{{ route('admin-dashboard.users.json') }}',
                     type: "POST",
@@ -195,38 +137,91 @@
                         d.search_text = $('#search_text').val();
                     }
                 },
-                "autoWidth": false,
-                columns: columns,
-                order: [
-                    [1, 'desc']
-                ],
-                "ordering": true,
-                "language": {
-                    "search": "Search users:",
-                    "lengthMenu": "Show _MENU_ users per page",
-                    "info": "Showing _START_ to _END_ of _TOTAL_ users",
-                    "infoEmpty": "No users found",
-                    "infoFiltered": "(filtered from _MAX_ total users)"
-                },
-                createdRow: function(row, data, dataIndex) {
-                    $(row).addClass('hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer');
-                    if (data.role === 'developer') {
-                        $(row).addClass('bg-blue-50 dark:bg-blue-900');
-                    } else if (data.role === 'admin') {
-                        $(row).addClass('bg-yellow-50 dark:bg-yellow-900');
+                columns: [
+                    {
+                        data: 'id',
+                        name: 'id',
+                        title: 'ID',
+                        searchable: true,
+                        className: 'text-center w-20'
+                    },
+                    {
+                        data: 'created_at_formatted',
+                        name: 'created_at',
+                        title: 'Created At',
+                        searchable: false,
+                        orderable: true,
+                        className: 'w-32'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                        title: 'Name',
+                        searchable: true,
+                        className: 'font-medium'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email',
+                        title: 'Email',
+                        searchable: true,
+                        className: 'text-gray-600 dark:text-gray-400'
+                    },
+                    {
+                        data: 'email_verified_badge',
+                        name: 'email_verified_at',
+                        title: 'Verified',
+                        searchable: false,
+                        orderable: false,
+                        className: 'text-center w-24'
+                    },
+                    {
+                        data: 'role_badge',
+                        name: 'role',
+                        title: 'Role',
+                        searchable: false,
+                        orderable: false,
+                        className: 'text-center w-28'
+                    },
+                    {
+                        data: 'last_login_formatted',
+                        name: 'last_login_at',
+                        title: 'Last Login',
+                        searchable: false,
+                        orderable: true,
+                        className: 'w-32'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        title: 'Actions',
+                        searchable: false,
+                        orderable: false,
+                        className: 'text-center w-32'
                     }
+                ],
+                order: [[1, 'desc']],
+                language: {
+                    search: "Search users:",
+                    lengthMenu: "Show _MENU_ users per page",
+                    info: "Showing _START_ to _END_ of _TOTAL_ users",
+                    infoEmpty: "No users found",
+                    infoFiltered: "(filtered from _MAX_ total users)",
+                    processing: '<div class="flex items-center justify-center"><svg class="animate-spin h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle><path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span class="ml-2">Loading...</span></div>'
+                },
+                @if(auth()->user()->hasAnyRole(['developer', 'admin']))
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                    dom: 'Blfrtip',
+                @endif
+                drawCallback: function() {
+                    // Apply Tailwind styles after draw
+                    $('#user-table').addClass('divide-y divide-gray-200 dark:divide-gray-700');
+                    $('#user-table thead').addClass('bg-gray-50 dark:bg-gray-700');
+                    $('#user-table thead th').addClass('px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider');
+                    $('#user-table tbody').addClass('bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700');
+                    $('#user-table tbody td').addClass('px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100');
                 }
-            };
-            
-            // Add export buttons for admin users
-            @if(auth()->user()->hasAnyRole(['developer', 'admin']))
-                data_table_args.buttons = [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ];
-                data_table_args.dom = 'Blfrtip';
-            @endif
-            
-            var userTable = $('#user-table').DataTable(data_table_args);
+            });
             
             // Multi-select functionality
             $('#user-table tbody').on('click', 'tr', function() {
@@ -284,14 +279,6 @@
             });
             
             // Page navigation
-            function dataTableNavigate(table) {
-                $('#datatable-page-number-button').on('click', function() {
-                    var pageNumber = parseInt($('#datatable-page-number').val()) - 1;
-                    if (pageNumber >= 0) {
-                        table.page(pageNumber).draw('page');
-                    }
-                });
-            }
             dataTableNavigate(userTable);
             
             // Filter change listeners
@@ -416,7 +403,7 @@
             background: #b91c1c;
         }
         
-        /* DataTables responsive styles */
+        /* DataTables Tailwind Integration */
         .dataTables_wrapper {
             @apply text-gray-700 dark:text-gray-300;
         }
@@ -436,6 +423,12 @@
         
         .dataTables_paginate .paginate_button.current {
             @apply bg-blue-600 text-white border-blue-600;
+        }
+        
+        /* Table styling */
+        #user-table_wrapper .dataTables_scrollHead,
+        #user-table_wrapper .dataTables_scrollBody {
+            @apply border-gray-200 dark:border-gray-700;
         }
     </style>
     @endpush
