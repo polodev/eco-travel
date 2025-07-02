@@ -33,6 +33,13 @@ Located in `/app-modules/` directory with 4 modules:
 - **Purpose**: Backend/admin interface
 - **Features**: Admin sidebar, user dropdown, admin-specific styling
 - **Not localized** (English only for admin)
+- **Modular Structure**: Organized into logical partials for easy maintenance
+  - `partials/_head.blade.php` - HTML head contents (meta, title, scripts, styles)
+  - `partials/_header.blade.php` - Admin header navigation bar with user dropdown
+  - `partials/_sidebar.blade.php` - Admin navigation sidebar with nested menus
+  - `partials/_main.blade.php` - Main content area with status messages and slot
+  - `partials/_footer.blade.php` - Scripts stack (before closing body)
+  - `partials/_scripts.blade.php` - DataTables, Flatpickr, and common scripts
 
 ### 2. Customer Frontend Layout (`customer-frontend-layout`)
 - **Component**: `<x-customer-frontend-layout::layout>`
