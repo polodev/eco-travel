@@ -37,9 +37,9 @@ Located in `/app-modules/` directory with 4 modules:
   - `partials/_head.blade.php` - HTML head contents (meta, title, scripts, styles)
   - `partials/_header.blade.php` - Admin header navigation bar with user dropdown
   - `partials/_sidebar.blade.php` - Admin navigation sidebar with nested menus
-  - `partials/_main.blade.php` - Main content area with status messages and slot
   - `partials/_footer.blade.php` - Scripts stack (before closing body)
   - `partials/_scripts.blade.php` - DataTables, Flatpickr, and common scripts
+  - Main content area integrated directly in layout with status messages and slot
 
 ### 2. Customer Frontend Layout (`customer-frontend-layout`)
 - **Component**: `<x-customer-frontend-layout::layout>`
@@ -50,6 +50,16 @@ Located in `/app-modules/` directory with 4 modules:
   - Mobile controls: language switcher, theme switcher, auth buttons
   - Desktop theme switcher with Light/Dark/System options
   - Alpine.js state management: `x-data="{ mobileMenuOpen: false }"`
+- **Modular Structure**: Organized into logical partials for easy maintenance
+  - `partials/_head.blade.php` - HTML head contents (meta, title, theme script, styles)
+  - `partials/_header.blade.php` - Main header container with logo and navigation
+  - `partials/_mobile-controls.blade.php` - Mobile language, theme, auth, and menu controls
+  - `partials/_desktop-navigation.blade.php` - Desktop navigation links and dropdowns
+  - `partials/_mobile-menu.blade.php` - Mobile navigation menu with collapsible services
+  - `partials/_footer.blade.php` - Site footer with copyright
+  - `partials/_status-message.blade.php` - Fixed position success/status messages
+  - `partials/_scripts.blade.php` - Scripts stack (before closing body)
+  - Main content area integrated directly in layout with responsive container
 
 ### 3. Customer Account Layout (`customer-account-layout`)
 - **Component**: `<x-customer-account-layout::layout>`
