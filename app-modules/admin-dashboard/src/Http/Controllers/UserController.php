@@ -162,6 +162,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'mobile' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'nullable|string|in:developer,admin,employee,accounts,customer'
         ]);
@@ -169,6 +170,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'mobile' => $request->mobile,
             'password' => bcrypt($request->password),
             'role' => $request->role,
             'email_verified_at' => now(), // Auto-verify admin created users
@@ -194,11 +196,12 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'mobile' => 'nullable|string|max:20',
             'role' => 'nullable|string|in:developer,admin,employee,accounts,customer',
             'password' => 'nullable|string|min:8|confirmed'
         ]);
 
-        $data = $request->only(['name', 'email', 'role']);
+        $data = $request->only(['name', 'email', 'mobile', 'role']);
         
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);

@@ -26,6 +26,7 @@
         "modules/user-data": "*",
         "opcodesio/log-viewer": "^3.18",
         "owenvoke/blade-fontawesome": "^2.9",
+        "spatie/laravel-activitylog": "^4.10",
         "yajra/laravel-datatables-oracle": "^12.4"
     },
     "require-dev": {
