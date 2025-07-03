@@ -10,6 +10,13 @@
 ## Project Architecture
 This is a Laravel application with modular architecture implementing multi-language support and separate layout modules for different user contexts.
 
+## CSS Framework
+- **Primary CSS Framework**: Tailwind CSS
+- **Usage**: All layouts and components use Tailwind CSS utility classes
+- **Dark Mode**: Implemented using Tailwind's dark mode classes (dark:*)
+- **Responsive Design**: Mobile-first approach with Tailwind's responsive prefixes (sm:, md:, lg:, xl:)
+- **Important**: Do NOT use Bootstrap classes - all styling should use Tailwind CSS utilities
+
 ## Installed Packages
 - `mcamara/laravel-localization` - Multi-language support (English & Bengali)
 - `internachi/modular` - Modular architecture for separation of concerns

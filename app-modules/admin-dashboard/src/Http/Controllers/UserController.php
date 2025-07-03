@@ -206,8 +206,20 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin-dashboard.users.index')
+        return redirect()->route('admin-dashboard.users.show', $user)
             ->with('success', 'User updated successfully.');
+    }
+
+    public function verifyEmail(User $user)
+    {
+        if ($user->email_verified_at) {
+            return response()->json(['error' => 'Email is already verified'], 400);
+        }
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        return response()->json(['success' => 'Email verified successfully']);
     }
 
     public function destroy(User $user)

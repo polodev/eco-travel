@@ -14,8 +14,11 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
 <!-- Flatpickr for Date Pickers -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="{{ asset('vendor/flatpickr/flatpickr.min.js') }}"></script>
+
+<!-- Select2 for Enhanced Select Elements -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- Common DataTable Helper Functions -->
 <script>

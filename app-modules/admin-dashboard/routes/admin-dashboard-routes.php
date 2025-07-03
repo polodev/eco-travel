@@ -11,5 +11,6 @@ Route::middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts
         
         Route::resource('users', UserController::class);
         Route::post('users-json', [UserController::class, 'indexJson'])->name('users.json');
+        Route::post('users/{user}/verify-email', [UserController::class, 'verifyEmail'])->name('users.verify-email');
     });
 });
