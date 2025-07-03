@@ -172,7 +172,7 @@
                             </a>
                             
                             @if(!$user->email_verified_at)
-                                <button type="button" class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 transition-colors">
+                                <button type="button" onclick="verifyEmail({{ $user->id }})" class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 transition-colors">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
@@ -197,6 +197,31 @@
 
     @push('scripts')
     <script>
+        function verifyEmail(userId) {
+            if (confirm('Are you sure you want to verify this user\'s email?')) {
+                fetch(`/admin/users/${userId}/verify-email`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show updated verification status
+                        window.location.reload();
+                    } else {
+                        alert('Error verifying email: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while verifying the email.');
+                });
+            }
+        }
+
         function deleteUser(userId) {
             if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
                 // Add your delete logic here
