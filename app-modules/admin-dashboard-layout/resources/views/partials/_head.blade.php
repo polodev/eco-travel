@@ -4,6 +4,9 @@
 <title>{{ config('app.name') }} - Admin Dashboard</title>
 <link rel="stylesheet" href="{{ asset('vendor/flatpickr/flatpickr.min.css') }}">
 
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <!-- Theme Script -->
 <script>
     window.setAppearance = function(appearance) {

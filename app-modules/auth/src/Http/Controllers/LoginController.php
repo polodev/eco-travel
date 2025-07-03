@@ -39,6 +39,9 @@ class LoginController extends Controller
 
         RateLimiter::clear($this->throttleKey($request));
 
+        // Update last login timestamp
+        Auth::user()->update(['last_login_at' => now()]);
+
         $request->session()->regenerate();
 
         return redirect()->intended(LaravelLocalization::localizeUrl(route('customer-dashboard.index', absolute: false)));

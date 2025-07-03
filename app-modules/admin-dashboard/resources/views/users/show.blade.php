@@ -135,6 +135,24 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    Last Login:
+                                </div>
+                                <div class="sm:col-span-2">
+                                    @if($user->last_login_at)
+                                        <div class="text-sm text-gray-900 dark:text-gray-100">
+                                            {{ $user->last_login_at->format('Y-m-d H:i:s') }}
+                                        </div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                                            {{ $user->last_login_at->diffForHumans() }}
+                                        </div>
+                                    @else
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">Never logged in</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
