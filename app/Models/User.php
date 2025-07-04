@@ -128,6 +128,7 @@ class User extends Authenticatable
             ->logOnly(['name', 'role', 'mobile', 'email_verified_at'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
+            ->logOnEvent(['updated'])
             ->setDescriptionForEvent(fn(string $eventName) => "User {$eventName}")
             ->useLogName('user');
     }

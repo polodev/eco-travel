@@ -22,12 +22,42 @@
 
 <!-- Common DataTable Helper Functions -->
 <script>
-    // Page navigation helper for DataTables
-    function dataTableNavigate(table) {
-        document.getElementById('datatable-page-number-button')?.addEventListener('click', function() {
-            const pageNumber = parseInt(document.getElementById('datatable-page-number').value) - 1;
-            if (pageNumber >= 0) {
-                table.page(pageNumber).draw('page');
+    // Enhanced page navigation helper for DataTables with URL parameter support
+    function dataTableNavigate(dataTableName) {
+        // Handle initial page load from URL parameter
+        var params_for_datatable_page_number = new URLSearchParams(window.location.search);
+        var dt_page_number = parseInt(params_for_datatable_page_number.get('page'));
+        if (dt_page_number) {
+            dt_page_number--;
+            dataTableName.on('init.dt', function(e) {
+                dataTableName.page(dt_page_number).draw(false);
+            });
+        }
+
+        // Update URL when page changes
+        const searchURL = new URL(window.location);
+        dataTableName.on('draw.dt', function() {
+            var info = dataTableName.page.info();
+            searchURL.searchParams.set('page', (info.page + 1));
+            window.history.replaceState({}, '', searchURL);
+            
+            // Update the page number input field
+            $('#datatable-page-number').val(info.page + 1);
+        });
+
+        // Go to specific page when button is clicked
+        $('#datatable-page-number-button').on('click', function() {
+            var page_number = parseInt($('#datatable-page-number').val());
+            if (page_number && page_number > 0) {
+                page_number--;
+                dataTableName.page(page_number).draw(false);
+            }
+        });
+
+        // Handle enter key press on page number input
+        $('#datatable-page-number').on('keypress', function(e) {
+            if (e.which === 13) { // Enter key
+                $('#datatable-page-number-button').click();
             }
         });
     }
