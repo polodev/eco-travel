@@ -11,7 +11,8 @@
       "Bash(rm:*)",
       "Bash(mv:*)",
       "Bash(cp:*)",
-      "WebFetch(domain:prnt.sc)"
+      "WebFetch(domain:prnt.sc)",
+      "Bash(rg:*)"
     ],
     "deny": []
   }
