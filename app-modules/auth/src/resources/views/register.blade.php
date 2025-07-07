@@ -24,13 +24,12 @@
 
                 <!-- Password Input -->
                 <div class="mb-4">
-                    <x-forms.input :label="__('messages.password')" name="password" type="password" placeholder="••••••••" />
+                    <x-forms.password-input :label="__('messages.password')" name="password" placeholder="••••••••" />
                 </div>
 
                 <!-- Confirm Password Input -->
                 <div class="mb-4">
-                    <x-forms.input :label="__('messages.confirm_password')" name="password_confirmation" type="password"
-                        placeholder="••••••••" />
+                    <x-forms.password-input :label="__('messages.confirm_password')" name="password_confirmation" placeholder="••••••••" />
                 </div>
 
                 <!-- Register Button -->

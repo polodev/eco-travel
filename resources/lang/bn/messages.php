@@ -168,4 +168,8 @@ return [
     'enter_email_reset_link' => 'পাসওয়ার্ড রিসেট লিংক পেতে আপনার ইমেইল দিন',
     'send_password_reset_link' => 'পাসওয়ার্ড রিসেট লিংক পাঠান',
     'back_to_login' => 'লগইনে ফিরে যান',
+    
+    // Password visibility toggle
+    'show_password' => 'পাসওয়ার্ড দেখান',
+    'hide_password' => 'পাসওয়ার্ড লুকান',
 ];

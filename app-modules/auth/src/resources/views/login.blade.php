@@ -18,7 +18,7 @@
 
                 <!-- Password Input -->
                 <div class="mb-4">
-                    <x-forms.input :label="__('messages.password')" name="password" type="password" placeholder="••••••••" />
+                    <x-forms.password-input :label="__('messages.password')" name="password" placeholder="••••••••" />
                     @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}"
                             class="text-xs text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.forgot_password') }}</a>
