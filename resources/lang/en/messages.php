@@ -181,4 +181,8 @@ return [
     'enter_email_reset_link' => 'Enter your email to receive a password reset link',
     'send_password_reset_link' => 'Send Password Reset Link',
     'back_to_login' => 'Back to login',
+    
+    // Password visibility toggle
+    'show_password' => 'Show password',
+    'hide_password' => 'Hide password',
 ];

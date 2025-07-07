@@ -14,7 +14,7 @@
                 @csrf
                 <!-- Password Input -->
                 <div class="mb-4">
-                    <x-forms.input name="password" type="password" label="Password" placeholder="••••••••" />
+                    <x-forms.password-input name="password" label="Password" placeholder="••••••••" />
                 </div>
 
                 <!-- Confirm Button -->
