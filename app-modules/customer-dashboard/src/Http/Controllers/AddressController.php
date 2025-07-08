@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Modules\UserData\Models\Address;
+use Modules\UserData\Models\UserAddress;
 
 class AddressController extends Controller
 {
@@ -54,7 +54,7 @@ class AddressController extends Controller
             $request->user()->addresses()->update(['is_default' => false]);
         }
 
-        $address = Address::create($validated);
+        $address = UserAddress::create($validated);
 
         // Update user's default address if this is set as default
         if ($address->is_default) {
@@ -67,7 +67,7 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, Address $address): View
+    public function edit(Request $request, UserAddress $address): View
     {
         // Ensure user can only edit their own addresses
         if ($address->user_id !== $request->user()->id) {
@@ -80,7 +80,7 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Address $address): RedirectResponse
+    public function update(Request $request, UserAddress $address): RedirectResponse
     {
         // Ensure user can only update their own addresses
         if ($address->user_id !== $request->user()->id) {
@@ -122,7 +122,7 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Address $address): RedirectResponse
+    public function destroy(Request $request, UserAddress $address): RedirectResponse
     {
         // Ensure user can only delete their own addresses
         if ($address->user_id !== $request->user()->id) {
@@ -142,7 +142,7 @@ class AddressController extends Controller
     /**
      * Set an address as default
      */
-    public function setDefault(Request $request, Address $address): RedirectResponse
+    public function setDefault(Request $request, UserAddress $address): RedirectResponse
     {
         // Ensure user can only set their own addresses as default
         if ($address->user_id !== $request->user()->id) {

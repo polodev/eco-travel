@@ -40,7 +40,7 @@ class ModelRelationMapProvider extends ServiceProvider
             'user' => \App\Models\User::class,
             
             // Module Models  
-            'address' => \Modules\UserData\Models\Address::class,
+            'user_address' => \Modules\UserData\Models\UserAddress::class,
             'my_file' => \Modules\MyFile\Models\MyFile::class,
         ]);
     }
