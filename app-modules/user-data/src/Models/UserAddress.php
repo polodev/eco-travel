@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Address extends Model
+class UserAddress extends Model
 {
+    protected $table = 'user_addresses';
     protected $fillable = [
         'user_id',
         'type',

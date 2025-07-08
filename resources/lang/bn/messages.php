@@ -124,6 +124,7 @@ return [
     'update_address' => 'ঠিকানা আপডেট করুন',
     'default' => 'ডিফল্ট',
     'set_as_default' => 'ডিফল্ট করুন',
+    'edit' => 'সম্পাদনা',
     'delete' => 'মুছুন',
     'are_you_sure_delete_address' => 'আপনি কি নিশ্চিত যে আপনি এই ঠিকানাটি মুছে ফেলতে চান?',
     'address_created_successfully' => 'ঠিকানা সফলভাবে তৈরি করা হয়েছে।',

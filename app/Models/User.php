@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Modules\UserData\Models\Address;
+use Modules\UserData\Models\UserAddress;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
@@ -108,7 +108,7 @@ class User extends Authenticatable
      */
     public function addresses(): HasMany
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(UserAddress::class);
     }
 
     /**
@@ -116,7 +116,7 @@ class User extends Authenticatable
      */
     public function defaultAddress(): BelongsTo
     {
-        return $this->belongsTo(Address::class, 'default_address_id');
+        return $this->belongsTo(UserAddress::class, 'default_address_id');
     }
 
     /**

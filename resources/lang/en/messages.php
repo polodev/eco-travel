@@ -125,6 +125,7 @@ return [
     'update_address' => 'Update Address',
     'default' => 'Default',
     'set_as_default' => 'Set as Default',
+    'edit' => 'Edit',
     'delete' => 'Delete',
     'are_you_sure_delete_address' => 'Are you sure you want to delete this address?',
     'address_created_successfully' => 'Address created successfully.',
