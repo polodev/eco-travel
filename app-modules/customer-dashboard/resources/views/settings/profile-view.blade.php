@@ -85,16 +85,20 @@
                                 </p>
                             </div>
 
-                            @if($user->mobile)
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('messages.mobile') }}
                                 </label>
                                 <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->country_code }}{{ $user->mobile }}
+                                    @if($user->mobile)
+                                        {{ $user->country_code }}{{ $user->mobile }}
+                                    @else
+                                        <span class="text-gray-500 dark:text-gray-400">{{ __('messages.not_provided') }}</span>
+                                    @endif
                                 </p>
                             </div>
 
+                            @if($user->mobile)
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('messages.mobile_verified') }}
@@ -121,10 +125,52 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('messages.country') }}
+                                </label>
+                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                                    @if($user->country)
+                                        {{ $user->country }}
+                                    @else
+                                        <span class="text-gray-500 dark:text-gray-400">{{ __('messages.not_provided') }}</span>
+                                    @endif
+                                </p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('messages.role') }}
+                                </label>
+                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                                    {{ $user->role ?: __('messages.customer') }}
+                                </p>
+                            </div>
+
+                            @if($user->last_login_at)
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('messages.last_login') }}
+                                </label>
+                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                                    {{ $user->last_login_at->format('F j, Y \a\t g:i A') }}
+                                </p>
+                            </div>
+                            @endif
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     {{ __('messages.member_since') }}
                                 </label>
                                 <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
                                     {{ $user->created_at->format('F j, Y') }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('messages.profile_updated') }}
+                                </label>
+                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                                    {{ $user->updated_at->format('F j, Y \a\t g:i A') }}
                                 </p>
                             </div>
                         </div>
