@@ -1,2 +1,3 @@
+- verify
 - email sent
 - socialite for google login

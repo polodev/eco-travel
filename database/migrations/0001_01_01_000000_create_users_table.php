@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('mobile')->nullable();
+            $table->string('country_code', 5)->nullable(); // e.g., "+1", "+44"
+            $table->string('mobile', 15)->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password')->nullable(); # for login with google
             $table->string('role')->nullable()->default('user');
             $table->timestamp('last_login_at')->nullable();
+            $table->string('country')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

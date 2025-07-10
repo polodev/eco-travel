@@ -4,8 +4,8 @@
             <div class="p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Edit User</h2>
-                    <a href="{{ route('admin-dashboard.users.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <i class="fas fa-arrow-left mr-2"></i> Back to List
+                    <a href="{{ route('admin-dashboard.users.show', $user) }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to User
                     </a>
                 </div>
 
@@ -49,10 +49,35 @@
                                     </div>
 
                                     <div>
+                                        <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Country</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('country') border-red-500 @enderror" 
+                                                name="country" id="country">
+                                            <option value="">Select Country</option>
+                                            @foreach(\Modules\UserData\Helpers\CountryListWithCountryCode::getCountryOptions() as $alpha3 => $countryOption)
+                                                <option value="{{ $alpha3 }}" 
+                                                    {{ old('country', $user->country) === $alpha3 ? 'selected' : '' }}
+                                                    data-code="{{ \Modules\UserData\Helpers\CountryListWithCountryCode::getCountryCode($alpha3) }}">
+                                                    {{ $countryOption }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('country')
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div>
                                         <label for="mobile" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mobile Number</label>
-                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('mobile') border-red-500 @enderror" 
-                                               id="mobile" name="mobile" value="{{ old('mobile', $user->mobile) }}" placeholder="+880xxxxxxxxx">
+                                        <div class="flex">
+                                            <input type="text" class="w-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-gray-50 dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                                                   id="country_code" name="country_code" value="{{ old('country_code', $user->country_code) }}" placeholder="+880" readonly>
+                                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-r-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('mobile') border-red-500 @enderror" 
+                                                   id="mobile" name="mobile" value="{{ old('mobile', $user->mobile) }}" placeholder="1234567890">
+                                        </div>
                                         @error('mobile')
+                                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                        @enderror
+                                        @error('country_code')
                                             <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                         @enderror
                                     </div>
@@ -112,6 +137,14 @@
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">No</span>
                                         @endif
                                     </div>
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Mobile Verified:</span>
+                                        @if($user->mobile_verified_at)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">Yes</span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">No</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -120,4 +153,34 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countrySelect = document.getElementById('country');
+            const countryCodeInput = document.getElementById('country_code');
+            
+            // Set initial country code if country is already selected
+            if (countrySelect.value) {
+                const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+                const countryCode = selectedOption.getAttribute('data-code');
+                if (countryCode) {
+                    countryCodeInput.value = countryCode;
+                }
+            }
+            
+            // Update country code when country changes
+            countrySelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const countryCode = selectedOption.getAttribute('data-code');
+                
+                if (countryCode) {
+                    countryCodeInput.value = countryCode;
+                } else {
+                    countryCodeInput.value = '';
+                }
+            });
+        });
+    </script>
+    @endpush
 </x-admin-dashboard-layout::layout>

@@ -13,6 +13,7 @@ Route::middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts
         Route::resource('users', UserController::class);
         Route::post('users-json', [UserController::class, 'indexJson'])->name('users.json');
         Route::post('users/{user}/verify-email', [UserController::class, 'verifyEmail'])->name('users.verify-email');
+        Route::post('users/{user}/verify-mobile', [UserController::class, 'verifyMobile'])->name('users.verify-mobile');
         
         Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
         Route::post('activity-logs-json', [ActivityLogController::class, 'indexJson'])->name('activity-logs.json');
