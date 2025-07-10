@@ -40,12 +40,19 @@ class ProfileController extends Controller
                 'max:255',
                 Rule::unique(User::class)->ignore($user->id),
             ],
+            'country' => ['nullable', 'string', 'max:255'],
+            'country_code' => ['nullable', 'string', 'max:5'],
+            'mobile' => ['nullable', 'string', 'max:15', 'regex:/^[0-9]+$/'],
         ]);
 
         $user->fill($validated);
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
+        }
+
+        if ($user->isDirty('mobile')) {
+            $user->mobile_verified_at = null;
         }
 
         $user->save();

@@ -188,4 +188,13 @@ return [
     // Password visibility toggle
     'show_password' => 'পাসওয়ার্ড দেখান',
     'hide_password' => 'পাসওয়ার্ড লুকান',
+    
+    // Profile enhancement
+    'country_code' => 'দেশের কোড',
+    'select_country_code' => 'দেশের কোড নির্বাচন করুন',
+    'mobile_hint' => 'দেশের কোড সহ আপনার মোবাইল নম্বর দিন',
+    'not_provided' => 'প্রদান করা হয়নি',
+    'customer' => 'গ্রাহক',
+    'last_login' => 'শেষ লগইন',
+    'profile_updated' => 'প্রোফাইল সফলভাবে আপডেট করা হয়েছে',
 ];

@@ -201,4 +201,13 @@ return [
     // Password visibility toggle
     'show_password' => 'Show password',
     'hide_password' => 'Hide password',
+    
+    // Profile enhancement
+    'country_code' => 'Country Code',
+    'select_country_code' => 'Select Country Code',
+    'mobile_hint' => 'Enter your mobile number with country code',
+    'not_provided' => 'Not provided',
+    'customer' => 'Customer',
+    'last_login' => 'Last Login',
+    'profile_updated' => 'Profile updated successfully',
 ];
