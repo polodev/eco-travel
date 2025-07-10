@@ -12,9 +12,9 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::firstOrCreate(['email' => 'admin@example.com'], [
+        User::firstOrCreate(['email' => 'polodev10@gmail.com'], [
             'name' => 'Admin User',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('hello123'),
             'role' => 'admin'
         ]);
 

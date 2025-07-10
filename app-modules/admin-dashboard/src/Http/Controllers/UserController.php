@@ -162,6 +162,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'country' => 'nullable|string|max:3',
+            'country_code' => 'nullable|string|max:5',
             'mobile' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'nullable|string|in:developer,admin,employee,accounts,customer'
@@ -170,6 +172,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'country' => $request->country,
+            'country_code' => $request->country_code,
             'mobile' => $request->mobile,
             'password' => bcrypt($request->password),
             'role' => $request->role,
@@ -196,15 +200,22 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'country' => 'nullable|string|max:3',
+            'country_code' => 'nullable|string|max:5',
             'mobile' => 'nullable|string|max:20',
             'role' => 'nullable|string|in:developer,admin,employee,accounts,customer',
             'password' => 'nullable|string|min:8|confirmed'
         ]);
 
-        $data = $request->only(['name', 'email', 'mobile', 'role']);
+        $data = $request->only(['name', 'email', 'country', 'country_code', 'mobile', 'role']);
         
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
+        }
+
+        // Reset mobile verification if mobile number changes
+        if ($request->mobile !== $user->mobile) {
+            $data['mobile_verified_at'] = null;
         }
 
         $user->update($data);
@@ -223,6 +234,22 @@ class UserController extends Controller
         $user->save();
 
         return response()->json(['success' => 'Email verified successfully']);
+    }
+
+    public function verifyMobile(User $user)
+    {
+        if ($user->mobile_verified_at) {
+            return response()->json(['error' => 'Mobile is already verified'], 400);
+        }
+
+        if (!$user->mobile) {
+            return response()->json(['error' => 'User has no mobile number'], 400);
+        }
+
+        $user->mobile_verified_at = now();
+        $user->save();
+
+        return response()->json(['success' => 'Mobile verified successfully']);
     }
 
     public function destroy(User $user)

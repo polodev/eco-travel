@@ -57,6 +57,37 @@
                             
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    Country:
+                                </div>
+                                <div class="sm:col-span-2 text-sm text-gray-900 dark:text-gray-100">
+                                    @if($user->country)
+                                        @php
+                                            $countryName = \Modules\UserData\Helpers\CountryListWithCountryCode::getCountryName($user->country);
+                                        @endphp
+                                        {{ $countryName ?? $user->country }}
+                                    @else
+                                        <span class="text-gray-500 dark:text-gray-400">Not specified</span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    Mobile:
+                                </div>
+                                <div class="sm:col-span-2 text-sm text-gray-900 dark:text-gray-100">
+                                    @if($user->mobile)
+                                        <a href="tel:{{ $user->country_code }}{{ $user->mobile }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                                            {{ $user->country_code }}{{ $user->mobile }}
+                                        </a>
+                                    @else
+                                        <span class="text-gray-500 dark:text-gray-400">Not provided</span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
                                     Role:
                                 </div>
                                 <div class="sm:col-span-2">
@@ -95,6 +126,34 @@
                                             </span>
                                             <span class="text-xs text-gray-500 dark:text-gray-400">
                                                 {{ $user->email_verified_at->format('Y-m-d H:i:s') }}
+                                            </span>
+                                        </div>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Not Verified
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    Mobile Verified:
+                                </div>
+                                <div class="sm:col-span-2">
+                                    @if($user->mobile_verified_at)
+                                        <div class="flex items-center space-x-2">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                Verified
+                                            </span>
+                                            <span class="text-xs text-gray-500 dark:text-gray-400">
+                                                {{ $user->mobile_verified_at ? $user->mobile_verified_at->format('Y-m-d H:i:s') : '' }}
                                             </span>
                                         </div>
                                     @else
@@ -198,6 +257,15 @@
                                 </button>
                             @endif
                             
+                            @if($user->mobile && !$user->mobile_verified_at)
+                                <button type="button" onclick="verifyMobile({{ $user->id }})" class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md hover:bg-purple-700 transition-colors">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                    Verify Mobile
+                                </button>
+                            @endif
+                            
                             @if(!in_array($user->role, ['developer', 'admin']))
                                 <button type="button" onclick="deleteUser({{ $user->id }})" class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 transition-colors">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,6 +304,31 @@
                 .catch(error => {
                     console.error('Error:', error);
                     alert('An error occurred while verifying the email.');
+                });
+            }
+        }
+
+        function verifyMobile(userId) {
+            if (confirm('Are you sure you want to verify this user\'s mobile number?')) {
+                fetch(`/admin/users/${userId}/verify-mobile`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show updated verification status
+                        window.location.reload();
+                    } else {
+                        alert('Error verifying mobile: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while verifying the mobile number.');
                 });
             }
         }

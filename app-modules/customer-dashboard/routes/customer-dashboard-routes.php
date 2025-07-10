@@ -8,7 +8,7 @@ use Modules\CustomerDashboard\Http\Controllers\Settings\PasswordController;
 use Modules\CustomerDashboard\Http\Controllers\Settings\AppearanceController;
 
 // Settings routes (non-localized, customer-dashboard module)
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth', 'verified.email_or_mobile'])->group(function () {
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,7 +29,7 @@ Route::group([
     'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
     'middleware' => ['web', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', 'verified.email_or_mobile'])->group(function () {
         Route::prefix('dashboard')->name('customer-dashboard.')->group(function () {
             Route::get('/', [AccountController::class, 'index'])->name('index');
             Route::get('/profile', [AccountController::class, 'profile'])->name('profile');

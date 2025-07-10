@@ -26,6 +26,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
+        'mobile_verified_at',
+        'country',
+        'country_code',
         'mobile',
         'password',
         'role',
@@ -52,9 +56,14 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'mobile_verified_at' => 'datetime',
             'last_login_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function getFullMobileAttribute()
+    {
+        return $this->country_code . $this->mobile;
     }
 
     /**
@@ -101,6 +110,14 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * Check if user has verified their mobile number
+     */
+    public function hasVerifiedMobile(): bool
+    {
+        return !is_null($this->mobile_verified_at);
     }
 
     /**
