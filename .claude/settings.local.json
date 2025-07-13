@@ -16,7 +16,9 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git add:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(open http://rajib.test/admin-dashboard)",
+      "Bash(open http://rajib.test/admin)"
     ],
     "deny": []
   }
