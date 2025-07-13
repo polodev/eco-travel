@@ -16,6 +16,8 @@
         "laravel/telescope": "^5.9",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.29",
+        "livewire/livewire": "^3.6",
+        "livewire/volt": "^1.7",
         "mcamara/laravel-localization": "^2.3",
         "modules/admin-dashboard": "*",
         "modules/admin-dashboard-layout": "*",

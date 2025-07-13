@@ -5,7 +5,6 @@ return [
     App\Providers\ModelRelationMapProvider::class,
     App\Providers\RoleServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
-    
-    // Module Service Providers
+    App\Providers\VoltServiceProvider::class,
     Modules\MyFile\Providers\MyFileServiceProvider::class,
 ];

@@ -197,4 +197,6 @@ return [
     'customer' => 'গ্রাহক',
     'last_login' => 'শেষ লগইন',
     'profile_updated' => 'প্রোফাইল সফলভাবে আপডেট করা হয়েছে',
+    'cannot_be_changed' => 'পরিবর্তন করা যাবে না',
+    'update_name_only' => 'আপনার নাম আপডেট করুন',
 ];
