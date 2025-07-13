@@ -147,7 +147,18 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Email Management Component -->
+                <div class="mb-6">
+                    @livewire('email-management')
+                </div>
+
+                <!-- Mobile Management Component -->
+                <div class="mb-6">
+                    @livewire('mobile-management')
+                </div>
             </div>
         </div>
     </div>
+
 </x-customer-account-layout::layout>
