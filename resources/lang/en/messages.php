@@ -210,4 +210,6 @@ return [
     'customer' => 'Customer',
     'last_login' => 'Last Login',
     'profile_updated' => 'Profile updated successfully',
+    'cannot_be_changed' => 'Cannot be changed',
+    'update_name_only' => 'Update your name',
 ];

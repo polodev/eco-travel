@@ -43,30 +43,20 @@
                             </a>
                         </div>
 
-                        <div class="space-y-4">
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.name') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->name }}
-                                </p>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.name') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">{{ $user->name }}</p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.email') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->email }}
-                                </p>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.email') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">{{ $user->email }}</p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.email_verified') }}
-                                </label>
-                                <p class="px-3 py-2 rounded-md">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.email_verified') }}:</span>
+                                <div class="mt-1">
                                     @if($user->email_verified_at)
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -82,16 +72,28 @@
                                             {{ __('messages.not_verified') }}
                                         </span>
                                     @endif
+                                </div>
+                            </div>
+
+                            <div>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.country') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">
+                                    @if($user->country)
+                                        {{ \Modules\UserData\Helpers\CountryListWithCountryCode::getCountryName($user->country) ?: $user->country }}
+                                    @else
+                                        <span class="text-gray-500 dark:text-gray-400">{{ __('messages.not_provided') }}</span>
+                                    @endif
                                 </p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.mobile') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.mobile') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">
                                     @if($user->mobile)
-                                        {{ $user->country_code }}{{ $user->mobile }}
+                                        <span class="inline-flex items-center">
+                                            <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-l text-gray-600 dark:text-gray-300 text-xs border-r">{{ $user->country_code }}</span>
+                                            <span class="px-2 py-1 bg-gray-50 dark:bg-gray-600 rounded-r">{{ $user->mobile }}</span>
+                                        </span>
                                     @else
                                         <span class="text-gray-500 dark:text-gray-400">{{ __('messages.not_provided') }}</span>
                                     @endif
@@ -100,10 +102,8 @@
 
                             @if($user->mobile)
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.mobile_verified') }}
-                                </label>
-                                <p class="px-3 py-2 rounded-md">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.mobile_verified') }}:</span>
+                                <div class="mt-1">
                                     @if($user->mobile_verified_at)
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -119,59 +119,30 @@
                                             {{ __('messages.not_verified') }}
                                         </span>
                                     @endif
-                                </p>
+                                </div>
                             </div>
                             @endif
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.country') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    @if($user->country)
-                                        {{ $user->country }}
-                                    @else
-                                        <span class="text-gray-500 dark:text-gray-400">{{ __('messages.not_provided') }}</span>
-                                    @endif
-                                </p>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.role') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->role ?: __('messages.customer') }}
-                                </p>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.role') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">{{ $user->role ?: __('messages.customer') }}</p>
                             </div>
 
                             @if($user->last_login_at)
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.last_login') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->last_login_at->format('F j, Y \a\t g:i A') }}
-                                </p>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.last_login') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">{{ $user->last_login_at->format('F j, Y \a\t g:i A') }}</p>
                             </div>
                             @endif
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.member_since') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->created_at->format('F j, Y') }}
-                                </p>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.member_since') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">{{ $user->created_at->format('F j, Y') }}</p>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    {{ __('messages.profile_updated') }}
-                                </label>
-                                <p class="text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-md">
-                                    {{ $user->updated_at->format('F j, Y \a\t g:i A') }}
-                                </p>
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.profile_updated') }}:</span>
+                                <p class="text-sm text-gray-900 dark:text-white mt-1">{{ $user->updated_at->format('F j, Y \a\t g:i A') }}</p>
                             </div>
                         </div>
                     </div>
