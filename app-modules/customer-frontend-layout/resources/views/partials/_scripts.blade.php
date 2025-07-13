@@ -1,9 +1,6 @@
 <!-- Livewire Scripts (auto-starts) -->
 @livewireScripts
 
-<!-- Vite JavaScript with Alpine.js -->
-@vite(['resources/js/app.js'])
-
 <!-- Toast Notification Handler -->
 <script>
     // Toast notification handler

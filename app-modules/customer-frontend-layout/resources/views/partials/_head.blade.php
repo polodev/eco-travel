@@ -33,7 +33,9 @@
     window.setAppearance(window.localStorage.getItem('appearance') || 'system')
 </script>
 
-<!-- Styles -->
-@vite(['resources/css/app.css'])
+<!-- Livewire Styles -->
 @livewireStyles
+
+<!-- Customer Styles and Scripts -->
+@vite(['resources/css/customer.css', 'resources/js/customer.js'])
 @stack('styles')
