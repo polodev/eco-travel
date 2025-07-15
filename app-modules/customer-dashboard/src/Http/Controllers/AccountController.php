@@ -13,12 +13,6 @@ class AccountController extends Controller
         return view('customer-dashboard::account.index', compact('user'));
     }
 
-    public function profile()
-    {
-        $user = auth()->user();
-        return view('customer-dashboard::account.profile', compact('user'));
-    }
-
     public function orders()
     {
         $user = auth()->user();
