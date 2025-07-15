@@ -5,32 +5,81 @@
 
 <!-- Theme Script -->
 <script>
-    window.setAppearance = function(appearance) {
-        let setDark = () => document.documentElement.classList.add('dark')
-        let setLight = () => document.documentElement.classList.remove('dark')
-        let setButtons = (appearance) => {
+    // Unified theme management - shared localStorage key 'appearance'
+    window.themeManager = {
+        storageKey: 'appearance',
+        
+        setDark() {
+            document.documentElement.classList.add('dark')
+        },
+        
+        setLight() {
+            document.documentElement.classList.remove('dark')
+        },
+        
+        setButtons(appearance) {
             document.querySelectorAll('button[onclick^="setAppearance"]').forEach((button) => {
-                button.setAttribute('aria-pressed', String(appearance === button.value))
+                const buttonValue = button.getAttribute('onclick').match(/'([^']+)'/)?.[1]
+                button.setAttribute('aria-pressed', String(appearance === buttonValue))
+            })
+        },
+        
+        applyTheme(appearance) {
+            if (appearance === 'system') {
+                const media = window.matchMedia('(prefers-color-scheme: dark)')
+                media.matches ? this.setDark() : this.setLight()
+                
+                // Listen for system theme changes
+                if (!window.systemThemeListener) {
+                    window.systemThemeListener = (e) => {
+                        if (!localStorage.getItem(this.storageKey)) {
+                            e.matches ? this.setDark() : this.setLight()
+                        }
+                    }
+                    media.addEventListener('change', window.systemThemeListener)
+                }
+            } else if (appearance === 'dark') {
+                this.setDark()
+            } else if (appearance === 'light') {
+                this.setLight()
+            }
+        },
+        
+        init() {
+            const savedTheme = localStorage.getItem(this.storageKey) || 'system'
+            this.applyTheme(savedTheme)
+            
+            // Update buttons when DOM is ready
+            if (document.readyState === 'complete') {
+                this.setButtons(savedTheme)
+            } else {
+                document.addEventListener("DOMContentLoaded", () => this.setButtons(savedTheme))
+            }
+            
+            // Listen for storage changes from other tabs/windows
+            window.addEventListener('storage', (e) => {
+                if (e.key === this.storageKey) {
+                    const newTheme = e.newValue || 'system'
+                    this.applyTheme(newTheme)
+                    this.setButtons(newTheme)
+                }
             })
         }
-        if (appearance === 'system') {
-            let media = window.matchMedia('(prefers-color-scheme: dark)')
-            window.localStorage.removeItem('appearance')
-            media.matches ? setDark() : setLight()
-        } else if (appearance === 'dark') {
-            window.localStorage.setItem('appearance', 'dark')
-            setDark()
-        } else if (appearance === 'light') {
-            window.localStorage.setItem('appearance', 'light')
-            setLight()
-        }
-        if (document.readyState === 'complete') {
-            setButtons(appearance)
-        } else {
-            document.addEventListener("DOMContentLoaded", () => setButtons(appearance))
-        }
     }
-    window.setAppearance(window.localStorage.getItem('appearance') || 'system')
+    
+    window.setAppearance = function(appearance) {
+        if (appearance === 'system') {
+            localStorage.removeItem(window.themeManager.storageKey)
+        } else {
+            localStorage.setItem(window.themeManager.storageKey, appearance)
+        }
+        
+        window.themeManager.applyTheme(appearance)
+        window.themeManager.setButtons(appearance)
+    }
+    
+    // Initialize theme management
+    window.themeManager.init()
 </script>
 
 <!-- Livewire Styles -->
