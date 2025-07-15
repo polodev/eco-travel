@@ -61,7 +61,7 @@ class AddressController extends Controller
             $request->user()->update(['default_address_id' => $address->id]);
         }
 
-        return redirect()->route('addresses.index')->with('status', __('messages.address_created_successfully'));
+        return redirect()->route('accounts.addresses.index')->with('status', __('messages.address_created_successfully'));
     }
 
     /**
@@ -116,7 +116,7 @@ class AddressController extends Controller
             $request->user()->update(['default_address_id' => null]);
         }
 
-        return redirect()->route('addresses.index')->with('status', __('messages.address_updated_successfully'));
+        return redirect()->route('accounts.addresses.index')->with('status', __('messages.address_updated_successfully'));
     }
 
     /**
@@ -136,7 +136,7 @@ class AddressController extends Controller
 
         $address->delete();
 
-        return redirect()->route('addresses.index')->with('status', __('messages.address_deleted_successfully'));
+        return redirect()->route('accounts.addresses.index')->with('status', __('messages.address_deleted_successfully'));
     }
 
     /**
@@ -156,6 +156,6 @@ class AddressController extends Controller
         $address->update(['is_default' => true]);
         $request->user()->update(['default_address_id' => $address->id]);
 
-        return redirect()->route('addresses.index')->with('status', __('messages.default_address_updated'));
+        return redirect()->route('accounts.addresses.index')->with('status', __('messages.default_address_updated'));
     }
 }

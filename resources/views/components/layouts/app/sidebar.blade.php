@@ -6,7 +6,7 @@
                     <nav class="flex-1 overflow-y-auto custom-scrollbar py-4">
                         <ul class="space-y-1 px-2">
                             <!-- Dashboard -->
-                            <x-layouts.sidebar-link href="{{ route('customer-dashboard.index') }}" icon='fas-house'
+                            <x-layouts.sidebar-link href="{{ route('accounts.index') }}" icon='fas-house'
                                 :active="request()->routeIs('dashboard*')">Dashboard</x-layouts.sidebar-link>
 
                             <!-- Example two level -->

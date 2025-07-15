@@ -75,7 +75,7 @@ new class extends Component {
         if ($existingUser) {
             $this->dispatch('toast', [
                 'type' => 'error',
-                'message' => "Email already exists for User ID: {$existingUser->id}"
+                'message' => __('messages.email_already_exists') . ": {$existingUser->id}"
             ]);
             return;
         }
@@ -87,7 +87,7 @@ new class extends Component {
             
             $this->dispatch('toast', [
                 'type' => 'success',
-                'message' => 'Email saved successfully!'
+                'message' => __('messages.email_saved_successfully')
             ]);
             return;
         }
@@ -104,7 +104,7 @@ new class extends Component {
         if ($this->cooldown_active) {
             $this->dispatch('toast', [
                 'type' => 'warning',
-                'message' => 'Please wait 1 minute before requesting another verification code.'
+                'message' => __('messages.wait_1_minute_before_requesting')
             ]);
             return;
         }
@@ -129,12 +129,12 @@ new class extends Component {
             
             $this->dispatch('toast', [
                 'type' => 'success',
-                'message' => 'Verification code sent to your email. Check logs for code.'
+                'message' => __('messages.verification_code_sent_success')
             ]);
         } else {
             $this->dispatch('toast', [
                 'type' => 'error',
-                'message' => 'Failed to send verification email. Please try again.'
+                'message' => __('messages.failed_send_verification_email')
             ]);
         }
     }
@@ -161,7 +161,7 @@ new class extends Component {
             
             $this->dispatch('toast', [
                 'type' => 'success',
-                'message' => 'Email verified and updated successfully!'
+                'message' => __('messages.email_verified_updated_success')
             ]);
             
             // Reset form
@@ -169,7 +169,7 @@ new class extends Component {
         } else {
             $this->dispatch('toast', [
                 'type' => 'error',
-                'message' => 'Invalid verification code. Please try again.'
+                'message' => __('messages.invalid_verification_code')
             ]);
         }
     }
@@ -190,7 +190,7 @@ new class extends Component {
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
             <i class="fas fa-envelope mr-2 text-blue-500"></i>
-            Email Management
+            {{ __('messages.email_management') }}
         </h3>
         @if(!$edit_mode && !$verification_sent)
             <button 
@@ -200,11 +200,11 @@ new class extends Component {
             >
                 <span wire:loading.remove wire:target="startEdit">
                     <i class="fas fa-edit mr-2"></i>
-                    Edit
+                    {{ __('messages.edit') }}
                 </span>
                 <span wire:loading wire:target="startEdit">
                     <i class="fas fa-spinner fa-spin mr-2"></i>
-                    Loading...
+                    {{ __('messages.loading') }}
                 </span>
             </button>
         @endif
@@ -214,20 +214,20 @@ new class extends Component {
         <!-- View Mode -->
         <div class="space-y-4">
             <div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Current Email:</span>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.current_email') }}:</span>
                 <div class="mt-1 flex items-center">
                     <p class="text-sm text-gray-900 dark:text-white">
-                        {{ $current_email ?: 'Not provided' }}
+                        {{ $current_email ?: __('messages.not_provided') }}
                     </p>
                     @if($current_email && Auth::user()->email_verified_at)
                         <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                             <i class="fas fa-check-circle mr-1"></i>
-                            Verified
+                            {{ __('messages.verified') }}
                         </span>
                     @elseif($current_email)
                         <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
                             <i class="fas fa-exclamation-circle mr-1"></i>
-                            Not Verified
+                            {{ __('messages.not_verified') }}
                         </span>
                     @endif
                 </div>
@@ -237,14 +237,14 @@ new class extends Component {
         <form wire:submit="saveEmail" class="space-y-4">
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Email Address
+                    {{ __('messages.email_address') }}
                 </label>
                 <input 
                     type="email" 
                     id="email"
                     wire:model.live="email"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-500 @enderror"
-                    placeholder="Enter your email address"
+                    placeholder="{{ __('messages.enter_email_address') }}"
                     required
                 >
                 @error('email')
@@ -254,7 +254,7 @@ new class extends Component {
                 @if($this->email_changed)
                     <p class="mt-1 text-sm text-amber-600 dark:text-amber-400">
                         <i class="fas fa-info-circle mr-1"></i>
-                        Email changed - verification will be required
+                        {{ __('messages.email_changed_verification_required') }}
                     </p>
                 @endif
             </div>
@@ -268,18 +268,18 @@ new class extends Component {
                     <span wire:loading.remove>
                         @if($this->email_changed)
                             <i class="fas fa-paper-plane mr-2"></i>
-                            Send Verification
+                            {{ __('messages.send_verification') }}
                         @else
                             <i class="fas fa-save mr-2"></i>
-                            Save
+                            {{ __('messages.save') }}
                         @endif
                     </span>
                     <span wire:loading>
                         <i class="fas fa-spinner fa-spin mr-2"></i>
                         @if($this->email_changed)
-                            Sending...
+                            {{ __('messages.sending') }}
                         @else
-                            Saving...
+                            {{ __('messages.saving') }}
                         @endif
                     </span>
                 </button>
@@ -290,7 +290,7 @@ new class extends Component {
                     class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                     <i class="fas fa-times mr-2"></i>
-                    Cancel
+                    {{ __('messages.cancel') }}
                 </button>
             </div>
         </form>
@@ -303,12 +303,12 @@ new class extends Component {
                     <i class="fas fa-info-circle text-blue-400 mr-3 mt-0.5"></i>
                     <div>
                         <h4 class="text-sm font-medium text-blue-800 dark:text-blue-200">
-                            Verification Code Sent
+                            {{ __('messages.verification_code_sent') }}
                         </h4>
                         <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                            A 4-digit verification code has been sent to: <strong>{{ $email }}</strong>
+                            {{ __('messages.verification_code_sent_to') }}: <strong>{{ $email }}</strong>
                             <br>
-                            <em class="text-xs">Check application logs for the verification code.</em>
+                            <em class="text-xs">{{ __('messages.check_logs_for_code') }}</em>
                         </p>
                     </div>
                 </div>
@@ -317,14 +317,14 @@ new class extends Component {
             <form wire:submit="verifyCode" class="space-y-4">
                 <div>
                     <label for="verification_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Verification Code
+                        {{ __('messages.verification_code') }}
                     </label>
                     <input 
                         type="text" 
                         id="verification_code"
                         wire:model="verification_code"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('verification_code') border-red-500 @enderror"
-                        placeholder="Enter 4-digit code"
+                        placeholder="{{ __('messages.enter_4_digit_code') }}"
                         maxlength="4"
                         required
                     >
@@ -341,11 +341,11 @@ new class extends Component {
                     >
                         <span wire:loading.remove>
                             <i class="fas fa-check mr-2"></i>
-                            Verify Code
+                            {{ __('messages.verify_code') }}
                         </span>
                         <span wire:loading>
                             <i class="fas fa-spinner fa-spin mr-2"></i>
-                            Verifying...
+                            {{ __('messages.verifying') }}
                         </span>
                     </button>
                     
@@ -357,11 +357,11 @@ new class extends Component {
                     >
                         <span wire:loading.remove wire:target="resendVerification">
                             <i class="fas fa-redo mr-2"></i>
-                            Resend Code
+                            {{ __('messages.resend_code') }}
                         </span>
                         <span wire:loading wire:target="resendVerification">
                             <i class="fas fa-spinner fa-spin mr-2"></i>
-                            Sending...
+                            {{ __('messages.sending') }}
                         </span>
                     </button>
                     
@@ -371,7 +371,7 @@ new class extends Component {
                         class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
                         <i class="fas fa-times mr-2"></i>
-                        Cancel
+                        {{ __('messages.cancel') }}
                     </button>
                 </div>
             </form>
@@ -384,10 +384,10 @@ new class extends Component {
                 <i class="fas fa-check-circle text-green-400 mr-3 mt-0.5"></i>
                 <div>
                     <h4 class="text-sm font-medium text-green-800 dark:text-green-200">
-                        Email Verified Successfully!
+                        {{ __('messages.email_verified_successfully') }}
                     </h4>
                     <p class="text-sm text-green-700 dark:text-green-300 mt-1">
-                        Your email <strong>{{ $email }}</strong> has been verified and updated.
+                        {{ __('messages.email_verified_and_updated') }} <strong>{{ $email }}</strong>
                     </p>
                 </div>
             </div>

@@ -7,7 +7,7 @@
                     <nav aria-label="breadcrumb" class="mb-4">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('customer-dashboard.index') }}">{{ __('messages.my_account') }}</a>
+                                <a href="{{ route('accounts.index') }}">{{ __('messages.my_account') }}</a>
                             </li>
                             <li class="breadcrumb-item active">{{ __('messages.profile') }}</li>
                         </ol>
@@ -22,7 +22,7 @@
                                     <h5 class="card-title mb-0">{{ __('messages.profile_information') }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('settings.profile.update') }}">
+                                    <form method="POST" action="{{ route('accounts.settings.profile.update') }}">
                                         @csrf
                                         @method('PUT')
                                         
@@ -81,7 +81,7 @@
                             <div class="card mt-3">
                                 <div class="card-body text-center">
                                     <h6 class="card-title">{{ __('messages.password_security') }}</h6>
-                                    <a href="{{ route('settings.password.edit') }}" class="btn btn-outline-primary btn-sm">
+                                    <a href="{{ route('accounts.settings.password.edit') }}" class="btn btn-outline-primary btn-sm">
                                         {{ __('messages.change_password') }}
                                     </a>
                                 </div>

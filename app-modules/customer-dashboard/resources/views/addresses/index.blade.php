@@ -1,7 +1,7 @@
 <x-customer-account-layout::layout>
     <!-- Breadcrumbs -->
     <div class="mb-6 flex items-center text-sm">
-        <a href="{{ route('customer-dashboard.index') }}"
+        <a href="{{ route('accounts.index') }}"
             class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.dashboard') }}</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
@@ -16,7 +16,7 @@
             <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('messages.addresses') }}</h1>
             <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('messages.manage_your_addresses') }}</p>
         </div>
-        <a href="{{ route('addresses.create') }}"
+        <a href="{{ route('accounts.addresses.create') }}"
             class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
             {{ __('messages.add_new_address') }}
         </a>
@@ -34,7 +34,7 @@
                         <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{{ __('messages.no_addresses') }}</h3>
                         <p class="mt-2 text-gray-600 dark:text-gray-400">{{ __('messages.no_addresses_description') }}</p>
                         <div class="mt-6">
-                            <a href="{{ route('addresses.create') }}"
+                            <a href="{{ route('accounts.addresses.create') }}"
                                 class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 {{ __('messages.add_your_first_address') }}
                             </a>
@@ -69,13 +69,13 @@
                                     </div>
 
                                     <div class="mt-6 flex space-x-3">
-                                        <a href="{{ route('addresses.edit', $address) }}"
+                                        <a href="{{ route('accounts.addresses.edit', $address) }}"
                                             class="text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-md transition-colors">
                                             {{ __('messages.edit') }}
                                         </a>
                                         
                                         @if(!$address->is_default)
-                                            <form action="{{ route('addresses.set-default', $address) }}" method="POST" class="inline">
+                                            <form action="{{ route('accounts.addresses.set-default', $address) }}" method="POST" class="inline">
                                                 @csrf
                                                 <button type="submit"
                                                     class="text-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 px-3 py-2 rounded-md transition-colors">
@@ -84,7 +84,7 @@
                                             </form>
                                         @endif
 
-                                        <form action="{{ route('addresses.destroy', $address) }}" method="POST" class="inline"
+                                        <form action="{{ route('accounts.addresses.destroy', $address) }}" method="POST" class="inline"
                                             onsubmit="return confirm('{{ __('messages.are_you_sure_delete_address') }}')">
                                             @csrf
                                             @method('DELETE')

@@ -115,7 +115,7 @@ new class extends Component {
         if ($existingUser) {
             $this->dispatch('toast', [
                 'type' => 'error',
-                'message' => "Mobile number already exists for User ID: {$existingUser->id}"
+                'message' => __('messages.mobile_already_exists') . ": {$existingUser->id}"
             ]);
             return;
         }
@@ -127,7 +127,7 @@ new class extends Component {
             
             $this->dispatch('toast', [
                 'type' => 'success',
-                'message' => 'Mobile information saved successfully!'
+                'message' => __('messages.mobile_saved_successfully')
             ]);
             return;
         }
@@ -144,7 +144,7 @@ new class extends Component {
         if ($this->cooldown_active) {
             $this->dispatch('toast', [
                 'type' => 'warning',
-                'message' => 'Please wait 1 minute before requesting another verification code.'
+                'message' => __('messages.wait_1_minute_before_requesting')
             ]);
             return;
         }
@@ -171,12 +171,12 @@ new class extends Component {
             
             $this->dispatch('toast', [
                 'type' => 'success',
-                'message' => 'Verification code sent to your mobile. Check logs for code.'
+                'message' => __('messages.verification_code_sent_mobile_success')
             ]);
         } else {
             $this->dispatch('toast', [
                 'type' => 'error',
-                'message' => 'Failed to send verification SMS. Please try again.'
+                'message' => __('messages.failed_send_verification_sms')
             ]);
         }
     }
@@ -207,7 +207,7 @@ new class extends Component {
             
             $this->dispatch('toast', [
                 'type' => 'success',
-                'message' => 'Mobile number verified and updated successfully!'
+                'message' => __('messages.mobile_verified_updated_success')
             ]);
             
             // Reset form
@@ -215,7 +215,7 @@ new class extends Component {
         } else {
             $this->dispatch('toast', [
                 'type' => 'error',
-                'message' => 'Invalid verification code. Please try again.'
+                'message' => __('messages.invalid_verification_code')
             ]);
         }
     }
@@ -240,7 +240,7 @@ new class extends Component {
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
             <i class="fas fa-mobile-alt mr-2 text-green-500"></i>
-            Mobile Management
+            {{ __('messages.mobile_management') }}
         </h3>
         @if(!$edit_mode && !$verification_sent)
             <button 
@@ -250,11 +250,11 @@ new class extends Component {
             >
                 <span wire:loading.remove wire:target="startEdit">
                     <i class="fas fa-edit mr-2"></i>
-                    Edit
+                    {{ __('messages.edit') }}
                 </span>
                 <span wire:loading wire:target="startEdit">
                     <i class="fas fa-spinner fa-spin mr-2"></i>
-                    Loading...
+                    {{ __('messages.loading') }}
                 </span>
             </button>
         @endif
@@ -264,7 +264,7 @@ new class extends Component {
         <!-- View Mode -->
         <div class="space-y-4">
             <div>
-                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Current Mobile:</span>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.current_mobile') }}:</span>
                 <div class="mt-1 flex items-center">
                     @if($current_mobile && $current_country_code)
                         <div class="flex items-center">
@@ -277,23 +277,23 @@ new class extends Component {
                             @if(Auth::user()->mobile_verified_at)
                                 <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                     <i class="fas fa-check-circle mr-1"></i>
-                                    Verified
+                                    {{ __('messages.verified') }}
                                 </span>
                             @else
                                 <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
                                     <i class="fas fa-exclamation-circle mr-1"></i>
-                                    Not Verified
+                                    {{ __('messages.not_verified') }}
                                 </span>
                             @endif
                         </div>
                     @else
-                        <p class="text-sm text-gray-900 dark:text-white">Not provided</p>
+                        <p class="text-sm text-gray-900 dark:text-white">{{ __('messages.not_provided') }}</p>
                     @endif
                 </div>
             </div>
             @if($current_country)
                 <div>
-                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Country:</span>
+                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('messages.country') }}:</span>
                     <p class="text-sm text-gray-900 dark:text-white mt-1">
                         {{ CountryListWithCountryCode::getCountryName($current_country) }}
                     </p>
@@ -304,7 +304,7 @@ new class extends Component {
         <form wire:submit="saveMobile" class="space-y-4">
             <div>
                 <label for="country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Country <span class="text-red-500">*</span>
+                    {{ __('messages.country') }} <span class="text-red-500">*</span>
                 </label>
                 <select 
                     id="country"
@@ -312,7 +312,7 @@ new class extends Component {
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('country') border-red-500 @enderror"
                     required
                 >
-                    <option value="">Select Country</option>
+                    <option value="">{{ __('messages.select_country') }}</option>
                     @foreach($countries as $alpha3 => $countryOption)
                         <option value="{{ $alpha3 }}">{{ $countryOption }}</option>
                     @endforeach
@@ -324,7 +324,7 @@ new class extends Component {
             
             <div>
                 <label for="mobile" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Mobile Number <span class="text-red-500">*</span>
+                    {{ __('messages.mobile_number') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="flex">
                     <input 
@@ -353,7 +353,7 @@ new class extends Component {
                 @if($this->mobile_changed)
                     <p class="mt-1 text-sm text-amber-600 dark:text-amber-400">
                         <i class="fas fa-info-circle mr-1"></i>
-                        Mobile information changed - verification will be required
+                        {{ __('messages.mobile_changed_verification_required') }}
                     </p>
                 @endif
             </div>
@@ -367,18 +367,18 @@ new class extends Component {
                     <span wire:loading.remove>
                         @if($this->mobile_changed)
                             <i class="fas fa-sms mr-2"></i>
-                            Send Verification
+                            {{ __('messages.send_verification') }}
                         @else
                             <i class="fas fa-save mr-2"></i>
-                            Save
+                            {{ __('messages.save') }}
                         @endif
                     </span>
                     <span wire:loading>
                         <i class="fas fa-spinner fa-spin mr-2"></i>
                         @if($this->mobile_changed)
-                            Sending...
+                            {{ __('messages.sending') }}
                         @else
-                            Saving...
+                            {{ __('messages.saving') }}
                         @endif
                     </span>
                 </button>
@@ -389,7 +389,7 @@ new class extends Component {
                     class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                     <i class="fas fa-times mr-2"></i>
-                    Cancel
+                    {{ __('messages.cancel') }}
                 </button>
             </div>
         </form>
@@ -402,12 +402,12 @@ new class extends Component {
                     <i class="fas fa-info-circle text-green-400 mr-3 mt-0.5"></i>
                     <div>
                         <h4 class="text-sm font-medium text-green-800 dark:text-green-200">
-                            Verification Code Sent
+                            {{ __('messages.verification_code_sent') }}
                         </h4>
                         <p class="text-sm text-green-700 dark:text-green-300 mt-1">
-                            A 4-digit verification code has been sent to: <strong>{{ $country_code }}{{ $mobile }}</strong>
+                            {{ __('messages.verification_code_sent_to_mobile') }}: <strong>{{ $country_code }}{{ $mobile }}</strong>
                             <br>
-                            <em class="text-xs">Check application logs for the verification code.</em>
+                            <em class="text-xs">{{ __('messages.check_logs_for_code') }}</em>
                         </p>
                     </div>
                 </div>
@@ -416,14 +416,14 @@ new class extends Component {
             <form wire:submit="verifyCode" class="space-y-4">
                 <div>
                     <label for="verification_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Verification Code
+                        {{ __('messages.verification_code') }}
                     </label>
                     <input 
                         type="text" 
                         id="verification_code"
                         wire:model="verification_code"
                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('verification_code') border-red-500 @enderror"
-                        placeholder="Enter 4-digit code"
+                        placeholder="{{ __('messages.enter_4_digit_code') }}"
                         maxlength="4"
                         required
                     >
@@ -440,11 +440,11 @@ new class extends Component {
                     >
                         <span wire:loading.remove>
                             <i class="fas fa-check mr-2"></i>
-                            Verify Code
+                            {{ __('messages.verify_code') }}
                         </span>
                         <span wire:loading>
                             <i class="fas fa-spinner fa-spin mr-2"></i>
-                            Verifying...
+                            {{ __('messages.verifying') }}
                         </span>
                     </button>
                     
@@ -456,11 +456,11 @@ new class extends Component {
                     >
                         <span wire:loading.remove wire:target="resendVerification">
                             <i class="fas fa-redo mr-2"></i>
-                            Resend Code
+                            {{ __('messages.resend_code') }}
                         </span>
                         <span wire:loading wire:target="resendVerification">
                             <i class="fas fa-spinner fa-spin mr-2"></i>
-                            Sending...
+                            {{ __('messages.sending') }}
                         </span>
                     </button>
                     
@@ -470,7 +470,7 @@ new class extends Component {
                         class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
                         <i class="fas fa-times mr-2"></i>
-                        Cancel
+                        {{ __('messages.cancel') }}
                     </button>
                 </div>
             </form>
@@ -483,10 +483,10 @@ new class extends Component {
                 <i class="fas fa-check-circle text-blue-400 mr-3 mt-0.5"></i>
                 <div>
                     <h4 class="text-sm font-medium text-blue-800 dark:text-blue-200">
-                        Mobile Verified Successfully!
+                        {{ __('messages.mobile_verified_successfully') }}
                     </h4>
                     <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                        Your mobile number <strong>{{ $country_code }}{{ $mobile }}</strong> has been verified and updated.
+                        {{ __('messages.mobile_verified_and_updated') }} <strong>{{ $country_code }}{{ $mobile }}</strong>
                     </p>
                 </div>
             </div>

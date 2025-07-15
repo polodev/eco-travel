@@ -57,7 +57,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return to_route('settings.profile')->with('status', __('Profile updated successfully'));
+        return to_route('accounts.settings.profile')->with('status', __('Profile updated successfully'));
     }
 
     public function destroy(Request $request): RedirectResponse
