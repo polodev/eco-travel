@@ -156,11 +156,21 @@
                                     $isAudio = in_array(strtolower($extension), ['mp3', 'wav', 'ogg', 'm4a']);
                                 @endphp
                                 
-                                @if($isImage)
+                                @if($isImage && $myFile->file_url)
                                     <div class="text-center">
                                         <img src="{{ $myFile->file_url }}" 
                                              alt="{{ $myFile->title }}" 
-                                             class="max-w-full h-auto rounded-lg shadow-md mx-auto">
+                                             class="max-w-full h-auto rounded-lg shadow-md mx-auto"
+                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                        <div class="bg-gray-200 dark:bg-gray-700 rounded-lg p-8 text-center" style="display: none;">
+                                            <span class="text-gray-600 dark:text-gray-300">Image preview not available</span>
+                                        </div>
+                                    </div>
+                                @elseif($isImage)
+                                    <div class="text-center">
+                                        <div class="bg-gray-200 dark:bg-gray-700 rounded-lg p-8">
+                                            <span class="text-gray-600 dark:text-gray-300">Image preview not available</span>
+                                        </div>
                                     </div>
                                 @elseif($isPdf)
                                     <div class="text-center">

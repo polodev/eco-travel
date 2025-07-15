@@ -36,10 +36,18 @@
                             $isImage = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);
                         @endphp
                         
-                        @if($isImage)
-                            <img src="{{ $myFile->file_thumb_url }}" 
+                        @if($isImage && $myFile->file_url)
+                            <img src="{{ $myFile->file_url }}" 
                                  alt="{{ $myFile->title }}" 
-                                 class="w-20 h-20 object-cover rounded-lg">
+                                 class="w-20 h-20 object-cover rounded-lg"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center" style="display: none;">
+                                <span class="text-xs font-medium text-gray-600 dark:text-gray-300">IMG</span>
+                            </div>
+                        @elseif($isImage)
+                            <div class="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                <span class="text-xs font-medium text-gray-600 dark:text-gray-300">IMG</span>
+                            </div>
                         @else
                             <div class="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300">{{ strtoupper($extension) }}</span>
