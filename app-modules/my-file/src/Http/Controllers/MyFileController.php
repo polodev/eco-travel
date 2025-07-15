@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class MyFileController extends Controller
@@ -261,6 +262,34 @@ class MyFileController extends Controller
         }
 
         $media = $myFile->getFirstMedia('my_file');
-        return response()->download($media->getPath(), $media->file_name);
+        
+        if (!$media) {
+            abort(404, 'Media not found.');
+        }
+        
+        // Check if the file exists on the storage disk
+        $filePath = $media->getPathRelativeToRoot();
+        if (!Storage::disk($media->disk)->exists($filePath)) {
+            Log::error('Media file not found', [
+                'media_id' => $media->id,
+                'disk' => $media->disk,
+                'path' => $filePath,
+                'file_name' => $media->file_name
+            ]);
+            abort(404, 'File not found on storage.');
+        }
+        
+        try {
+            // For S3 or remote storage, stream the download
+            return Storage::disk($media->disk)->download($filePath, $media->file_name);
+        } catch (\Exception $e) {
+            Log::error('Media download failed', [
+                'media_id' => $media->id,
+                'error' => $e->getMessage(),
+                'disk' => $media->disk,
+                'path' => $filePath
+            ]);
+            abort(500, 'Download failed: ' . $e->getMessage());
+        }
     }
 }
