@@ -1,7 +1,7 @@
 <x-customer-account-layout::layout>
     <!-- Breadcrumbs -->
     <div class="mb-6 flex items-center text-sm">
-        <a href="{{ route('customer-dashboard.index') }}"
+        <a href="{{ route('accounts.index') }}"
             class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.dashboard') }}</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
@@ -24,7 +24,7 @@
             </svg>
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">{{ __('messages.support_coming_soon') }}</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">{{ __('messages.support_feature_development') }}</p>
-            <a href="{{ route('customer-dashboard.index') }}" 
+            <a href="{{ route('accounts.index') }}" 
                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm font-medium">
                 {{ __('messages.back_to_account') }}
             </a>

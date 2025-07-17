@@ -49,6 +49,30 @@ class MyFile extends Model implements HasMedia
      */
     public function getFileUrlAttribute(): ?string
     {
+        $media = $this->getFirstMedia('my_file');
+        if (!$media) {
+            return null;
+        }
+        
+        // For S3 or remote storage, generate a temporary URL if the disk is private
+        if ($media->disk === 's3-media' || $media->disk === 's3') {
+            try {
+                // Generate a temporary URL valid for 1 hour
+                return \Storage::disk($media->disk)->temporaryUrl(
+                    $media->getPathRelativeToRoot(),
+                    now()->addHour()
+                );
+            } catch (\Exception $e) {
+                \Log::error('Failed to generate temporary URL for media', [
+                    'media_id' => $media->id,
+                    'disk' => $media->disk,
+                    'error' => $e->getMessage()
+                ]);
+                return null;
+            }
+        }
+        
+        // For local or public storage, use the regular URL
         return $this->getFirstMediaUrl('my_file');
     }
 

@@ -73,7 +73,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ __('messages.edit_profile') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">{{ __('messages.update_personal_info') }}</p>
-                    <a href="{{ route('customer-dashboard.profile') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm font-medium">
+                    <a href="{{ route('accounts.settings.profile') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 text-sm font-medium">
                         {{ __('messages.edit_profile') }}
                     </a>
                 </div>
@@ -89,7 +89,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ __('messages.my_orders') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">{{ __('messages.view_order_history') }}</p>
-                    <a href="{{ route('customer-dashboard.orders') }}" class="bg-cyan-600 text-white px-4 py-2 rounded-md hover:bg-cyan-700 transition-colors duration-200 text-sm font-medium">
+                    <a href="{{ route('accounts.orders') }}" class="bg-cyan-600 text-white px-4 py-2 rounded-md hover:bg-cyan-700 transition-colors duration-200 text-sm font-medium">
                         {{ __('messages.view_orders') }}
                     </a>
                 </div>
@@ -105,7 +105,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ __('messages.my_wishlist') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">{{ __('messages.manage_saved_items') }}</p>
-                    <a href="{{ route('customer-dashboard.wishlist') }}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-200 text-sm font-medium">
+                    <a href="{{ route('accounts.wishlist') }}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-200 text-sm font-medium">
                         {{ __('messages.view_wishlist') }}
                     </a>
                 </div>
@@ -121,7 +121,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">{{ __('messages.support') }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">{{ __('messages.get_help_support') }}</p>
-                    <a href="{{ route('customer-dashboard.support') }}" class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700 transition-colors duration-200 text-sm font-medium">
+                    <a href="{{ route('accounts.support') }}" class="bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700 transition-colors duration-200 text-sm font-medium">
                         {{ __('messages.contact_support') }}
                     </a>
                 </div>
