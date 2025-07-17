@@ -3,6 +3,7 @@
 namespace Modules\Auth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\RecaptchaService;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +26,16 @@ class LoginController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'recaptcha_token' => ['required', 'string'],
         ]);
+
+        // Verify reCAPTCHA
+        $recaptcha = new RecaptchaService();
+        if (!$recaptcha->verify($request->recaptcha_token, 'login')) {
+            throw ValidationException::withMessages([
+                'email' => __('Please verify that you are not a robot.'),
+            ]);
+        }
 
         $this->ensureIsNotRateLimited($request);
 

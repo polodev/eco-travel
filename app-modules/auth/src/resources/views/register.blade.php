@@ -10,7 +10,7 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('register') }}" id="registerForm">
                 @csrf
                 <!-- Full Name Input -->
                 <div class="mb-4">
@@ -32,6 +32,9 @@
                     <x-forms.password-input :label="__('messages.confirm_password')" name="password_confirmation" placeholder="••••••••" />
                 </div>
 
+                <!-- reCAPTCHA Token -->
+                <input type="hidden" name="recaptcha_token" id="recaptchaToken">
+
                 <!-- Register Button -->
                 <x-button type="primary" class="w-full">{{ __('messages.create_account') }}</x-button>
             </form>
@@ -47,4 +50,20 @@
         </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('recaptcha.site_key') }}"></script>
+        <script>
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ config('recaptcha.site_key') }}', {action: 'register'}).then(function(token) {
+                        document.getElementById('recaptchaToken').value = token;
+                        document.getElementById('registerForm').submit();
+                    });
+                });
+            });
+        </script>
+    @endpush
 </x-customer-frontend-layout::layout>
