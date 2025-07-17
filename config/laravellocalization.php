@@ -340,7 +340,7 @@ return [
 
     // URLs which should not be processed, e.g. '/nova', '/nova/*', '/nova-api/*' or specific application URLs
     // Defaults to []
-    'urlsIgnored' => ['/dashboard', '/dashboard/*', '/settings', '/settings/*', '/login', '/register', '/password/*', '/forgot-password', '/reset-password', '/verify-email', '/confirm-password', '/logout'],
+    'urlsIgnored' => ['/admin', '/admin/*', '/login', '/register', '/password/*', '/forgot-password', '/reset-password', '/verify-email', '/confirm-password', '/logout'],
 
     'httpMethodsIgnored' => ['POST', 'PUT', 'PATCH', 'DELETE'],
 ];

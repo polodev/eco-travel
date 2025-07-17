@@ -47,6 +47,6 @@ class RegistrationController extends Controller
 
         Auth::login($user);
 
-        return redirect(LaravelLocalization::localizeUrl(route('customer-dashboard.index', absolute: false)));
+        return redirect(LaravelLocalization::localizeUrl(route('accounts.index', absolute: false)));
     }
 }

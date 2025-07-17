@@ -1,13 +1,13 @@
 <x-customer-account-layout::layout>
     <!-- Breadcrumbs -->
     <div class="mb-6 flex items-center text-sm">
-        <a href="{{ route('customer-dashboard.index') }}"
+        <a href="{{ route('accounts.index') }}"
             class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.dashboard') }}</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-        <a href="{{ route('addresses.index') }}"
+        <a href="{{ route('accounts.addresses.index') }}"
             class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.addresses') }}</a>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
@@ -26,7 +26,7 @@
     <div class="space-y-6">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
                     <div class="p-6">
-                        <form action="{{ route('addresses.update', $address) }}" method="POST" class="space-y-6">
+                        <form action="{{ route('accounts.addresses.update', $address) }}" method="POST" class="space-y-6">
                             @csrf
                             @method('PUT')
 
@@ -120,7 +120,7 @@
                             </div>
 
                             <div class="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
-                                <a href="{{ route('addresses.index') }}"
+                                <a href="{{ route('accounts.addresses.index') }}"
                                     class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                     {{ __('messages.cancel') }}
                                 </a>

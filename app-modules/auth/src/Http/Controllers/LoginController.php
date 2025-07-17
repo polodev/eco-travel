@@ -54,7 +54,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(LaravelLocalization::localizeUrl(route('customer-dashboard.index', absolute: false)));
+        return redirect()->intended(LaravelLocalization::localizeUrl(route('accounts.index', absolute: false)));
     }
 
     public function destroy(Request $request): RedirectResponse
