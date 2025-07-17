@@ -9,7 +9,7 @@
                 <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('messages.sign_in_to_account') }}</p>
             </div>
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" id="loginForm">
                 @csrf
                 <!-- Email Input -->
                 <div class="mb-4">
@@ -30,6 +30,9 @@
                     <x-forms.checkbox :label="__('messages.remember_me')" name="remember" />
                 </div>
 
+                <!-- reCAPTCHA Token -->
+                <input type="hidden" name="recaptcha_token" id="recaptchaToken">
+
                 <!-- Login Button -->
                 <x-button type="primary" class="w-full">{{ __('messages.sign_in') }}</x-button>
             </form>
@@ -47,4 +50,20 @@
         </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script src="https://www.google.com/recaptcha/api.js?render={{ config('recaptcha.site_key') }}"></script>
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ config('recaptcha.site_key') }}', {action: 'login'}).then(function(token) {
+                        document.getElementById('recaptchaToken').value = token;
+                        document.getElementById('loginForm').submit();
+                    });
+                });
+            });
+        </script>
+    @endpush
 </x-customer-frontend-layout::layout>
