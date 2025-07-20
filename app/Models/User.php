@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,8 +12,9 @@ use Illuminate\Support\Str;
 use Modules\UserData\Models\UserAddress;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Notifications\VerifyEmailNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, LogsActivity;
@@ -32,6 +33,10 @@ class User extends Authenticatable
         'country_code',
         'mobile',
         'password',
+        'google_id',
+        'facebook_id',
+        'avatar',
+        'password_set',
         'role',
         'default_address_id',
         'last_login_at',
@@ -59,6 +64,7 @@ class User extends Authenticatable
             'mobile_verified_at' => 'datetime',
             'last_login_at' => 'datetime',
             'password' => 'hashed',
+            'password_set' => 'boolean',
         ];
     }
     public function getFullMobileAttribute()
@@ -152,5 +158,43 @@ class User extends Authenticatable
     public function shouldLogEvent(string $eventName): bool
     {
         return $eventName === 'updated';
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmailNotification);
+    }
+
+    /**
+     * Check if user has a password set
+     */
+    public function hasPassword(): bool
+    {
+        return $this->password_set && !empty($this->password);
+    }
+
+    /**
+     * Check if user can login with social providers
+     */
+    public function hasSocialLogins(): bool
+    {
+        return !empty($this->google_id) || !empty($this->facebook_id);
+    }
+
+    /**
+     * Get the user's avatar URL with fallback
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            return $this->avatar;
+        }
+        
+        // Fallback to Gravatar
+        $hash = md5(strtolower(trim($this->email)));
+        return "https://www.gravatar.com/avatar/{$hash}?d=identicon&s=200";
     }
 }

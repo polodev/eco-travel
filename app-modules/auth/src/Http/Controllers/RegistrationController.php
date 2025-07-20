@@ -24,24 +24,33 @@ class RegistrationController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+        $validationRules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'recaptcha_token' => ['required', 'string'],
-        ]);
+        ];
 
-        // Verify reCAPTCHA
-        $recaptcha = new RecaptchaService();
-        if (!$recaptcha->verify($request->recaptcha_token, 'register')) {
-            throw ValidationException::withMessages([
-                'email' => __('Please verify that you are not a robot.'),
-            ]);
+        // Only require reCAPTCHA token if reCAPTCHA is enabled
+        if (env('RECAPTCHA_ENABLED', true) && config('recaptcha.site_key')) {
+            $validationRules['recaptcha_token'] = ['required', 'string'];
         }
 
-        // Remove recaptcha_token from validated data before creating user
-        unset($validated['recaptcha_token']);
+        $validated = $request->validate($validationRules);
+
+        // Verify reCAPTCHA only if enabled
+        if (env('RECAPTCHA_ENABLED', true) && config('recaptcha.site_key')) {
+            $recaptcha = new RecaptchaService();
+            if (!$recaptcha->verify($request->recaptcha_token, 'register')) {
+                throw ValidationException::withMessages([
+                    'email' => __('Please verify that you are not a robot.'),
+                ]);
+            }
+            // Remove recaptcha_token from validated data before creating user
+            unset($validated['recaptcha_token']);
+        }
         $validated['password'] = Hash::make($validated['password']);
+        $validated['password_set'] = true; // User has set a password
+        $validated['role'] = 'customer'; // Default role for new registrations
 
         event(new Registered(($user = User::create($validated))));
 

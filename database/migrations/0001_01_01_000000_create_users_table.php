@@ -20,9 +20,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password')->nullable(); # for login with google
+            $table->string('google_id')->nullable(); // Google OAuth ID
+            $table->string('facebook_id')->nullable(); // Facebook OAuth ID
+            $table->string('avatar')->nullable(); // Profile picture URL
+            $table->boolean('password_set')->default(false); // Whether user has set a password
             $table->string('role')->nullable()->default('user');
             $table->timestamp('last_login_at')->nullable();
             $table->string('country')->nullable();
+            $table->unsignedBigInteger('default_address_id')->nullable(); // Reference to user addresses
             $table->rememberToken();
             $table->timestamps();
         });

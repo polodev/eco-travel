@@ -23,18 +23,26 @@ class LoginController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validationRules = [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
-            'recaptcha_token' => ['required', 'string'],
-        ]);
+        ];
 
-        // Verify reCAPTCHA
-        $recaptcha = new RecaptchaService();
-        if (!$recaptcha->verify($request->recaptcha_token, 'login')) {
-            throw ValidationException::withMessages([
-                'email' => __('Please verify that you are not a robot.'),
-            ]);
+        // Only require reCAPTCHA token if reCAPTCHA is enabled
+        if (env('RECAPTCHA_ENABLED', true) && config('recaptcha.site_key')) {
+            $validationRules['recaptcha_token'] = ['required', 'string'];
+        }
+
+        $request->validate($validationRules);
+
+        // Verify reCAPTCHA only if enabled
+        if (env('RECAPTCHA_ENABLED', true) && config('recaptcha.site_key')) {
+            $recaptcha = new RecaptchaService();
+            if (!$recaptcha->verify($request->recaptcha_token, 'login')) {
+                throw ValidationException::withMessages([
+                    'email' => __('Please verify that you are not a robot.'),
+                ]);
+            }
         }
 
         $this->ensureIsNotRateLimited($request);

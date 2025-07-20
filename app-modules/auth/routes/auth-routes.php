@@ -5,6 +5,7 @@ use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\RegistrationController;
 use Modules\Auth\Http\Controllers\ConfirmationController;
 use Modules\Auth\Http\Controllers\VerificationController;
+use App\Http\Controllers\Auth\SocialLoginController;
 
 Route::middleware(['web', 'guest'])->group(function () {
     Route::get('register', [RegistrationController::class, 'create'])->name('register');
@@ -12,6 +13,10 @@ Route::middleware(['web', 'guest'])->group(function () {
 
     Route::get('login', [LoginController::class, 'create'])->name('login');
     Route::post('login', [LoginController::class, 'store']);
+
+    // Social Login Routes
+    Route::get('auth/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');
+    Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('social.callback');
 });
 
 Route::middleware(['web', 'auth'])->group(function () {
