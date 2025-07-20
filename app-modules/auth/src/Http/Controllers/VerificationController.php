@@ -15,7 +15,7 @@ class VerificationController extends Controller
     public function show(Request $request): RedirectResponse|View
     {
         return $request->user()->hasVerifiedEmail()
-                    ? redirect()->intended(route('dashboard', absolute: false))
+                    ? redirect()->intended(route('accounts.index', absolute: false))
                     : view('auth::verify-email');
     }
 
@@ -27,14 +27,14 @@ class VerificationController extends Controller
     public function showMobile(Request $request): RedirectResponse|View
     {
         return $request->user()->hasVerifiedMobile()
-                    ? redirect()->intended(route('dashboard', absolute: false))
+                    ? redirect()->intended(route('accounts.index', absolute: false))
                     : view('auth::verify-mobile');
     }
 
     public function store(Request $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('accounts.index', absolute: false));
         }
 
         $request->user()->sendEmailVerificationNotification();
@@ -45,7 +45,7 @@ class VerificationController extends Controller
     public function verify(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+            return redirect()->intended(route('accounts.index', absolute: false).'?verified=1');
         }
 
         if ($request->user()->markEmailAsVerified()) {
@@ -55,7 +55,7 @@ class VerificationController extends Controller
             event(new Verified($user));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return redirect()->intended(route('accounts.index', absolute: false).'?verified=1');
     }
 
     public function showChoice(Request $request): RedirectResponse|View
@@ -64,7 +64,7 @@ class VerificationController extends Controller
         
         // If user already has either email or mobile verified, redirect to dashboard
         if (($user->email && $user->hasVerifiedEmail()) || ($user->mobile && $user->hasVerifiedMobile())) {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('accounts.index', absolute: false));
         }
         
         return view('auth::verification-choice', compact('user'));
