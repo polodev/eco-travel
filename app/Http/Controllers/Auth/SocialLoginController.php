@@ -54,7 +54,7 @@ class SocialLoginController extends Controller
             Auth::login($user, true);
             $user->update(['last_login_at' => now()]);
             
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('accounts.index', absolute: false));
         }
 
         return redirect()->route('login')->withErrors([
