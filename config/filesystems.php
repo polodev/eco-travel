@@ -49,8 +49,8 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_S3_ACCESS_KEY_ID'),
-            'secret' => env('AWS_S3_SECRET_ACCESS_KEY'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
@@ -62,8 +62,8 @@ return [
 
         's3-backup' => [
             'driver' => 's3',
-            'key' => env('AWS_S3_ACCESS_KEY_ID'),
-            'secret' => env('AWS_S3_SECRET_ACCESS_KEY'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BACKUP_BUCKET', env('AWS_BUCKET')),
             'root' => env('AWS_BACKUP_ROOT', 'backups'),
@@ -77,8 +77,8 @@ return [
 
         's3-media' => [
             'driver' => 's3',
-            'key' => env('AWS_S3_ACCESS_KEY_ID'),
-            'secret' => env('AWS_S3_SECRET_ACCESS_KEY'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'root' => env('APP_ENV') === 'production' ? 'media' : 'media-staging',
