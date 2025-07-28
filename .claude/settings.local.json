@@ -19,7 +19,8 @@
       "Bash(npm run build:*)",
       "Bash(open http://rajib.test/admin-dashboard)",
       "Bash(open http://rajib.test/admin)",
-      "Bash(aws configure:*)"
+      "Bash(aws configure:*)",
+      "Bash(touch:*)"
     ],
     "deny": []
   }
