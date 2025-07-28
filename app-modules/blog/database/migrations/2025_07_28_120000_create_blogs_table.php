@@ -19,8 +19,13 @@ return new class extends Migration
             $table->json('title'); // Translatable field
             $table->json('content')->nullable(); // Translatable field
             $table->json('excerpt')->nullable(); // Translatable field
+            $table->json('meta_title')->nullable(); // SEO meta title (translatable)
+            $table->json('meta_description')->nullable(); // SEO meta description (translatable)
+            $table->json('meta_keywords')->nullable(); // SEO meta keywords (translatable)
+            $table->string('canonical_url')->nullable(); // Canonical URL for SEO
+            $table->boolean('noindex')->default(false); // SEO noindex directive
+            $table->boolean('nofollow')->default(false); // SEO nofollow directive
             $table->string('status')->default('draft'); // enum: draft,published,scheduled
-            $table->string('featured_image')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->integer('position')->default(0);
             $table->timestamps();

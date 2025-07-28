@@ -9,11 +9,14 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\User;
 
-class Blog extends Model
+class Blog extends Model implements HasMedia
 {
-    use HasFactory, HasSlug, HasTranslations;
+    use HasFactory, HasSlug, HasTranslations, InteractsWithMedia;
 
     protected $fillable = [
         'english_title',
@@ -21,8 +24,13 @@ class Blog extends Model
         'title',
         'content',
         'excerpt',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'canonical_url',
+        'noindex',
+        'nofollow',
         'status',
-        'featured_image',
         'published_at',
         'position',
         'user_id'
@@ -31,12 +39,23 @@ class Blog extends Model
     protected $translatable = [
         'title',
         'content',
-        'excerpt'
+        'excerpt',
+        'meta_title',
+        'meta_description',
+        'meta_keywords'
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'position' => 'integer',
+        'noindex' => 'boolean',
+        'nofollow' => 'boolean',
+        'title' => 'array',
+        'content' => 'array',
+        'excerpt' => 'array',
+        'meta_title' => 'array',
+        'meta_description' => 'array',
+        'meta_keywords' => 'array',
     ];
 
     /**
@@ -225,5 +244,30 @@ class Blog extends Model
     public function getTagNamesAttribute(): array
     {
         return $this->tags->pluck('english_name')->toArray();
+    }
+
+    /**
+     * Register media collections.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured_image')->singleFile();
+    }
+
+    /**
+     * Get the featured image URL.
+     */
+    public function getFeaturedImageAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('featured_image');
+        return $media ? $media->getUrl() : null;
+    }
+
+    /**
+     * Get the featured image media object.
+     */
+    public function getFeaturedImageMedia(): ?Media
+    {
+        return $this->getFirstMedia('featured_image');
     }
 }

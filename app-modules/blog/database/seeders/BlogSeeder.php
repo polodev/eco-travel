@@ -134,6 +134,14 @@ class BlogSeeder extends Seeder
         foreach ($blogs as $blogData) {
             $tagNames = $blogData['tags'];
             unset($blogData['tags']);
+            
+            // Add empty SEO meta fields for now - these can be filled manually later
+            $blogData['meta_title'] = null;
+            $blogData['meta_description'] = null;
+            $blogData['meta_keywords'] = null;
+            $blogData['canonical_url'] = null;
+            $blogData['noindex'] = false;
+            $blogData['nofollow'] = false;
 
             // Let Blog model handle slug generation automatically from english_title
             $blogData['user_id'] = 1; // Assuming first user exists

@@ -147,6 +147,112 @@
                     </div>
                     @endif
 
+                    <!-- SEO Meta Information -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">SEO Information</h3>
+                        <div class="space-y-4">
+                            <!-- Meta Titles -->
+                            @if($blog->getTranslation('meta_title', 'en') || $blog->getTranslation('meta_title', 'bn'))
+                            <div>
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Meta Title:</span>
+                                <div class="mt-2 space-y-2">
+                                    @if($blog->getTranslation('meta_title', 'en'))
+                                    <div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">EN:</span>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $blog->getTranslation('meta_title', 'en') }}</p>
+                                    </div>
+                                    @endif
+                                    @if($blog->getTranslation('meta_title', 'bn'))
+                                    <div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">BN:</span>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $blog->getTranslation('meta_title', 'bn') }}</p>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
+
+                            <!-- Meta Descriptions -->
+                            @if($blog->getTranslation('meta_description', 'en') || $blog->getTranslation('meta_description', 'bn'))
+                            <div>
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Meta Description:</span>
+                                <div class="mt-2 space-y-2">
+                                    @if($blog->getTranslation('meta_description', 'en'))
+                                    <div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">EN:</span>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $blog->getTranslation('meta_description', 'en') }}</p>
+                                    </div>
+                                    @endif
+                                    @if($blog->getTranslation('meta_description', 'bn'))
+                                    <div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">BN:</span>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $blog->getTranslation('meta_description', 'bn') }}</p>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
+
+                            <!-- Meta Keywords -->
+                            @if($blog->getTranslation('meta_keywords', 'en') || $blog->getTranslation('meta_keywords', 'bn'))
+                            <div>
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Meta Keywords:</span>
+                                <div class="mt-2 space-y-2">
+                                    @if($blog->getTranslation('meta_keywords', 'en'))
+                                    <div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">EN:</span>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $blog->getTranslation('meta_keywords', 'en') }}</p>
+                                    </div>
+                                    @endif
+                                    @if($blog->getTranslation('meta_keywords', 'bn'))
+                                    <div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">BN:</span>
+                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $blog->getTranslation('meta_keywords', 'bn') }}</p>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
+
+                            <!-- Canonical URL -->
+                            @if($blog->canonical_url)
+                            <div>
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Canonical URL:</span>
+                                <p class="text-sm text-gray-800 dark:text-gray-200 mt-1">
+                                    <a href="{{ $blog->canonical_url }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">{{ $blog->canonical_url }}</a>
+                                </p>
+                            </div>
+                            @endif
+
+                            <!-- SEO Directives -->
+                            @if($blog->noindex || $blog->nofollow)
+                            <div>
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">SEO Directives:</span>
+                                <div class="mt-1 flex gap-2">
+                                    @if($blog->noindex)
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                                        No Index
+                                    </span>
+                                    @endif
+                                    @if($blog->nofollow)
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                                        No Follow
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            @endif
+
+                            <!-- Default message if no SEO data -->
+                            @if(!$blog->getTranslation('meta_title', 'en') && !$blog->getTranslation('meta_title', 'bn') && 
+                                !$blog->getTranslation('meta_description', 'en') && !$blog->getTranslation('meta_description', 'bn') && 
+                                !$blog->getTranslation('meta_keywords', 'en') && !$blog->getTranslation('meta_keywords', 'bn') && 
+                                !$blog->canonical_url && !$blog->noindex && !$blog->nofollow)
+                            <p class="text-sm text-gray-500 dark:text-gray-400 italic">No SEO information provided. <a href="{{ route('admin-dashboard.blog.edit', $blog->slug) }}" class="text-blue-600 dark:text-blue-400 hover:underline">Edit this blog</a> to add SEO metadata.</p>
+                            @endif
+                        </div>
+                    </div>
+
                     <!-- Featured Image -->
                     @if($blog->featured_image)
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">

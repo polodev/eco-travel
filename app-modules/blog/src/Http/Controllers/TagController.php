@@ -14,7 +14,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('blog::tags.index');
+        $tags = Tag::withCount('blogs')->orderBy('created_at', 'desc')->paginate(10);
+        return view('blog::tags.index', compact('tags'));
     }
 
     /**
@@ -103,7 +104,7 @@ class TagController extends Controller
             $counter++;
         }
 
-        Tag::create([
+        $tag = Tag::create([
             'english_name' => $request->english_name,
             'slug' => $slug,
             'name' => [
@@ -112,7 +113,7 @@ class TagController extends Controller
             ],
         ]);
 
-        return redirect()->route('admin-dashboard.blog.tags.index')
+        return redirect()->route('admin-dashboard.tags.show', $tag->slug)
                        ->with('success', 'Tag created successfully!');
     }
 
@@ -167,7 +168,7 @@ class TagController extends Controller
             ],
         ]);
 
-        return redirect()->route('admin-dashboard.blog.tags.index')
+        return redirect()->route('admin-dashboard.tags.show', $tag->slug)
                        ->with('success', 'Tag updated successfully!');
     }
 

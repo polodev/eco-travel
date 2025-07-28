@@ -25,7 +25,7 @@
         </div>
 
         <div class="p-6">
-            <form action="{{ route('admin-dashboard.blog.update', $blog->slug) }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin-dashboard.blog.update', $blog->slug) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
                 
@@ -146,20 +146,46 @@
                 <!-- Featured Image -->
                 <div>
                     <label for="featured_image" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Featured Image URL
+                        Featured Image
                     </label>
-                    <input type="url" 
+                    
+                    @if($blog->featured_image)
+                        <div class="mb-3 p-3 border border-gray-200 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Current featured image:</p>
+                            <img src="{{ $blog->featured_image }}" alt="Current featured image" class="w-32 h-32 object-cover rounded-md">
+                        </div>
+                    @endif
+                    
+                    <input type="file" 
                            id="featured_image"
                            name="featured_image"
-                           value="{{ old('featured_image', $blog->featured_image) }}"
-                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="https://example.com/image.jpg">
+                           accept="image/*"
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 2MB. Leave empty to keep current image.</p>
                     @error('featured_image')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
                 
-                <!-- Language Tabs -->
+                <!-- Content and SEO Tabs -->
+                <div class="border-b border-gray-200 dark:border-gray-700">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button type="button" 
+                                class="main-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                                data-tab="content">
+                            Content
+                        </button>
+                        <button type="button" 
+                                class="main-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
+                                data-tab="seo">
+                            SEO Settings
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Content Tab -->
+                <div id="tab-content" class="main-content">
+                    <!-- Language Tabs -->
                 <div class="border-b border-gray-200 dark:border-gray-700">
                     <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                         <button type="button" 
@@ -279,6 +305,196 @@
                             @error('content.bn')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Tab -->
+        <div id="tab-seo" class="main-content hidden">
+            <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4 mt-6">SEO Settings</h3>
+
+                    <!-- SEO Language Tabs -->
+                    <div class="border-b border-gray-200 dark:border-gray-700">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button type="button" 
+                                    class="seo-language-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                                    data-lang="en">
+                                English SEO
+                            </button>
+                            <button type="button" 
+                                    class="seo-language-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
+                                    data-lang="bn">
+                                Bengali SEO
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- English SEO Fields -->
+                    <div id="seo-lang-en" class="seo-language-content mt-6">
+                        <div class="space-y-4">
+                            <!-- Meta Title English -->
+                            <div>
+                                <label for="meta_title_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Meta Title (English) <span class="text-xs text-gray-500">(60 characters max)</span>
+                                </label>
+                                <input type="text" 
+                                       id="meta_title_en"
+                                       name="meta_title[en]"
+                                       value="{{ old('meta_title.en', $blog->getTranslation('meta_title', 'en')) }}"
+                                       maxlength="60"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="SEO optimized title for search engines">
+                                @error('meta_title.en')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Meta Description English -->
+                            <div>
+                                <label for="meta_description_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Meta Description (English) <span class="text-xs text-gray-500">(160 characters max)</span>
+                                </label>
+                                <textarea id="meta_description_en"
+                                          name="meta_description[en]"
+                                          rows="3"
+                                          maxlength="160"
+                                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Brief description that appears in search results">{{ old('meta_description.en', $blog->getTranslation('meta_description', 'en')) }}</textarea>
+                                @error('meta_description.en')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Meta Keywords English -->
+                            <div>
+                                <label for="meta_keywords_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Meta Keywords (English) <span class="text-xs text-gray-500">(comma separated)</span>
+                                </label>
+                                <input type="text" 
+                                       id="meta_keywords_en"
+                                       name="meta_keywords[en]"
+                                       value="{{ old('meta_keywords.en', $blog->getTranslation('meta_keywords', 'en')) }}"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="keyword1, keyword2, keyword3">
+                                @error('meta_keywords.en')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bengali SEO Fields -->
+                    <div id="seo-lang-bn" class="seo-language-content hidden mt-6">
+                        <div class="space-y-4">
+                            <!-- Meta Title Bengali -->
+                            <div>
+                                <label for="meta_title_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Meta Title (Bengali) <span class="text-xs text-gray-500">(60 characters max)</span>
+                                </label>
+                                <input type="text" 
+                                       id="meta_title_bn"
+                                       name="meta_title[bn]"
+                                       value="{{ old('meta_title.bn', $blog->getTranslation('meta_title', 'bn')) }}"
+                                       maxlength="60"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="সার্চ ইঞ্জিনের জন্য SEO অপ্টিমাইজড শিরোনাম">
+                                @error('meta_title.bn')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Meta Description Bengali -->
+                            <div>
+                                <label for="meta_description_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Meta Description (Bengali) <span class="text-xs text-gray-500">(160 characters max)</span>
+                                </label>
+                                <textarea id="meta_description_bn"
+                                          name="meta_description[bn]"
+                                          rows="3"
+                                          maxlength="160"
+                                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="সার্চ রেজাল্টে দেখানো সংক্ষিপ্ত বিবরণ">{{ old('meta_description.bn', $blog->getTranslation('meta_description', 'bn')) }}</textarea>
+                                @error('meta_description.bn')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Meta Keywords Bengali -->
+                            <div>
+                                <label for="meta_keywords_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Meta Keywords (Bengali) <span class="text-xs text-gray-500">(comma separated)</span>
+                                </label>
+                                <input type="text" 
+                                       id="meta_keywords_bn"
+                                       name="meta_keywords[bn]"
+                                       value="{{ old('meta_keywords.bn', $blog->getTranslation('meta_keywords', 'bn')) }}"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="কীওয়ার্ড১, কীওয়ার্ড২, কীওয়ার্ড৩">
+                                @error('meta_keywords.bn')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- General SEO Settings -->
+                    <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <h4 class="text-md font-medium text-gray-800 dark:text-gray-100 mb-4">General SEO Settings</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Canonical URL -->
+                            <div>
+                                <label for="canonical_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Canonical URL
+                                </label>
+                                <input type="url" 
+                                       id="canonical_url"
+                                       name="canonical_url"
+                                       value="{{ old('canonical_url', $blog->canonical_url) }}"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="https://example.com/canonical-url">
+                                @error('canonical_url')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- SEO Directives -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Search Engine Directives
+                                </label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input id="noindex" 
+                                               name="noindex" 
+                                               type="checkbox" 
+                                               value="1"
+                                               {{ old('noindex', $blog->noindex) ? 'checked' : '' }}
+                                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="noindex" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                                            No Index (prevent indexing by search engines)
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="nofollow" 
+                                               name="nofollow" 
+                                               type="checkbox" 
+                                               value="1"
+                                               {{ old('nofollow', $blog->nofollow) ? 'checked' : '' }}
+                                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="nofollow" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                                            No Follow (prevent following links on this page)
+                                        </label>
+                                    </div>
+                                </div>
+                                @error('noindex')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                                @error('nofollow')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -415,7 +631,37 @@
                 }
             });
 
-            // Language tab functionality
+            // Main tab functionality
+            const mainTabs = document.querySelectorAll('.main-tab');
+            const mainContents = document.querySelectorAll('.main-content');
+
+            mainTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetTab = this.dataset.tab;
+                    
+                    // Update main tab states
+                    mainTabs.forEach(t => {
+                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
+                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
+                    });
+                    
+                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
+                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
+                    
+                    // Update main content visibility
+                    mainContents.forEach(content => {
+                        if (content.id === `tab-${targetTab}`) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Language tab functionality (for content tab)
             const languageTabs = document.querySelectorAll('.language-tab');
             const languageContents = document.querySelectorAll('.language-content');
 
@@ -451,6 +697,36 @@
                             easyMDE_bn.codemirror.refresh();
                         }
                     }, 100);
+                });
+            });
+
+            // SEO Language tab functionality (for SEO tab)
+            const seoLanguageTabs = document.querySelectorAll('.seo-language-tab');
+            const seoLanguageContents = document.querySelectorAll('.seo-language-content');
+
+            seoLanguageTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetLang = this.dataset.lang;
+                    
+                    // Update SEO language tab states
+                    seoLanguageTabs.forEach(t => {
+                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
+                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
+                    });
+                    
+                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
+                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
+                    
+                    // Update SEO language content visibility
+                    seoLanguageContents.forEach(content => {
+                        if (content.id === `seo-lang-${targetLang}`) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
                 });
             });
 

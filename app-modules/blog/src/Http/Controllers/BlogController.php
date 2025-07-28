@@ -146,8 +146,17 @@ class BlogController extends Controller
             'content.bn' => 'nullable|string',
             'excerpt.en' => 'nullable|string|max:500',
             'excerpt.bn' => 'nullable|string|max:500',
+            'meta_title.en' => 'nullable|string|max:60',
+            'meta_title.bn' => 'nullable|string|max:60',
+            'meta_description.en' => 'nullable|string|max:160',
+            'meta_description.bn' => 'nullable|string|max:160',
+            'meta_keywords.en' => 'nullable|string|max:255',
+            'meta_keywords.bn' => 'nullable|string|max:255',
+            'canonical_url' => 'nullable|url|max:255',
+            'noindex' => 'nullable|boolean',
+            'nofollow' => 'nullable|boolean',
             'status' => 'required|in:draft,published,scheduled',
-            'featured_image' => 'nullable|string|max:255',
+            'featured_image' => 'nullable|file|image|max:2048',
             'published_at' => 'nullable|date',
             'position' => 'nullable|integer|min:0',
             'tags' => 'nullable|array',
@@ -169,12 +178,32 @@ class BlogController extends Controller
                 'en' => $request->input('excerpt.en'),
                 'bn' => $request->input('excerpt.bn'),
             ],
+            'meta_title' => [
+                'en' => $request->input('meta_title.en'),
+                'bn' => $request->input('meta_title.bn'),
+            ],
+            'meta_description' => [
+                'en' => $request->input('meta_description.en'),
+                'bn' => $request->input('meta_description.bn'),
+            ],
+            'meta_keywords' => [
+                'en' => $request->input('meta_keywords.en'),
+                'bn' => $request->input('meta_keywords.bn'),
+            ],
+            'canonical_url' => $request->canonical_url,
+            'noindex' => $request->boolean('noindex'),
+            'nofollow' => $request->boolean('nofollow'),
             'status' => $request->status,
-            'featured_image' => $request->featured_image,
             'published_at' => $request->published_at,
             'position' => $request->position ?? 0,
             'user_id' => auth()->id(),
         ]);
+
+        // Handle featured image upload
+        if ($request->hasFile('featured_image')) {
+            $blog->addMediaFromRequest('featured_image')
+                 ->toMediaCollection('featured_image');
+        }
 
         if ($request->has('tags')) {
             $blog->syncTags(Tag::whereIn('id', $request->tags)->pluck('english_name')->toArray());
@@ -219,8 +248,17 @@ class BlogController extends Controller
             'content.bn' => 'nullable|string',
             'excerpt.en' => 'nullable|string|max:500',
             'excerpt.bn' => 'nullable|string|max:500',
+            'meta_title.en' => 'nullable|string|max:60',
+            'meta_title.bn' => 'nullable|string|max:60',
+            'meta_description.en' => 'nullable|string|max:160',
+            'meta_description.bn' => 'nullable|string|max:160',
+            'meta_keywords.en' => 'nullable|string|max:255',
+            'meta_keywords.bn' => 'nullable|string|max:255',
+            'canonical_url' => 'nullable|url|max:255',
+            'noindex' => 'nullable|boolean',
+            'nofollow' => 'nullable|boolean',
             'status' => 'required|in:draft,published,scheduled',
-            'featured_image' => 'nullable|string|max:255',
+            'featured_image' => 'nullable|file|image|max:2048',
             'published_at' => 'nullable|date',
             'position' => 'nullable|integer|min:0',
             'tags' => 'nullable|array',
@@ -242,11 +280,35 @@ class BlogController extends Controller
                 'en' => $request->input('excerpt.en'),
                 'bn' => $request->input('excerpt.bn'),
             ],
+            'meta_title' => [
+                'en' => $request->input('meta_title.en'),
+                'bn' => $request->input('meta_title.bn'),
+            ],
+            'meta_description' => [
+                'en' => $request->input('meta_description.en'),
+                'bn' => $request->input('meta_description.bn'),
+            ],
+            'meta_keywords' => [
+                'en' => $request->input('meta_keywords.en'),
+                'bn' => $request->input('meta_keywords.bn'),
+            ],
+            'canonical_url' => $request->canonical_url,
+            'noindex' => $request->boolean('noindex'),
+            'nofollow' => $request->boolean('nofollow'),
             'status' => $request->status,
-            'featured_image' => $request->featured_image,
             'published_at' => $request->published_at,
             'position' => $request->position ?? 0,
         ]);
+
+        // Handle featured image upload
+        if ($request->hasFile('featured_image')) {
+            // Clear existing featured image
+            $blog->clearMediaCollection('featured_image');
+            
+            // Add new featured image
+            $blog->addMediaFromRequest('featured_image')
+                 ->toMediaCollection('featured_image');
+        }
 
         if ($request->has('tags')) {
             $blog->syncTags(Tag::whereIn('id', $request->tags)->pluck('english_name')->toArray());

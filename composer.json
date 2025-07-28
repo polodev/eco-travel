@@ -36,6 +36,7 @@
         "opcodesio/log-viewer": "^3.18",
         "owenvoke/blade-fontawesome": "^2.9",
         "spatie/laravel-activitylog": "^4.10",
+        "spatie/laravel-medialibrary": "^11.13",
         "spatie/laravel-sluggable": "^3.7",
         "spatie/laravel-translatable": "^6.0",
         "yajra/laravel-datatables-oracle": "^12.4"
