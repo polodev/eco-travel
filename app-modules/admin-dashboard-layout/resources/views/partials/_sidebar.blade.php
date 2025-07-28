@@ -147,6 +147,10 @@
                         </button>
                         
                         <div x-show="systemOpen" x-transition class="ml-8 space-y-1" x-cloak>
+                            <a href="{{ route('admin-dashboard.options.index') }}" 
+                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.options.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                                Options
+                            </a>
                             <a href="#" 
                                class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
                                 General Settings

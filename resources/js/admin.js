@@ -5,11 +5,32 @@ import Alpine from "alpinejs";
 window.axios = axios;
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-// Setup Alpine and start immediately
+// Setup Alpine but don't auto-start
 window.Alpine = Alpine;
 
-// Start Alpine.js immediately
-Alpine.start();
+// Start Alpine after Livewire is ready
+document.addEventListener('DOMContentLoaded', function() {
+    let alpineStarted = false;
+    
+    function startAlpine() {
+        if (!alpineStarted) {
+            alpineStarted = true;
+            Alpine.start();
+        }
+    }
+    
+    // Check if Livewire is available
+    if (window.Livewire) {
+        // Listen for Livewire to be ready
+        document.addEventListener('livewire:init', startAlpine);
+        
+        // Fallback in case the event already fired
+        setTimeout(startAlpine, 100);
+    } else {
+        // No Livewire, start Alpine normally
+        startAlpine();
+    }
+});
 
 // Admin-specific JavaScript functionality
 

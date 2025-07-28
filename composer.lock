@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f91dc38f0ef7aed66eca0a12f4472457",
+    "content-hash": "e0d840ddefd86e15b7f571aea2b5e9d3",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3962,6 +3962,38 @@
                 }
             ],
             "description": "My File module for Laravel application with media library integration",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/option",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/option",
+                "reference": "52f353bd87647310e331de14d52bca8ad0ccf2c3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Option\\Providers\\OptionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Option\\": "src/",
+                    "Modules\\Option\\Tests\\": "tests/",
+                    "Modules\\Option\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Option\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
             "transport-options": {
                 "symlink": true,
                 "relative": true

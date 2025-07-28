@@ -28,6 +28,7 @@
         "modules/customer-dashboard": "*",
         "modules/customer-frontend-layout": "*",
         "modules/my-file": "@dev",
+        "modules/option": "*",
         "modules/test": "*",
         "modules/user-data": "*",
         "opcodesio/log-viewer": "^3.18",
