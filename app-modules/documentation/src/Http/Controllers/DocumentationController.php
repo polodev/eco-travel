@@ -136,7 +136,8 @@ class DocumentationController extends Controller
             'content' => $request->content,
             'difficulty' => $request->difficulty,
             'position' => $request->position ?? 0,
-            'is_published' => $request->boolean('is_published', true)
+            'is_published' => $request->boolean('is_published', true),
+            'user_id' => auth()->id()
         ]);
 
         return redirect()->route('admin-dashboard.documentation.index')

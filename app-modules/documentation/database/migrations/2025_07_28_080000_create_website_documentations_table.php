@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('website_documentations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable();
             $table->string('section')->nullable();
             $table->string('slug')->unique();
             $table->string('title');
             $table->longText('content')->nullable();
-            $table->enum('difficulty', ['beginner', 'intermediate', 'advanced'])->nullable();
+            $table->string('difficulty')->nullable(); // enum: beginner,intermediate,advanced
             $table->integer('position')->default(0);
             $table->boolean('is_published')->default(true);
             $table->timestamps();

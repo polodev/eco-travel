@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Modules\Option\Database\Seeders\OptionSeeder;
 use Modules\Documentation\Database\Seeders\DocumentationSeeder;
+use Modules\Blog\Database\Seeders\BlogSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
             OptionSeeder::class,
             DocumentationSeeder::class,
+            BlogSeeder::class,
         ]);
     }
 }

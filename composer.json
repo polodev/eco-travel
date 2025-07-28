@@ -24,6 +24,7 @@
         "modules/admin-dashboard": "*",
         "modules/admin-dashboard-layout": "*",
         "modules/auth": "*",
+        "modules/blog": "*",
         "modules/customer-account-layout": "*",
         "modules/customer-dashboard": "*",
         "modules/customer-frontend-layout": "*",
@@ -36,6 +37,7 @@
         "owenvoke/blade-fontawesome": "^2.9",
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-sluggable": "^3.7",
+        "spatie/laravel-translatable": "^6.0",
         "yajra/laravel-datatables-oracle": "^12.4"
     },
     "require-dev": {

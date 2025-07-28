@@ -54,6 +54,21 @@ class MyFile extends Model implements HasMedia
             return null;
         }
         
+        // Always use the public URL for clean URLs
+        // This assumes your S3 bucket allows public read access
+        return $this->getFirstMediaUrl('my_file');
+    }
+
+    /**
+     * Get a temporary signed URL (use this when you need secure access)
+     */
+    public function getSecureFileUrlAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('my_file');
+        if (!$media) {
+            return null;
+        }
+        
         // For S3 or remote storage, generate a temporary URL if the disk is private
         if ($media->disk === 's3-media' || $media->disk === 's3') {
             try {

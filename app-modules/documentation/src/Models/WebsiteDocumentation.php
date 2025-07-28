@@ -4,8 +4,10 @@ namespace Modules\Documentation\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use App\Models\User;
 
 class WebsiteDocumentation extends Model
 {
@@ -18,7 +20,8 @@ class WebsiteDocumentation extends Model
         'content',
         'difficulty',
         'position',
-        'is_published'
+        'is_published',
+        'user_id'
     ];
 
     protected $casts = [
@@ -114,5 +117,13 @@ class WebsiteDocumentation extends Model
             'intermediate' => 'Intermediate',
             'advanced' => 'Advanced',
         ];
+    }
+
+    /**
+     * Get the user that created this documentation.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
