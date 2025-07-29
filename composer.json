@@ -31,6 +31,7 @@
         "modules/documentation": "*",
         "modules/my-file": "@dev",
         "modules/option": "*",
+        "modules/page": "*",
         "modules/test": "*",
         "modules/user-data": "*",
         "opcodesio/log-viewer": "^3.18",
