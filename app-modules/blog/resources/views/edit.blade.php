@@ -167,172 +167,157 @@
                     @enderror
                 </div>
                 
-                <!-- Content and SEO Tabs -->
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                        <button type="button" 
-                                class="main-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                                data-tab="content">
-                            Content
-                        </button>
-                        <button type="button" 
-                                class="main-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
-                                data-tab="seo">
-                            SEO Settings
-                        </button>
-                    </nav>
-                </div>
+                <!-- Content Section -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">Content</h3>
 
-                <!-- Content Tab -->
-                <div id="tab-content" class="main-content">
                     <!-- Language Tabs -->
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                        <button type="button" 
-                                class="language-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                                data-lang="en">
-                            English
-                        </button>
-                        <button type="button" 
-                                class="language-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
-                                data-lang="bn">
-                            Bengali
-                        </button>
-                    </nav>
-                </div>
+                    <div class="border-b border-gray-200 dark:border-gray-600 mb-6">
+                        <nav class="-mb-px flex space-x-8">
+                            <button type="button" 
+                                    class="content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                                    data-tab="en" 
+                                    data-active="true">
+                                English Content
+                            </button>
+                            <button type="button" 
+                                    class="content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
+                                    data-tab="bn" 
+                                    data-active="false">
+                                Bengali Content
+                            </button>
+                        </nav>
+                    </div>
 
-                <!-- English Fields -->
-                <div id="lang-en" class="language-content">
-                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">English Content</h3>
-                    
-                    <div class="space-y-4">
-                        <!-- Title English -->
-                        <div>
-                            <label for="title_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Title (English) *
-                            </label>
-                            <input type="text" 
-                                   id="title_en"
-                                   name="title[en]"
-                                   value="{{ old('title.en', $blog->getTranslation('title', 'en')) }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="Enter blog title in English"
-                                   required>
-                            @error('title.en')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                    <!-- English Content Tab -->
+                    <div id="content-tab-en" class="content-tab-panel">
+                        <div class="space-y-4">
+                            <!-- Title English -->
+                            <div>
+                                <label for="title_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Title (English) *
+                                </label>
+                                <input type="text" 
+                                       id="title_en"
+                                       name="title[en]"
+                                       value="{{ old('title.en', $blog->getTranslation('title', 'en')) }}"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="Enter blog title in English"
+                                       required>
+                                @error('title.en')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Excerpt English -->
+                            <div>
+                                <label for="excerpt_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Excerpt (English)
+                                </label>
+                                <textarea id="excerpt_en"
+                                          name="excerpt[en]"
+                                          rows="3"
+                                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Brief description of the blog post">{{ old('excerpt.en', $blog->getTranslation('excerpt', 'en')) }}</textarea>
+                                @error('excerpt.en')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Content English -->
+                            <div>
+                                <label for="content_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Content (English) *
+                                </label>
+                                <textarea id="content_en"
+                                          name="content[en]"
+                                          rows="12"
+                                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="Write your blog content in English"
+                                          required>{{ old('content.en', $blog->getTranslation('content', 'en')) }}</textarea>
+                                @error('content.en')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
+                    </div>
 
-                        <!-- Excerpt English -->
-                        <div>
-                            <label for="excerpt_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Excerpt (English)
-                            </label>
-                            <textarea id="excerpt_en"
-                                      name="excerpt[en]"
-                                      rows="3"
-                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                      placeholder="Brief description of the blog post">{{ old('excerpt.en', $blog->getTranslation('excerpt', 'en')) }}</textarea>
-                            @error('excerpt.en')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <!-- Bengali Content Tab -->
+                    <div id="content-tab-bn" class="content-tab-panel hidden">
+                        <div class="space-y-4">
+                            <!-- Title Bengali -->
+                            <div>
+                                <label for="title_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Title (Bengali)
+                                </label>
+                                <input type="text" 
+                                       id="title_bn"
+                                       name="title[bn]"
+                                       value="{{ old('title.bn', $blog->getTranslation('title', 'bn')) }}"
+                                       class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       placeholder="ব্লগের শিরোনাম বাংলায় লিখুন">
+                                @error('title.bn')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
 
-                        <!-- Content English -->
-                        <div>
-                            <label for="content_en" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Content (English) *
-                            </label>
-                            <textarea id="content_en"
-                                      name="content[en]"
-                                      rows="12"
-                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                      placeholder="Write your blog content in English"
-                                      required>{{ old('content.en', $blog->getTranslation('content', 'en')) }}</textarea>
-                            @error('content.en')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
+                            <!-- Excerpt Bengali -->
+                            <div>
+                                <label for="excerpt_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Excerpt (Bengali)
+                                </label>
+                                <textarea id="excerpt_bn"
+                                          name="excerpt[bn]"
+                                          rows="3"
+                                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="ব্লগ পোস্টের সংক্ষিপ্ত বিবরণ">{{ old('excerpt.bn', $blog->getTranslation('excerpt', 'bn')) }}</textarea>
+                                @error('excerpt.bn')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Content Bengali -->
+                            <div>
+                                <label for="content_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Content (Bengali)
+                                </label>
+                                <textarea id="content_bn"
+                                          name="content[bn]"
+                                          rows="12"
+                                          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                          placeholder="আপনার ব্লগের বিষয়বস্তু বাংলায় লিখুন">{{ old('content.bn', $blog->getTranslation('content', 'bn')) }}</textarea>
+                                @error('content.bn')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bengali Fields -->
-                <div id="lang-bn" class="language-content hidden">
-                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">Bengali Content</h3>
-                    
-                    <div class="space-y-4">
-                        <!-- Title Bengali -->
-                        <div>
-                            <label for="title_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Title (Bengali)
-                            </label>
-                            <input type="text" 
-                                   id="title_bn"
-                                   name="title[bn]"
-                                   value="{{ old('title.bn', $blog->getTranslation('title', 'bn')) }}"
-                                   class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                   placeholder="ব্লগের শিরোনাম বাংলায় লিখুন">
-                            @error('title.bn')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Excerpt Bengali -->
-                        <div>
-                            <label for="excerpt_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Excerpt (Bengali)
-                            </label>
-                            <textarea id="excerpt_bn"
-                                      name="excerpt[bn]"
-                                      rows="3"
-                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                      placeholder="ব্লগ পোস্টের সংক্ষিপ্ত বিবরণ">{{ old('excerpt.bn', $blog->getTranslation('excerpt', 'bn')) }}</textarea>
-                            @error('excerpt.bn')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Content Bengali -->
-                        <div>
-                            <label for="content_bn" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Content (Bengali)
-                            </label>
-                            <textarea id="content_bn"
-                                      name="content[bn]"
-                                      rows="12"
-                                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                      placeholder="আপনার ব্লগের বিষয়বস্তু বাংলায় লিখুন">{{ old('content.bn', $blog->getTranslation('content', 'bn')) }}</textarea>
-                            @error('content.bn')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SEO Tab -->
-        <div id="tab-seo" class="main-content hidden">
-            <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4 mt-6">SEO Settings</h3>
+                <!-- SEO Section -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">SEO Settings</h3>
 
                     <!-- SEO Language Tabs -->
-                    <div class="border-b border-gray-200 dark:border-gray-700">
-                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                    <div class="border-b border-gray-200 dark:border-gray-600 mb-6">
+                        <nav class="-mb-px flex space-x-8">
                             <button type="button" 
-                                    class="seo-language-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                                    data-lang="en">
+                                    class="seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                                    data-tab="en" 
+                                    data-active="true">
                                 English SEO
                             </button>
                             <button type="button" 
-                                    class="seo-language-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
-                                    data-lang="bn">
+                                    class="seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
+                                    data-tab="bn" 
+                                    data-active="false">
                                 Bengali SEO
                             </button>
                         </nav>
                     </div>
 
-                    <!-- English SEO Fields -->
-                    <div id="seo-lang-en" class="seo-language-content mt-6">
+                    <!-- English SEO Tab -->
+                    <div id="seo-tab-en" class="seo-tab-panel mb-8">
                         <div class="space-y-4">
                             <!-- Meta Title English -->
                             <div>
@@ -385,8 +370,8 @@
                         </div>
                     </div>
 
-                    <!-- Bengali SEO Fields -->
-                    <div id="seo-lang-bn" class="seo-language-content hidden mt-6">
+                    <!-- Bengali SEO Tab -->
+                    <div id="seo-tab-bn" class="seo-tab-panel mb-8 hidden">
                         <div class="space-y-4">
                             <!-- Meta Title Bengali -->
                             <div>
@@ -631,109 +616,9 @@
                 }
             });
 
-            // Main tab functionality
-            const mainTabs = document.querySelectorAll('.main-tab');
-            const mainContents = document.querySelectorAll('.main-content');
-
-            mainTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetTab = this.dataset.tab;
-                    
-                    // Update main tab states
-                    mainTabs.forEach(t => {
-                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    });
-                    
-                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                    
-                    // Update main content visibility
-                    mainContents.forEach(content => {
-                        if (content.id === `tab-${targetTab}`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-            // Language tab functionality (for content tab)
-            const languageTabs = document.querySelectorAll('.language-tab');
-            const languageContents = document.querySelectorAll('.language-content');
-
-            languageTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetLang = this.dataset.lang;
-                    
-                    // Update tab states
-                    languageTabs.forEach(t => {
-                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    });
-                    
-                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                    
-                    // Update content visibility
-                    languageContents.forEach(content => {
-                        if (content.id === `lang-${targetLang}`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                    
-                    // Refresh EasyMDE instances
-                    setTimeout(() => {
-                        if (targetLang === 'en') {
-                            easyMDE_en.codemirror.refresh();
-                        } else {
-                            easyMDE_bn.codemirror.refresh();
-                        }
-                    }, 100);
-                });
-            });
-
-            // SEO Language tab functionality (for SEO tab)
-            const seoLanguageTabs = document.querySelectorAll('.seo-language-tab');
-            const seoLanguageContents = document.querySelectorAll('.seo-language-content');
-
-            seoLanguageTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetLang = this.dataset.lang;
-                    
-                    // Update SEO language tab states
-                    seoLanguageTabs.forEach(t => {
-                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    });
-                    
-                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                    
-                    // Update SEO language content visibility
-                    seoLanguageContents.forEach(content => {
-                        if (content.id === `seo-lang-${targetLang}`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
             // Auto-generate slug from english_title (only if slug is empty or was auto-generated)
             const englishTitleInput = document.getElementById('english_title');
             const slugInput = document.getElementById('slug');
-            const originalSlug = slugInput.value;
             let manualSlugEdit = false;
 
             // Check if slug was manually edited
@@ -743,7 +628,7 @@
 
             // Auto-generate slug when english_title changes
             englishTitleInput.addEventListener('input', function() {
-                // Only auto-generate if slug wasn't manually edited and either is empty or matches auto-generated pattern
+                // Only auto-generate if slug wasn't manually edited
                 if (!manualSlugEdit) {
                     const slug = this.value
                         .toLowerCase()
@@ -753,6 +638,58 @@
                         .trim('-');
                     slugInput.value = slug;
                 }
+            });
+
+            // Content Tab functionality
+            const contentTabButtons = document.querySelectorAll('.content-tab-btn');
+            const contentTabPanels = document.querySelectorAll('.content-tab-panel');
+
+            contentTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Update button states
+                    contentTabButtons.forEach(btn => {
+                        btn.setAttribute('data-active', 'false');
+                        btn.className = 'content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500';
+                    });
+                    
+                    this.setAttribute('data-active', 'true');
+                    this.className = 'content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400';
+                    
+                    // Update panel visibility
+                    contentTabPanels.forEach(panel => {
+                        panel.classList.add('hidden');
+                    });
+                    
+                    document.getElementById(`content-tab-${targetTab}`).classList.remove('hidden');
+                });
+            });
+
+            // SEO Tab functionality
+            const seoTabButtons = document.querySelectorAll('.seo-tab-btn');
+            const seoTabPanels = document.querySelectorAll('.seo-tab-panel');
+
+            seoTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Update button states
+                    seoTabButtons.forEach(btn => {
+                        btn.setAttribute('data-active', 'false');
+                        btn.className = 'seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500';
+                    });
+                    
+                    this.setAttribute('data-active', 'true');
+                    this.className = 'seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400';
+                    
+                    // Update panel visibility
+                    seoTabPanels.forEach(panel => {
+                        panel.classList.add('hidden');
+                    });
+                    
+                    document.getElementById(`seo-tab-${targetTab}`).classList.remove('hidden');
+                });
             });
 
             // Handle form submission

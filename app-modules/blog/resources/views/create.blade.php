@@ -149,44 +149,30 @@
                     @enderror
                 </div>
                 
-                <!-- Content and SEO Tabs -->
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                        <button type="button" 
-                                class="main-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                                data-tab="content">
-                            Content
-                        </button>
-                        <button type="button" 
-                                class="main-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
-                                data-tab="seo">
-                            SEO Settings
-                        </button>
-                    </nav>
-                </div>
+                <!-- Content Section -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">Content</h3>
 
-                <!-- Content Tab -->
-                <div id="tab-content" class="main-content">
                     <!-- Language Tabs -->
-                    <div class="border-b border-gray-200 dark:border-gray-700">
-                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                    <div class="border-b border-gray-200 dark:border-gray-600 mb-6">
+                        <nav class="-mb-px flex space-x-8">
                             <button type="button" 
-                                    class="language-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                                    data-lang="en">
-                                English
+                                    class="content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                                    data-tab="en" 
+                                    data-active="true">
+                                English Content
                             </button>
                             <button type="button" 
-                                    class="language-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
-                                    data-lang="bn">
-                                Bengali
+                                    class="content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
+                                    data-tab="bn" 
+                                    data-active="false">
+                                Bengali Content
                             </button>
                         </nav>
                     </div>
 
-                    <!-- English Fields -->
-                    <div id="lang-en" class="language-content">
-                        <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4 mt-6">English Content</h3>
-                        
+                    <!-- English Content Tab -->
+                    <div id="content-tab-en" class="content-tab-panel">
                         <div class="space-y-4">
                             <!-- Title English -->
                             <div>
@@ -238,10 +224,8 @@
                         </div>
                     </div>
 
-                    <!-- Bengali Fields -->
-                    <div id="lang-bn" class="language-content hidden">
-                        <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4 mt-6">Bengali Content</h3>
-                        
+                    <!-- Bengali Content Tab -->
+                    <div id="content-tab-bn" class="content-tab-panel hidden">
                         <div class="space-y-4">
                             <!-- Title Bengali -->
                             <div>
@@ -292,28 +276,30 @@
                     </div>
                 </div>
 
-                <!-- SEO Tab -->
-                <div id="tab-seo" class="main-content hidden">
-                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4 mt-6">SEO Settings</h3>
+                <!-- SEO Section -->
+                <div>
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">SEO Settings</h3>
 
                     <!-- SEO Language Tabs -->
-                    <div class="border-b border-gray-200 dark:border-gray-700">
-                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                    <div class="border-b border-gray-200 dark:border-gray-600 mb-6">
+                        <nav class="-mb-px flex space-x-8">
                             <button type="button" 
-                                    class="seo-language-tab active whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                                    data-lang="en">
+                                    class="seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
+                                    data-tab="en" 
+                                    data-active="true">
                                 English SEO
                             </button>
                             <button type="button" 
-                                    class="seo-language-tab whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
-                                    data-lang="bn">
+                                    class="seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500"
+                                    data-tab="bn" 
+                                    data-active="false">
                                 Bengali SEO
                             </button>
                         </nav>
                     </div>
 
-                    <!-- English SEO Fields -->
-                    <div id="seo-lang-en" class="seo-language-content mt-6">
+                    <!-- English SEO Tab -->
+                    <div id="seo-tab-en" class="seo-tab-panel mb-8">
                         <div class="space-y-4">
                             <!-- Meta Title English -->
                             <div>
@@ -366,8 +352,8 @@
                         </div>
                     </div>
 
-                    <!-- Bengali SEO Fields -->
-                    <div id="seo-lang-bn" class="seo-language-content hidden mt-6">
+                    <!-- Bengali SEO Tab -->
+                    <div id="seo-tab-bn" class="seo-tab-panel mb-8 hidden">
                         <div class="space-y-4">
                             <!-- Meta Title Bengali -->
                             <div>
@@ -501,96 +487,6 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Main tab functionality
-            const mainTabs = document.querySelectorAll('.main-tab');
-            const mainContents = document.querySelectorAll('.main-content');
-
-            mainTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetTab = this.dataset.tab;
-                    
-                    // Update main tab states
-                    mainTabs.forEach(t => {
-                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    });
-                    
-                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                    
-                    // Update main content visibility
-                    mainContents.forEach(content => {
-                        if (content.id === `tab-${targetTab}`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-            // Language tab functionality (for content tab)
-            const languageTabs = document.querySelectorAll('.language-tab');
-            const languageContents = document.querySelectorAll('.language-content');
-
-            languageTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetLang = this.dataset.lang;
-                    
-                    // Update language tab states
-                    languageTabs.forEach(t => {
-                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    });
-                    
-                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                    
-                    // Update language content visibility
-                    languageContents.forEach(content => {
-                        if (content.id === `lang-${targetLang}`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
-            // SEO Language tab functionality (for SEO tab)
-            const seoLanguageTabs = document.querySelectorAll('.seo-language-tab');
-            const seoLanguageContents = document.querySelectorAll('.seo-language-content');
-
-            seoLanguageTabs.forEach(tab => {
-                tab.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetLang = this.dataset.lang;
-                    
-                    // Update SEO language tab states
-                    seoLanguageTabs.forEach(t => {
-                        t.classList.remove('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                        t.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    });
-                    
-                    this.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'dark:text-gray-400', 'dark:hover:text-gray-200', 'dark:hover:border-gray-500');
-                    this.classList.add('active', 'border-blue-500', 'text-blue-600', 'dark:border-blue-400', 'dark:text-blue-400');
-                    
-                    // Update SEO language content visibility
-                    seoLanguageContents.forEach(content => {
-                        if (content.id === `seo-lang-${targetLang}`) {
-                            content.classList.remove('hidden');
-                        } else {
-                            content.classList.add('hidden');
-                        }
-                    });
-                });
-            });
-
             // Initialize Select2 for tags
             $('#tags').select2({
                 placeholder: 'Select tags...',
@@ -632,6 +528,58 @@
                         .trim('-');
                     slugInput.value = slug;
                 }
+            });
+
+            // Content Tab functionality
+            const contentTabButtons = document.querySelectorAll('.content-tab-btn');
+            const contentTabPanels = document.querySelectorAll('.content-tab-panel');
+
+            contentTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Update button states
+                    contentTabButtons.forEach(btn => {
+                        btn.setAttribute('data-active', 'false');
+                        btn.className = 'content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500';
+                    });
+                    
+                    this.setAttribute('data-active', 'true');
+                    this.className = 'content-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400';
+                    
+                    // Update panel visibility
+                    contentTabPanels.forEach(panel => {
+                        panel.classList.add('hidden');
+                    });
+                    
+                    document.getElementById(`content-tab-${targetTab}`).classList.remove('hidden');
+                });
+            });
+
+            // SEO Tab functionality
+            const seoTabButtons = document.querySelectorAll('.seo-tab-btn');
+            const seoTabPanels = document.querySelectorAll('.seo-tab-panel');
+
+            seoTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    
+                    // Update button states
+                    seoTabButtons.forEach(btn => {
+                        btn.setAttribute('data-active', 'false');
+                        btn.className = 'seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500';
+                    });
+                    
+                    this.setAttribute('data-active', 'true');
+                    this.className = 'seo-tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400';
+                    
+                    // Update panel visibility
+                    seoTabPanels.forEach(panel => {
+                        panel.classList.add('hidden');
+                    });
+                    
+                    document.getElementById(`seo-tab-${targetTab}`).classList.remove('hidden');
+                });
             });
         });
     </script>
