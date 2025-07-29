@@ -20,6 +20,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password')->nullable(); # for login with google
+            $table->string('email_login_code', 6)->nullable();
+            $table->timestamp('email_login_code_expires_at')->nullable();
             $table->string('google_id')->nullable(); // Google OAuth ID
             $table->string('facebook_id')->nullable(); // Facebook OAuth ID
             $table->string('avatar')->nullable(); // Profile picture URL

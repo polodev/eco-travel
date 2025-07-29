@@ -1,7 +1,8 @@
 <x-customer-frontend-layout::layout :title="__('Reset Password')">
     <!-- Reset Password Card -->
-    <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div class="max-w-md mx-auto">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="p-6">
             <div class="text-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('Reset Password') }}</h1>
@@ -9,7 +10,7 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('password.store') }}">
+            <form method="POST" action="{{ route('password.update') }}">
                 @csrf
                 <input type="hidden" name="token" value="{{ request()->route('token') }}">
 
@@ -40,6 +41,7 @@
                 <a href="{{ route('login') }}"
                     class="text-blue-600 dark:text-blue-400 hover:underline font-medium">{{ __('Back to login') }}</a>
             </div>
+        </div>
         </div>
     </div>
 </x-customer-frontend-layout::layout>

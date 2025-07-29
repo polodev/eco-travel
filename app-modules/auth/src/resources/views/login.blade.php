@@ -19,10 +19,6 @@
                 <!-- Password Input -->
                 <div class="mb-4">
                     <x-forms.password-input :label="__('messages.password')" name="password" placeholder="••••••••" />
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}"
-                            class="text-xs text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.forgot_password') }}</a>
-                    @endif
                 </div>
 
                 <!-- Remember Me -->
@@ -36,6 +32,24 @@
                 <!-- Login Button -->
                 <x-button type="primary" class="w-full">{{ __('messages.sign_in') }}</x-button>
             </form>
+
+            <!-- Forgot Password Link -->
+            @if (Route::has('password.request'))
+                <div class="text-center mt-4">
+                    <a href="{{ route('password.request') }}"
+                        class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:underline">
+                        {{ __('messages.forgot_password') }}
+                    </a>
+                </div>
+            @endif
+
+            <!-- Sign in with email code -->
+            <div class="text-center mt-3">
+                <a href="{{ route('login.email-code.create') }}" 
+                   class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                    {{ __('messages.sign_in_with_code') }}
+                </a>
+            </div>
 
             @php
                 $enabledProviders = \App\Http\Controllers\Auth\SocialLoginController::getEnabledProviders();
@@ -118,5 +132,6 @@
                 });
             </script>
         @endif
+
     @endpush
 </x-customer-frontend-layout::layout>

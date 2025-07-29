@@ -5,6 +5,7 @@ use Modules\Auth\Http\Controllers\LoginController;
 use Modules\Auth\Http\Controllers\RegistrationController;
 use Modules\Auth\Http\Controllers\ConfirmationController;
 use Modules\Auth\Http\Controllers\VerificationController;
+use Modules\Auth\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\Auth\SocialLoginController;
 
 Route::middleware(['web', 'guest'])->group(function () {
@@ -13,6 +14,15 @@ Route::middleware(['web', 'guest'])->group(function () {
 
     Route::get('login', [LoginController::class, 'create'])->name('login');
     Route::post('login', [LoginController::class, 'store']);
+    Route::get('login/email-code', [LoginController::class, 'createEmailCode'])->name('login.email-code.create');
+    Route::post('login/email-code', [LoginController::class, 'sendEmailCode'])->name('login.email-code');
+    Route::post('login/verify-code', [LoginController::class, 'verifyEmailCode'])->name('login.verify-code');
+
+    // Password Reset Routes
+    Route::get('forgot-password', [PasswordResetController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
+    Route::post('reset-password', [PasswordResetController::class, 'update'])->name('password.update');
 
     // Social Login Routes
     Route::get('auth/{provider}', [SocialLoginController::class, 'redirect'])->name('social.redirect');

@@ -33,6 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'country_code',
         'mobile',
         'password',
+        'email_login_code',
+        'email_login_code_expires_at',
         'google_id',
         'facebook_id',
         'avatar',
@@ -62,6 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'mobile_verified_at' => 'datetime',
+            'email_login_code_expires_at' => 'datetime',
             'last_login_at' => 'datetime',
             'password' => 'hashed',
             'password_set' => 'boolean',
