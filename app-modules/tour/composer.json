@@ -1,0 +1,24 @@
+{
+	"name": "modules/tour",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Tour\\": "src/",
+			"Modules\\Tour\\Tests\\": "tests/",
+			"Modules\\Tour\\Database\\Factories\\": "database/factories/",
+			"Modules\\Tour\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Tour\\Providers\\TourServiceProvider"
+			]
+		}
+	}
+}

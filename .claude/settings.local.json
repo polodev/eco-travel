@@ -20,7 +20,9 @@
       "Bash(open http://rajib.test/admin-dashboard)",
       "Bash(open http://rajib.test/admin)",
       "Bash(aws configure:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "WebFetch(domain:gozayaan.com)",
+      "WebFetch(domain:sharetrip.net)"
     ],
     "deny": []
   }

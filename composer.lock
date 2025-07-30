@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "51360f9f39356459b05379c9946083d8",
+    "content-hash": "bf3ca592949d7c9877f6d589be0a476d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3855,6 +3855,38 @@
             }
         },
         {
+            "name": "modules/booking",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/booking",
+                "reference": "4b04b0c98fd72d22900f494cce189234aad18f36"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Booking\\Providers\\BookingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Booking\\": "src/",
+                    "Modules\\Booking\\Tests\\": "tests/",
+                    "Modules\\Booking\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Booking\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "modules/customer-account-layout",
             "version": "1.0",
             "dist": {
@@ -3983,6 +4015,102 @@
             }
         },
         {
+            "name": "modules/flight",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/flight",
+                "reference": "6fdd0fbcd13ab0a967703fe6b1116c8fce1775a2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Flight\\Providers\\FlightServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Flight\\": "src/",
+                    "Modules\\Flight\\Tests\\": "tests/",
+                    "Modules\\Flight\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Flight\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/hotel",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/hotel",
+                "reference": "01f6a6ff94da1b307380f42881b38e369ad30fbd"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Hotel\\Providers\\HotelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Hotel\\": "src/",
+                    "Modules\\Hotel\\Tests\\": "tests/",
+                    "Modules\\Hotel\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Hotel\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/location",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/location",
+                "reference": "48b85323948292825792009364a8190fad027eaa"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Location\\Providers\\LocationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Location\\": "src/",
+                    "Modules\\Location\\Tests\\": "tests/",
+                    "Modules\\Location\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Location\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "modules/my-file",
             "version": "dev-main",
             "dist": {
@@ -4097,6 +4225,38 @@
             }
         },
         {
+            "name": "modules/payment",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/payment",
+                "reference": "887585460bf979835377cda0585f073a9c55df77"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Payment\\Providers\\PaymentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Payment\\": "src/",
+                    "Modules\\Payment\\Tests\\": "tests/",
+                    "Modules\\Payment\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Payment\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "modules/test",
             "version": "1.0",
             "dist": {
@@ -4118,6 +4278,38 @@
                     "Modules\\Test\\Tests\\": "tests/",
                     "Modules\\Test\\Database\\Factories\\": "database/factories/",
                     "Modules\\Test\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/tour",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/tour",
+                "reference": "7229619cf0c20ed80186ae63e45b7160a4c618f4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Tour\\Providers\\TourServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Tour\\": "src/",
+                    "Modules\\Tour\\Tests\\": "tests/",
+                    "Modules\\Tour\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Tour\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [
