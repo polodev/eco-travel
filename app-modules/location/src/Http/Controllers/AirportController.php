@@ -17,8 +17,9 @@ class AirportController extends Controller
     public function index()
     {
         $countries = Country::active()->ordered()->get();
+        $cities = City::active()->ordered()->get();
         $types = Airport::getAvailableTypes();
-        return view('location::airports.index', compact('countries', 'types'));
+        return view('location::airports.index', compact('countries', 'cities', 'types'));
     }
 
     /**
@@ -62,7 +63,7 @@ class AirportController extends Controller
                 }
 
                 // Active filter
-                if ($request->has('is_active') && $request->get('is_active') !== '') {
+                if ($request->filled('is_active')) {
                     $query->where('is_active', $request->boolean('is_active'));
                 }
 
@@ -74,17 +75,20 @@ class AirportController extends Controller
             ->addColumn('name_formatted', function (Airport $airport) {
                 return '<div class="font-medium">' . htmlspecialchars($airport->name) . '</div>';
             })
-            ->addColumn('codes', function (Airport $airport) {
+            ->addColumn('code_formatted', function (Airport $airport) {
                 return '<div class="space-y-1">
                     <code class="px-2 py-1 bg-blue-100 dark:bg-blue-800 rounded text-sm font-bold">' . htmlspecialchars($airport->iata_code) . '</code>
                     <code class="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded text-sm">' . htmlspecialchars($airport->icao_code) . '</code>
                 </div>';
             })
-            ->addColumn('location', function (Airport $airport) {
-                return '<div class="text-sm">
-                    <div class="font-medium">' . htmlspecialchars($airport->city->name) . '</div>
-                    <div class="text-gray-600 dark:text-gray-400">' . htmlspecialchars($airport->country->name) . '</div>
-                </div>';
+            ->addColumn('city_name', function (Airport $airport) {
+                return htmlspecialchars($airport->city->name);
+            })
+            ->addColumn('country_name', function (Airport $airport) {
+                return htmlspecialchars($airport->country->name);
+            })
+            ->addColumn('created_at_formatted', function (Airport $airport) {
+                return $airport->created_at->format('M d, Y');
             })
             ->addColumn('status_badge', function (Airport $airport) {
                 return $airport->status_badge;
@@ -115,7 +119,7 @@ class AirportController extends Controller
                 
                 return $actions;
             })
-            ->rawColumns(['name_formatted', 'codes', 'location', 'status_badge', 'type_badge', 'hub_badge', 'action'])
+            ->rawColumns(['name_formatted', 'code_formatted', 'status_badge', 'type_badge', 'hub_badge', 'action'])
             ->make(true);
     }
 
