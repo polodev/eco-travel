@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Hotel\Http\Controllers\HotelController;
+use Modules\Hotel\Http\Controllers\HotelRoomController;
 
 Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
     
@@ -14,5 +15,17 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
         Route::get('/{hotel}/edit', [HotelController::class, 'edit'])->name('edit');
         Route::put('/{hotel}', [HotelController::class, 'update'])->name('update');
         Route::delete('/{hotel}', [HotelController::class, 'destroy'])->name('destroy');
+    });
+
+    // Hotel Room Management Routes
+    Route::prefix('hotel-rooms')->name('hotel.rooms.')->group(function () {
+        Route::get('/', [HotelRoomController::class, 'index'])->name('index');
+        Route::post('/json', [HotelRoomController::class, 'indexJson'])->name('json');
+        Route::get('/create', [HotelRoomController::class, 'create'])->name('create');
+        Route::post('/', [HotelRoomController::class, 'store'])->name('store');
+        Route::get('/{room}', [HotelRoomController::class, 'show'])->name('show');
+        Route::get('/{room}/edit', [HotelRoomController::class, 'edit'])->name('edit');
+        Route::put('/{room}', [HotelRoomController::class, 'update'])->name('update');
+        Route::delete('/{room}', [HotelRoomController::class, 'destroy'])->name('destroy');
     });
 });

@@ -156,6 +156,108 @@
                             </div>
                         </div>
                     @endif
+
+                    <!-- Hotel Rooms -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Hotel Rooms ({{ $hotel->rooms->count() }})</h3>
+                            <a href="{{ route('admin-dashboard.hotel.rooms.create', ['hotel_id' => $hotel->id]) }}" 
+                               class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Add Room
+                            </a>
+                        </div>
+                        
+                        @if($hotel->rooms->count() > 0)
+                            <div class="space-y-3">
+                                @foreach($hotel->rooms->sortBy('position') as $room)
+                                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex-1">
+                                                <div class="flex items-center space-x-3 mb-2">
+                                                    <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $room->name }}</h4>
+                                                    {!! $room->room_type_badge !!}
+                                                    {!! $room->status_badge !!}
+                                                    @if($room->is_refundable)
+                                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                            Refundable
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                                    <div>
+                                                        <span class="font-medium">Occupancy:</span> {{ $room->occupancy_display }}
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-medium">Bed:</span> {{ $room->bed_display }}
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-medium">Size:</span> {{ $room->room_size_display }}
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-medium">Price:</span> 
+                                                        <span class="text-green-600 dark:text-green-400 font-semibold">৳{{ number_format($room->base_price, 0) }}</span>
+                                                    </div>
+                                                </div>
+                                                @if($room->amenities && count($room->amenities) > 0)
+                                                    <div class="mt-2">
+                                                        {!! $room->amenities_display !!}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="flex items-center space-x-2 ml-4">
+                                                <a href="{{ route('admin-dashboard.hotel.rooms.show', $room) }}" 
+                                                   class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded hover:bg-blue-100 dark:hover:bg-blue-800">
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                    </svg>
+                                                    View
+                                                </a>
+                                                <a href="{{ route('admin-dashboard.hotel.rooms.edit', $room) }}" 
+                                                   class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 dark:text-yellow-300 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded hover:bg-yellow-100 dark:hover:bg-yellow-800">
+                                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                    </svg>
+                                                    Edit
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            
+                            <!-- View All Rooms Link -->
+                            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                                <a href="{{ route('admin-dashboard.hotel.rooms.index', ['hotel_id' => $hotel->id]) }}" 
+                                   class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-md hover:bg-blue-100 dark:hover:bg-blue-800">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                    Manage All Rooms for {{ $hotel->name }}
+                                </a>
+                            </div>
+                        @else
+                            <div class="text-center py-8">
+                                <div class="text-gray-400 text-4xl mb-3">
+                                    <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">No Rooms Found</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-500 mb-4">This hotel doesn't have any rooms configured yet.</p>
+                                <a href="{{ route('admin-dashboard.hotel.rooms.create', ['hotel_id' => $hotel->id]) }}" 
+                                   class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    Add First Room
+                                </a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
 
                 <!-- Status & Stats -->

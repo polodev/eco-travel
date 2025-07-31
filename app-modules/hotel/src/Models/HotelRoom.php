@@ -168,16 +168,20 @@ class HotelRoom extends Model
     public function getRoomTypeBadgeAttribute()
     {
         $colors = [
-            'standard' => 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100',
-            'deluxe' => 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100',
-            'suite' => 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100',
-            'presidential' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100',
+            'standard' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+            'deluxe' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+            'suite' => 'bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-200',
+            'junior_suite' => 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
+            'executive' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
+            'presidential' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+            'penthouse' => 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200',
+            'villa' => 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200',
         ];
 
-        $color = $colors[$this->room_type] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+        $color = $colors[$this->room_type] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
         $name = self::getAvailableRoomTypes()[$this->room_type] ?? ucfirst($this->room_type);
 
-        return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $color . '">' 
+        return '<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ' . $color . '">' 
                . $name . '</span>';
     }
 
@@ -236,17 +240,20 @@ class HotelRoom extends Model
         }
 
         $availableAmenities = self::getAvailableAmenities();
-        $badges = '';
+        $badges = '<div class="flex flex-wrap gap-1">';
         
-        foreach (array_slice($this->amenities, 0, 4) as $amenity) {
+        // Show top 3 amenities with better styling
+        foreach (array_slice($this->amenities, 0, 3) as $amenity) {
             $name = $availableAmenities[$amenity] ?? ucfirst(str_replace('_', ' ', $amenity));
-            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 mr-1 mb-1">' 
+            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200 border border-blue-200 dark:border-blue-700">' 
                       . $name . '</span>';
         }
 
-        if (count($this->amenities) > 4) {
-            $badges .= '<span class="text-xs text-gray-500">+' . (count($this->amenities) - 4) . ' more</span>';
+        if (count($this->amenities) > 3) {
+            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-50 text-gray-600 dark:bg-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600">+' . (count($this->amenities) - 3) . ' more</span>';
         }
+        
+        $badges .= '</div>';
 
         return $badges;
     }
