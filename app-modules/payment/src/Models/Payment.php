@@ -23,6 +23,7 @@ class Payment extends Model
         'processed_at',
         'failed_at',
         'refunded_at',
+        'bank_name',
         'notes',
         'receipt_number',
         'payment_details'

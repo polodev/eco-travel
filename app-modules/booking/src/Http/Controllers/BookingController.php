@@ -12,7 +12,7 @@ class BookingController extends Controller
 {
     public function index()
     {
-        return view('booking::bookings.index');
+        return view('booking::admin.bookings.index');
     }
 
     public function indexJson(Request $request)
@@ -84,13 +84,31 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         $booking->load(['user', 'flightBookings', 'hotelBookings', 'tourBookings']);
-        return view('booking::bookings.show', compact('booking'));
+        return view('booking::admin.bookings.show', compact('booking'));
     }
 
     public function edit(Booking $booking)
     {
         $users = User::orderBy('name')->get();
-        return view('booking::bookings.edit', compact('booking', 'users'));
+        return view('booking::admin.bookings.edit', compact('booking', 'users'));
+    }
+
+    public function create()
+    {
+        return view('booking::admin.bookings.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'booking_type' => 'required|in:flight,hotel,tour,package',
+            'booking_reference' => 'required|string|unique:bookings',
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+        ]);
+
+        $booking = Booking::create($validatedData);
+        return redirect()->route('admin-dashboard.booking.bookings.show', $booking)->with('success', 'Booking created successfully.');
     }
 
     public function update(Request $request, Booking $booking)

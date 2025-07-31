@@ -32,13 +32,9 @@ return new class extends Migration
             $table->string('ip_address')->nullable(); // Submitter's IP
             $table->string('user_agent')->nullable(); // Submitter's browser info
             
-            // Processing information
-            $table->datetime('submitted_at'); // When form was submitted
-            $table->datetime('processed_at')->nullable(); // When payment processing started
-            $table->datetime('completed_at')->nullable(); // When payment was completed
-            
-            // Admin notes
+            // Admin notes and processing
             $table->text('admin_notes')->nullable(); // Internal admin notes
+            $table->foreignId('user_id')->nullable(); // User who created this custom payment
             $table->foreignId('processed_by')->nullable(); // Admin who processed
             
             // Note: Foreign key constraints removed - validation handled at application level
@@ -48,8 +44,8 @@ return new class extends Migration
             // Indexes
             $table->index(['email', 'status']);
             $table->index(['mobile', 'status']);
-            $table->index(['status', 'submitted_at']);
-            $table->index(['submitted_at']);
+            $table->index(['status', 'created_at']);
+            $table->index(['user_id']);
             $table->index(['amount']);
         });
     }

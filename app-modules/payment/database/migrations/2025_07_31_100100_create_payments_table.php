@@ -27,10 +27,11 @@ return new class extends Migration
             $table->string('payment_method')->nullable(); // 'sslcommerz', 'bkash', 'nagad', 'city_bank', 'brac_bank', 'bank_transfer', 'cash', 'other'
             
             // Payment gateway information
-            $table->string('transaction_id')->nullable()->unique(); // Gateway transaction ID
+            $table->string('transaction_id')->nullable(); // Gateway transaction ID
             $table->string('gateway_payment_id')->nullable(); // Payment ID sent to gateway
             $table->json('gateway_response')->nullable(); // Full gateway response
             $table->string('gateway_reference')->nullable(); // Gateway reference number
+            $table->string('bank_name')->nullable(); // Bank name for bank transfers
             
             // Payment dates
             $table->datetime('payment_date')->nullable(); // When payment was made

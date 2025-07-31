@@ -4,8 +4,8 @@
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Booking Management</h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage customer bookings and track payment status</p>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Payment Management</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage payment transactions and records</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600" id="filter_area_controller">
@@ -20,45 +20,54 @@
                         </svg>
                         Clear Filters
                     </button>
+                    <a href="{{ route('admin-dashboard.payment.payments.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Add Payment
+                    </a>
                 </div>
             </div>
             
             <div id="filter_area" class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-3" style="display: block;">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                     <div>
-                        <label for="booking_type" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Type</label>
-                        <select class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" name="booking_type" id="booking_type">
-                            <option value="">All Types</option>
-                            <option value="flight">Flight</option>
-                            <option value="hotel">Hotel</option>
-                            <option value="tour">Tour</option>
-                            <option value="package">Package</option>
-                        </select>
-                    </div>
-                    <div>
                         <label for="status" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Status</label>
                         <select class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" name="status" id="status">
                             <option value="">All Status</option>
                             <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="cancelled">Cancelled</option>
+                            <option value="processing">Processing</option>
                             <option value="completed">Completed</option>
+                            <option value="failed">Failed</option>
+                            <option value="cancelled">Cancelled</option>
                             <option value="refunded">Refunded</option>
                         </select>
                     </div>
                     <div>
-                        <label for="payment_status" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Payment Status</label>
-                        <select class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" name="payment_status" id="payment_status">
-                            <option value="">All Payment Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="partial">Partial</option>
-                            <option value="paid">Paid</option>
-                            <option value="refunded">Refunded</option>
+                        <label for="payment_method" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Payment Method</label>
+                        <select class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" name="payment_method" id="payment_method">
+                            <option value="">All Methods</option>
+                            <option value="sslcommerz">SSLCommerz</option>
+                            <option value="bkash">bKash</option>
+                            <option value="nagad">Nagad</option>
+                            <option value="city_bank">City Bank</option>
+                            <option value="brac_bank">BRAC Bank</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                            <option value="cash">Cash</option>
+                            <option value="other">Other</option>
                         </select>
                     </div>
-                    <div class="md:col-span-1">
+                    <div>
+                        <label for="payment_type" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Payment Type</label>
+                        <select class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" name="payment_type" id="payment_type">
+                            <option value="">All Types</option>
+                            <option value="booking">Booking Payments</option>
+                            <option value="custom">Custom Payments</option>
+                        </select>
+                    </div>
+                    <div>
                         <label for="search_text" class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Quick Search</label>
-                        <input class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" type="text" name="search_text" id="search_text" placeholder="Search by reference, customer name...">
+                        <input class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" type="text" name="search_text" id="search_text" placeholder="Search by transaction ID, customer name...">
                     </div>
                 </div>
             </div>
@@ -71,7 +80,7 @@
         
         <!-- DataTable Container -->
         <div class="overflow-hidden">
-            <table id="bookings-table" class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table id="payments-table" class="w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <!-- DataTables will handle thead and tbody -->
             </table>
         </div>
@@ -79,11 +88,11 @@
 
     @push('scripts')
     <script>
-        const current_route_name = 'bookings.index';
+        const current_route_name = 'payments.index';
         
         $(document).ready(function() {
             // DataTable configuration
-            var bookingsTable = $('#bookings-table').DataTable({
+            var paymentsTable = $('#payments-table').DataTable({
                 processing: true,
                 serverSide: true,
                 searchDelay: 500,
@@ -94,48 +103,55 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route('admin-dashboard.booking.bookings.json') }}',
+                    url: '{{ route('admin-dashboard.payment.payments.json') }}',
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: function(d) {
-                        d.booking_type = $('#booking_type').val() || '';
                         d.status = $('#status').val() || '';
-                        d.payment_status = $('#payment_status').val() || '';
+                        d.payment_method = $('#payment_method').val() || '';
+                        d.payment_type = $('#payment_type').val() || '';
                         d.search_text = $('#search_text').val() || '';
                     }
                 },
                 columns: [
                     {
-                        data: 'booking_reference',
-                        name: 'booking_reference',
-                        title: 'Reference',
-                        searchable: true,
-                        className: 'font-mono text-center w-32'
+                        data: 'id',
+                        name: 'id',
+                        title: 'ID',
+                        searchable: false,
+                        className: 'text-center w-16'
                     },
                     {
-                        data: 'booking_info',
-                        name: 'user.name',
-                        title: 'Customer Info',
-                        searchable: true,
-                        className: 'min-w-64'
+                        data: 'payment_info',
+                        name: 'amount',
+                        title: 'Payment Info',
+                        searchable: false,
+                        className: 'min-w-40'
                     },
                     {
-                        data: 'booking_type_badge',
-                        name: 'booking_type',
+                        data: 'customer_info',
+                        name: 'customer_info',
+                        title: 'Customer',
+                        searchable: true,
+                        className: 'min-w-48'
+                    },
+                    {
+                        data: 'payment_type',
+                        name: 'payment_type',
                         title: 'Type',
                         searchable: false,
-                        orderable: true,
+                        orderable: false,
                         className: 'text-center w-24'
                     },
                     {
-                        data: 'amount_info',
-                        name: 'total_amount',
-                        title: 'Amount',
+                        data: 'payment_method_badge',
+                        name: 'payment_method',
+                        title: 'Method',
                         searchable: false,
                         orderable: true,
-                        className: 'text-right w-32'
+                        className: 'text-center w-32'
                     },
                     {
                         data: 'status_badge',
@@ -146,28 +162,20 @@
                         className: 'text-center w-28'
                     },
                     {
-                        data: 'payment_status_badge',
-                        name: 'payment_status',
-                        title: 'Payment',
+                        data: 'payment_date_formatted',
+                        name: 'payment_date',
+                        title: 'Payment Date',
                         searchable: false,
                         orderable: true,
-                        className: 'text-center w-28'
-                    },
-                    {
-                        data: 'travel_date_formatted',
-                        name: 'travel_date',
-                        title: 'Travel Date',
-                        searchable: false,
-                        orderable: true,
-                        className: 'w-32'
+                        className: 'w-36'
                     },
                     {
                         data: 'created_at_formatted',
                         name: 'created_at',
-                        title: 'Booked On',
+                        title: 'Created At',
                         searchable: false,
                         orderable: true,
-                        className: 'w-32'
+                        className: 'w-36'
                     },
                     {
                         data: 'actions',
@@ -180,35 +188,35 @@
                 ],
                 order: [[7, 'desc']],
                 language: {
-                    search: "Search bookings:",
+                    search: "Search payments:",
                     lengthMenu: "Show _MENU_ items per page",
                     info: "Showing _START_ to _END_ of _TOTAL_ items",
-                    infoEmpty: "No bookings found",
+                    infoEmpty: "No payments found",
                     infoFiltered: "(filtered from _MAX_ total items)",
                     processing: '<div class="flex items-center justify-center"><svg class="animate-spin h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"></circle><path fill="currentColor" class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span class="ml-2">Loading...</span></div>'
                 },
                 dom: '<"flex flex-row justify-between items-center mb-2 gap-2"lf>rtip',
                 drawCallback: function() {
                     // Apply Tailwind styles after draw
-                    $('#bookings-table').addClass('divide-y divide-gray-200 dark:divide-gray-700');
-                    $('#bookings-table thead').addClass('bg-gray-50 dark:bg-gray-700');
-                    $('#bookings-table thead th').addClass('px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider');
-                    $('#bookings-table tbody').addClass('bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700');
-                    $('#bookings-table tbody td').addClass('px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100');
+                    $('#payments-table').addClass('divide-y divide-gray-200 dark:divide-gray-700');
+                    $('#payments-table thead').addClass('bg-gray-50 dark:bg-gray-700');
+                    $('#payments-table thead th').addClass('px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider');
+                    $('#payments-table tbody').addClass('bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700');
+                    $('#payments-table tbody td').addClass('px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100');
                     
                     // Fix column alignment after draw
                     setTimeout(function() {
-                        bookingsTable.columns.adjust();
+                        paymentsTable.columns.adjust();
                     }, 100);
                 }
             });
             
             // Filter change listeners
-            var filterElements = ['#booking_type', '#status', '#payment_status'];
+            var filterElements = ['#status', '#payment_method', '#payment_type'];
             
             filterElements.forEach(function(element) {
                 $(element).change(function(e) {
-                    bookingsTable.draw();
+                    paymentsTable.draw();
                     e.preventDefault();
                 });
             });
@@ -218,7 +226,7 @@
             $('#search_text').keyup(function() {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(function() {
-                    bookingsTable.draw();
+                    paymentsTable.draw();
                 }, 500);
             });
             
@@ -228,7 +236,7 @@
                     $(element).val('').trigger('change');
                 });
                 $('#search_text').val('');
-                bookingsTable.draw();
+                paymentsTable.draw();
             }
             $('#clear_all_filter_button').on('click', clearAllFilter);
             
@@ -243,7 +251,7 @@
                 $('#datatable-info-custom').text($('.dataTables_info').text());
             }
             
-            bookingsTable.on('draw', function() {
+            paymentsTable.on('draw', function() {
                 updateDataTableInfo();
             });
             

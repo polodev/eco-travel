@@ -23,15 +23,8 @@
                             Back to Booking
                         </a>
                     @endif
-                    <button type="button" id="toggle-filters" 
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
-                        </svg>
-                        Toggle Filters
-                    </button>
                     <button type="button" id="clear-filters" 
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700">
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -42,12 +35,12 @@
         </div>
 
         <!-- Filters Section -->
-        <div id="filters-section" class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 hidden">
+        <div id="filters-section" class="p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 <!-- Booking Status Filter -->
                 <div>
                     <label for="booking_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Booking Status</label>
-                    <select id="booking_status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="booking_status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Status</option>
                         <option value="pending">Pending</option>
                         <option value="confirmed">Confirmed</option>
@@ -60,7 +53,7 @@
                 <!-- Accommodation Type Filter -->
                 <div>
                     <label for="accommodation_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Accommodation Type</label>
-                    <select id="accommodation_type" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="accommodation_type" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Types</option>
                         <option value="shared">Shared</option>
                         <option value="single">Single</option>
@@ -72,57 +65,57 @@
                 <!-- Tour Filter -->
                 <div>
                     <label for="tour_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tour ID</label>
-                    <input type="number" id="tour_id" placeholder="Enter tour ID" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="tour_id" placeholder="Enter tour ID" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Duration Range -->
                 <div>
                     <label for="duration_min" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Min Duration (Days)</label>
-                    <input type="number" id="duration_min" placeholder="1" min="1" max="365" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="duration_min" placeholder="1" min="1" max="365" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="duration_max" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Duration (Days)</label>
-                    <input type="number" id="duration_max" placeholder="30" min="1" max="365" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="duration_max" placeholder="30" min="1" max="365" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Tour Start Date Range -->
                 <div>
                     <label for="tour_start_date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tour Start From</label>
-                    <input type="date" id="tour_start_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="tour_start_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="tour_start_date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tour Start To</label>
-                    <input type="date" id="tour_start_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="tour_start_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Tour End Date Range -->
                 <div>
                     <label for="tour_end_date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tour End From</label>
-                    <input type="date" id="tour_end_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="tour_end_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="tour_end_date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tour End To</label>
-                    <input type="date" id="tour_end_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="tour_end_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Amount Range -->
                 <div>
                     <label for="amount_min" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Min Amount (৳)</label>
-                    <input type="number" id="amount_min" placeholder="0" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="amount_min" placeholder="0" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="amount_max" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Amount (৳)</label>
-                    <input type="number" id="amount_max" placeholder="500000" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="amount_max" placeholder="500000" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Quick Search -->
                 <div class="md:col-span-2">
                     <label for="quick_search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quick Search</label>
-                    <input type="text" id="quick_search" placeholder="Search by voucher, guide, tour name, booking reference..." class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" id="quick_search" placeholder="Search by voucher, guide, tour name, booking reference..." class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
             </div>
         </div>
@@ -159,12 +152,6 @@
     @push('scripts')
     <script>
         $(document).ready(function() {
-            // Toggle filters
-            $('#toggle-filters').click(function() {
-                $('#filters-section').toggleClass('hidden');
-                $(this).find('svg').toggleClass('rotate-180');
-            });
-
             // Clear filters
             $('#clear-filters').click(function() {
                 $('#filters-section input, #filters-section select').val('');
@@ -236,9 +223,9 @@
                 dom: '<"flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2"<"flex items-center gap-2"l><"flex items-center gap-2"f>>rtip',
                 drawCallback: function(settings) {
                     // Apply Tailwind classes after table draw
-                    $('#tour-bookings-table_wrapper .dataTables_length select').addClass('px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100');
-                    $('#tour-bookings-table_wrapper .dataTables_filter input').addClass('px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100');
-                    $('#tour-bookings-table_wrapper .dataTables_paginate .paginate_button').addClass('px-3 py-1 mx-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600');
+                    $('#tour-bookings-table_wrapper .dataTables_length select').addClass('px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100');
+                    $('#tour-bookings-table_wrapper .dataTables_filter input').addClass('px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100');
+                    $('#tour-bookings-table_wrapper .dataTables_paginate .paginate_button').addClass('px-3 py-1 mx-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600');
                     $('#tour-bookings-table_wrapper .dataTables_paginate .paginate_button.current').addClass('bg-blue-600 text-white border-blue-600');
 
                     // Update info counters

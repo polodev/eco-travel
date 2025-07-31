@@ -8,12 +8,20 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Reference: {{ $booking->booking_reference }}</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin-dashboard.booking.bookings.show', $booking) }}" 
+                    <a href="{{ route('admin-dashboard.booking.bookings.index') }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                         </svg>
-                        Cancel
+                        List View
+                    </a>
+                    <a href="{{ route('admin-dashboard.booking.bookings.show', $booking) }}" 
+                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        View Details
                     </a>
                 </div>
             </div>
@@ -107,11 +115,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="mt-8 flex justify-end space-x-3">
-                    <a href="{{ route('admin-dashboard.booking.bookings.show', $booking) }}" 
-                       class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
-                        Cancel
-                    </a>
+                <div class="mt-8 flex justify-end">
                     <button type="submit" 
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Update Booking

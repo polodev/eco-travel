@@ -17,23 +17,19 @@ class CustomPayment extends Model
         'purpose',
         'description',
         'reference_number',
+        'payment_method',
         'status',
         'form_data',
         'ip_address',
         'user_agent',
-        'submitted_at',
-        'processed_at',
-        'completed_at',
         'admin_notes',
+        'user_id',
         'processed_by'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
         'form_data' => 'array',
-        'submitted_at' => 'datetime',
-        'processed_at' => 'datetime',
-        'completed_at' => 'datetime',
     ];
 
     /**
@@ -42,6 +38,14 @@ class CustomPayment extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Get the user who created this custom payment.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

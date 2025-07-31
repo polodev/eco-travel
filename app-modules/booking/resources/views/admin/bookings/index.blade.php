@@ -8,15 +8,8 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage all booking records and track payment status</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <button type="button" id="toggle-filters" 
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-                        </svg>
-                        Toggle Filters
-                    </button>
                     <button type="button" id="clear-filters" 
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -34,12 +27,12 @@
         </div>
 
         <!-- Filters Section -->
-        <div id="filters-section" class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 hidden">
+        <div id="filters-section" class="p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 <!-- Booking Type Filter -->
                 <div>
                     <label for="booking_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Booking Type</label>
-                    <select id="booking_type" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="booking_type" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Types</option>
                         @foreach($bookingTypes as $key => $label)
                             <option value="{{ $key }}">{{ $label }}</option>
@@ -50,7 +43,7 @@
                 <!-- Status Filter -->
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-                    <select id="status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Statuses</option>
                         @foreach($statuses as $key => $label)
                             <option value="{{ $key }}">{{ $label }}</option>
@@ -61,7 +54,7 @@
                 <!-- Payment Status Filter -->
                 <div>
                     <label for="payment_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Payment Status</label>
-                    <select id="payment_status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="payment_status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Payment Status</option>
                         <option value="pending">Pending</option>
                         <option value="partial">Partially Paid</option>
@@ -72,7 +65,7 @@
                 <!-- User Filter -->
                 <div>
                     <label for="user_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Customer</label>
-                    <select id="user_id" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 select2-single">
+                    <select id="user_id" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select2-single">
                         <option value="">All Customers</option>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
@@ -83,42 +76,42 @@
                 <!-- Booking Date From -->
                 <div>
                     <label for="date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Booking Date From</label>
-                    <input type="date" id="date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Booking Date To -->
                 <div>
                     <label for="date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Booking Date To</label>
-                    <input type="date" id="date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Travel Date From -->
                 <div>
                     <label for="travel_date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Travel Date From</label>
-                    <input type="date" id="travel_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="travel_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Travel Date To -->
                 <div>
                     <label for="travel_date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Travel Date To</label>
-                    <input type="date" id="travel_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="travel_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Amount Range -->
                 <div>
                     <label for="amount_min" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Min Amount (৳)</label>
-                    <input type="number" id="amount_min" placeholder="0" min="0" step="100" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="amount_min" placeholder="0" min="0" step="100" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="amount_max" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Amount (৳)</label>
-                    <input type="number" id="amount_max" placeholder="1000000" min="0" step="100" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="amount_max" placeholder="1000000" min="0" step="100" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Quick Search -->
                 <div class="md:col-span-2">
                     <label for="quick_search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quick Search</label>
-                    <input type="text" id="quick_search" placeholder="Search by booking reference, customer name, email..." class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" id="quick_search" placeholder="Search by booking reference, customer name, email..." class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
             </div>
         </div>
@@ -145,25 +138,11 @@
         <!-- Table Section -->
         <div class="overflow-hidden">
             <div class="p-6">
-                <table id="bookings-table" class="w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-gray-50 dark:bg-gray-800">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Booking Details</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Customer</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User Account</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Travel Dates</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Passengers</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Amount</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Payment</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Dates</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        <!-- DataTable will populate this -->
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table id="bookings-table" class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <!-- DataTables will populate this -->
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -179,12 +158,6 @@
                     return $(this).find('option:first').text();
                 },
                 allowClear: false
-            });
-
-            // Toggle filters
-            $('#toggle-filters').click(function() {
-                $('#filters-section').toggleClass('hidden');
-                $(this).find('svg').toggleClass('rotate-180');
             });
 
             // Clear filters
@@ -226,16 +199,96 @@
                     }
                 },
                 columns: [
-                    {data: 'booking_details', name: 'booking_reference', title: 'Booking Details', searchable: true, orderable: true},
-                    {data: 'customer_info', name: 'customer_details', title: 'Customer', searchable: false, orderable: false},
-                    {data: 'user_info', name: 'user.name', title: 'User Account', searchable: true, orderable: true},
-                    {data: 'travel_info', name: 'travel_date', title: 'Travel Dates', searchable: false, orderable: true},
-                    {data: 'passengers_info', name: 'adults', title: 'Passengers', searchable: false, orderable: true, className: 'text-center'},
-                    {data: 'amount_info', name: 'total_amount', title: 'Amount', searchable: false, orderable: true, className: 'text-right'},
-                    {data: 'payment_info', name: 'payments', title: 'Payment', searchable: false, orderable: false, className: 'text-right'},
-                    {data: 'status', name: 'status', title: 'Status', searchable: false, orderable: true, className: 'text-center'},
-                    {data: 'dates', name: 'booking_date', title: 'Dates', searchable: false, orderable: true},
-                    {data: 'actions', name: 'actions', title: 'Actions', searchable: false, orderable: false, className: 'text-center w-32'}
+                    {
+                        data: 'booking_details', 
+                        name: 'booking_reference', 
+                        title: '<div class="px-2 py-1">Booking<br><span class="text-xs font-normal text-gray-500">Reference & Type</span></div>', 
+                        searchable: true, 
+                        orderable: true,
+                        width: '140px',
+                        className: 'px-4 py-3'
+                    },
+                    {
+                        data: 'customer_info', 
+                        name: 'customer_details', 
+                        title: '<div class="px-2 py-1">Customer<br><span class="text-xs font-normal text-gray-500">Name & Email</span></div>', 
+                        searchable: false, 
+                        orderable: false,
+                        width: '160px',
+                        className: 'px-4 py-3'
+                    },
+                    {
+                        data: 'user_info', 
+                        name: 'user.name', 
+                        title: '<div class="px-2 py-1">User Account<br><span class="text-xs font-normal text-gray-500">System User</span></div>', 
+                        searchable: true, 
+                        orderable: true,
+                        width: '140px',
+                        className: 'px-4 py-3'
+                    },
+                    {
+                        data: 'travel_info', 
+                        name: 'travel_date', 
+                        title: '<div class="px-2 py-1">Travel<br><span class="text-xs font-normal text-gray-500">Start & End</span></div>', 
+                        searchable: false, 
+                        orderable: true,
+                        width: '120px',
+                        className: 'px-4 py-3'
+                    },
+                    {
+                        data: 'passengers_info', 
+                        name: 'adults', 
+                        title: '<div class="px-2 py-1 text-center">Passengers<br><span class="text-xs font-normal text-gray-500">Adults, Children</span></div>', 
+                        searchable: false, 
+                        orderable: true,
+                        width: '110px',
+                        className: 'px-4 py-3 text-center'
+                    },
+                    {
+                        data: 'amount_info', 
+                        name: 'total_amount', 
+                        title: '<div class="px-2 py-1 text-right">Amount<br><span class="text-xs font-normal text-gray-500">Total & Net</span></div>', 
+                        searchable: false, 
+                        orderable: true,
+                        width: '130px',
+                        className: 'px-4 py-3 text-right'
+                    },
+                    {
+                        data: 'payment_info', 
+                        name: 'payments', 
+                        title: '<div class="px-2 py-1 text-right">Payment<br><span class="text-xs font-normal text-gray-500">Paid & Due</span></div>', 
+                        searchable: false, 
+                        orderable: false,
+                        width: '130px',
+                        className: 'px-4 py-3 text-right'
+                    },
+                    {
+                        data: 'status', 
+                        name: 'status', 
+                        title: '<div class="px-2 py-1 text-center">Status<br><span class="text-xs font-normal text-gray-500">Booking</span></div>', 
+                        searchable: false, 
+                        orderable: true,
+                        width: '90px',
+                        className: 'px-4 py-3 text-center'
+                    },
+                    {
+                        data: 'dates', 
+                        name: 'booking_date', 
+                        title: '<div class="px-2 py-1">Dates<br><span class="text-xs font-normal text-gray-500">Booked & Confirmed</span></div>', 
+                        searchable: false, 
+                        orderable: true,
+                        width: '130px',
+                        className: 'px-4 py-3'
+                    },
+                    {
+                        data: 'actions', 
+                        name: 'actions', 
+                        title: '<div class="px-2 py-1 text-center">Actions<br><span class="text-xs font-normal text-gray-500">View & Edit</span></div>', 
+                        searchable: false, 
+                        orderable: false,
+                        width: '120px',
+                        className: 'px-4 py-3 text-center'
+                    }
                 ],
                 order: [[8, 'desc']], // Order by booking_date desc
                 language: {
@@ -260,6 +313,13 @@
                     $('#bookings-table_wrapper .dataTables_filter input').addClass('px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100');
                     $('#bookings-table_wrapper .dataTables_paginate .paginate_button').addClass('px-3 py-1 mx-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600');
                     $('#bookings-table_wrapper .dataTables_paginate .paginate_button.current').addClass('bg-blue-600 text-white border-blue-600');
+
+                    // Style table headers
+                    $('#bookings-table thead th').addClass('bg-gray-50 dark:bg-gray-800 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700');
+                    
+                    // Style table rows
+                    $('#bookings-table tbody tr').addClass('bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150');
+                    $('#bookings-table tbody tr:not(:last-child)').addClass('border-b border-gray-200 dark:border-gray-700');
 
                     // Update info counters
                     const info = settings.json;

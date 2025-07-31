@@ -144,91 +144,12 @@
                     </div>
                 </div>
 
-                <!-- Payment Information -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Payment Information</h3>
-                            {!! $booking->payment_status_badge !!}
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div>
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Amount</dt>
-                                <dd class="mt-1 text-lg font-semibold text-gray-900 dark:text-gray-100">৳{{ number_format($booking->total_amount, 2) }}</dd>
-                            </div>
-                            @if($booking->discount > 0)
-                            <div>
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Discount</dt>
-                                <dd class="mt-1 text-lg font-semibold text-green-600 dark:text-green-400">-৳{{ number_format($booking->discount, 2) }}</dd>
-                            </div>
-                            @endif
-                            <div>
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Net Receivable</dt>
-                                <dd class="mt-1 text-lg font-semibold text-blue-600 dark:text-blue-400">৳{{ number_format($booking->net_receivable_amount, 2) }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Paid</dt>
-                                <dd class="mt-1 text-lg font-semibold text-green-600 dark:text-green-400">৳{{ number_format($booking->total_paid_amount, 2) }}</dd>
-                            </div>
-                            @if($booking->remaining_amount > 0)
-                            <div>
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Remaining Amount</dt>
-                                <dd class="mt-1 text-lg font-semibold text-red-600 dark:text-red-400">৳{{ number_format($booking->remaining_amount, 2) }}</dd>
-                            </div>
-                            @endif
-                            @if($booking->coupon_code)
-                            <div>
-                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Coupon Code</dt>
-                                <dd class="mt-1 text-sm font-mono text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">{{ $booking->coupon_code }}</dd>
-                            </div>
-                            @endif
-                        </div>
+                <!-- Discount Management -->
+                <livewire:booking--discount :booking="$booking" />
 
-                        <!-- Payment Records -->
-                        @if($booking->payments->count() > 0)
-                        <div>
-                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Payment Records ({{ $booking->payments->count() }})</h4>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                    <thead class="bg-gray-50 dark:bg-gray-700">
-                                        <tr>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Amount</th>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Method</th>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Date</th>
-                                            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Transaction ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                        @foreach($booking->payments as $payment)
-                                        <tr>
-                                            <td class="px-4 py-2 text-sm font-medium text-gray-900 dark:text-gray-100">৳{{ number_format($payment->amount, 2) }}</td>
-                                            <td class="px-4 py-2 text-sm">{!! $payment->payment_method_badge !!}</td>
-                                            <td class="px-4 py-2 text-sm">{!! $payment->status_badge !!}</td>
-                                            <td class="px-4 py-2 text-sm text-gray-600 dark:text-gray-400">
-                                                {{ $payment->payment_date ? $payment->payment_date->format('M j, Y') : 'Pending' }}
-                                            </td>
-                                            <td class="px-4 py-2 text-sm font-mono text-gray-600 dark:text-gray-400">
-                                                {{ $payment->transaction_id ?? 'N/A' }}
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        @else
-                        <div class="text-center py-6 text-gray-500 dark:text-gray-400">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                            </svg>
-                            <p class="mt-2">No payment records found</p>
-                        </div>
-                        @endif
-                    </div>
-                </div>
+                <!-- Payment Management -->
+                <livewire:booking--payments :booking="$booking" />
 
-                <!-- Sub-bookings -->
                 @if($booking->flightBookings->count() > 0 || $booking->hotelBookings->count() > 0 || $booking->tourBookings->count() > 0)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
                     <div class="p-6">
@@ -262,8 +183,9 @@
                                 @endforeach
                             </div>
                         </div>
-                        @endif
 
+                        @endif
+                        <a href="{{ route('admin-dashboard.booking.bookings.edit', $booking) }}" class="btn btn-primary">Edit Booking</a>
                         @if($booking->hotelBookings->count() > 0)
                         <div class="mb-6">
                             <div class="flex justify-between items-center mb-3">

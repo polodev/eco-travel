@@ -53,11 +53,11 @@ class CustomPaymentSeeder extends Seeder
                         'form_data' => $this->getFormData($user, $amount),
                         'ip_address' => $this->generateIPAddress(),
                         'user_agent' => $this->generateUserAgent(),
-                        'submitted_at' => $submittedAt,
-                        'processed_at' => in_array($status, ['processing', 'completed']) ? $submittedAt->copy()->addHours(rand(1, 48)) : null,
-                        'completed_at' => $status === 'completed' ? $submittedAt->copy()->addDays(rand(1, 7)) : null,
                         'admin_notes' => $this->getAdminNotes($status),
+                        'user_id' => $user->id, // Added user_id field
                         'processed_by' => in_array($status, ['processing', 'completed']) ? $users->random()->id : null,
+                        'created_at' => $submittedAt,
+                        'updated_at' => $submittedAt,
                     ]);
                     
                     // Create payment records for this custom payment
@@ -82,7 +82,7 @@ class CustomPaymentSeeder extends Seeder
             $totalPaid += $paymentAmount;
             
             $paymentStatus = $this->getPaymentStatus($customPayment->status, $i, $paymentCount);
-            $paymentDate = $customPayment->submitted_at->copy()->addDays(rand(0, 5));
+            $paymentDate = $customPayment->created_at->copy()->addDays(rand(0, 5));
             
             Payment::create([
                 'custom_payment_id' => $customPayment->id,

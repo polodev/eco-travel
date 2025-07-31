@@ -23,15 +23,8 @@
                             Back to Booking
                         </a>
                     @endif
-                    <button type="button" id="toggle-filters" 
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"></path>
-                        </svg>
-                        Toggle Filters
-                    </button>
                     <button type="button" id="clear-filters" 
-                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700">
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -42,12 +35,12 @@
         </div>
 
         <!-- Filters Section -->
-        <div id="filters-section" class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 hidden">
+        <div id="filters-section" class="p-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 <!-- Trip Type Filter -->
                 <div>
                     <label for="trip_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Trip Type</label>
-                    <select id="trip_type" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="trip_type" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Types</option>
                         <option value="oneway">One Way</option>
                         <option value="roundtrip">Round Trip</option>
@@ -57,7 +50,7 @@
                 <!-- Cabin Class Filter -->
                 <div>
                     <label for="cabin_class" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cabin Class</label>
-                    <select id="cabin_class" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="cabin_class" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Classes</option>
                         <option value="economy">Economy</option>
                         <option value="business">Business</option>
@@ -68,7 +61,7 @@
                 <!-- Ticket Status Filter -->
                 <div>
                     <label for="ticket_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ticket Status</label>
-                    <select id="ticket_status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <select id="ticket_status" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Status</option>
                         <option value="pending">Pending</option>
                         <option value="issued">Issued</option>
@@ -80,42 +73,42 @@
                 <!-- Airline Filter -->
                 <div>
                     <label for="airline_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Airline</label>
-                    <input type="text" id="airline_code" placeholder="e.g., BG, US, EK" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" id="airline_code" placeholder="e.g., BG, US, EK" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Route Filter -->
                 <div>
                     <label for="route" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Route</label>
-                    <input type="text" id="route" placeholder="e.g., DAC-DXB" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" id="route" placeholder="e.g., DAC-DXB" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Departure Date From -->
                 <div>
                     <label for="departure_date_from" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Departure From</label>
-                    <input type="date" id="departure_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="departure_date_from" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Departure Date To -->
                 <div>
                     <label for="departure_date_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Departure To</label>
-                    <input type="date" id="departure_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="date" id="departure_date_to" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Amount Range -->
                 <div>
                     <label for="amount_min" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Min Amount (৳)</label>
-                    <input type="number" id="amount_min" placeholder="0" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="amount_min" placeholder="0" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="amount_max" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Amount (৳)</label>
-                    <input type="number" id="amount_max" placeholder="500000" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="number" id="amount_max" placeholder="500000" min="0" step="1000" class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <!-- Quick Search -->
                 <div class="md:col-span-2">
                     <label for="quick_search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quick Search</label>
-                    <input type="text" id="quick_search" placeholder="Search by PNR, ticket number, flight number, booking reference..." class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                    <input type="text" id="quick_search" placeholder="Search by PNR, ticket number, flight number, booking reference..." class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
             </div>
         </div>
@@ -152,12 +145,6 @@
     @push('scripts')
     <script>
         $(document).ready(function() {
-            // Toggle filters
-            $('#toggle-filters').click(function() {
-                $('#filters-section').toggleClass('hidden');
-                $(this).find('svg').toggleClass('rotate-180');
-            });
-
             // Clear filters
             $('#clear-filters').click(function() {
                 $('#filters-section input, #filters-section select').val('');

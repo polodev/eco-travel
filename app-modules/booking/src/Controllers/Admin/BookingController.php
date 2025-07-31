@@ -142,9 +142,9 @@ class BookingController extends Controller
                 return $html;
             })
             ->addColumn('booking_details', function (Booking $booking) {
-                $html = '<div class="text-sm">';
-                $html .= '<div class="font-medium text-gray-900 dark:text-gray-100">' . e($booking->booking_reference) . '</div>';
-                $html .= '<div class="text-gray-500 dark:text-gray-400">' . $booking->booking_type_badge . '</div>';
+                $html = '<div class="text-sm space-y-1">';
+                $html .= '<div class="font-semibold text-gray-900 dark:text-gray-100">' . e($booking->booking_reference) . '</div>';
+                $html .= '<div>' . $booking->booking_type_badge . '</div>';
                 $html .= '</div>';
                 return $html;
             })
@@ -176,14 +176,16 @@ class BookingController extends Controller
                 return $html;
             })
             ->addColumn('amount_info', function (Booking $booking) {
-                $html = '<div class="text-sm">';
-                $html .= '<div class="font-medium text-gray-900 dark:text-gray-100">৳' . number_format($booking->total_amount, 2) . '</div>';
+                $html = '<div class="text-sm space-y-1 text-right">';
+                $html .= '<div class="text-xs text-gray-500 dark:text-gray-400">Total</div>';
+                $html .= '<div class="font-semibold text-gray-900 dark:text-gray-100">৳' . number_format($booking->total_amount, 2) . '</div>';
                 
                 if ($booking->discount > 0) {
-                    $html .= '<div class="text-green-600 dark:text-green-400">-৳' . number_format($booking->discount, 2) . '</div>';
+                    $html .= '<div class="text-xs text-green-600 dark:text-green-400">Discount: -৳' . number_format($booking->discount, 2) . '</div>';
                 }
                 
-                $html .= '<div class="text-blue-600 dark:text-blue-400 font-medium">৳' . number_format($booking->net_receivable_amount, 2) . '</div>';
+                $html .= '<div class="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-600 pt-1 mt-1">Net Receivable</div>';
+                $html .= '<div class="font-medium text-blue-600 dark:text-blue-400">৳' . number_format($booking->net_receivable_amount, 2) . '</div>';
                 $html .= '</div>';
                 return $html;
             })
@@ -191,14 +193,19 @@ class BookingController extends Controller
                 $totalPaid = $booking->total_paid_amount;
                 $remaining = $booking->remaining_amount;
                 
-                $html = '<div class="text-sm">';
-                $html .= '<div class="text-green-600 dark:text-green-400">Paid: ৳' . number_format($totalPaid, 2) . '</div>';
+                $html = '<div class="text-sm space-y-1 text-right">';
                 
-                if ($remaining > 0) {
-                    $html .= '<div class="text-red-600 dark:text-red-400">Due: ৳' . number_format($remaining, 2) . '</div>';
+                if ($totalPaid > 0) {
+                    $html .= '<div class="text-xs text-gray-500 dark:text-gray-400">Paid</div>';
+                    $html .= '<div class="font-medium text-green-600 dark:text-green-400">৳' . number_format($totalPaid, 2) . '</div>';
                 }
                 
-                $html .= '<div class="mt-1">' . $booking->payment_status_badge . '</div>';
+                if ($remaining > 0) {
+                    $html .= '<div class="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-600 pt-1 mt-1">Due</div>';
+                    $html .= '<div class="font-medium text-red-600 dark:text-red-400">৳' . number_format($remaining, 2) . '</div>';
+                }
+                
+                $html .= '<div class="mt-2 flex justify-end">' . $booking->payment_status_badge . '</div>';
                 $html .= '</div>';
                 return $html;
             })
@@ -215,11 +222,11 @@ class BookingController extends Controller
                 return $html;
             })
             ->addColumn('actions', function (Booking $booking) {
-                $html = '<div class="flex items-center space-x-1">';
+                $html = '<div class="flex items-center justify-center space-x-2">';
                 
-                // View button
+                // View button with better contrast
                 $html .= '<a href="' . route('admin-dashboard.booking.bookings.show', $booking) . '" 
-                            class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700" 
+                            class="inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition-colors duration-150" 
                             title="View Details">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
                 $html .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>';
@@ -227,10 +234,10 @@ class BookingController extends Controller
                 $html .= '</svg>';
                 $html .= '</a>';
                 
-                // Edit button (only for pending/confirmed)
+                // Edit button (only for pending/confirmed) with better contrast
                 if (in_array($booking->status, ['pending', 'confirmed'])) {
                     $html .= '<a href="' . route('admin-dashboard.booking.bookings.edit', $booking) . '" 
-                                class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-200 dark:hover:bg-yellow-700" 
+                                class="inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-amber-600 border border-transparent rounded-md hover:bg-amber-700 focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 transition-colors duration-150" 
                                 title="Edit Booking">';
                     $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
                     $html .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>';
@@ -238,12 +245,12 @@ class BookingController extends Controller
                     $html .= '</a>';
                 }
                 
-                // Sub-bookings buttons
+                // Sub-bookings buttons with better contrast
                 if ($booking->booking_type === 'flight' || $booking->booking_type === 'package') {
                     $flightCount = $booking->flightBookings->count();
                     if ($flightCount > 0) {
                         $html .= '<a href="' . route('admin-dashboard.booking.booking-flights.index', ['booking_id' => $booking->id]) . '" 
-                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-purple-700 bg-purple-100 rounded hover:bg-purple-200 dark:bg-purple-800 dark:text-purple-200 dark:hover:bg-purple-700" 
+                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-purple-600 border border-transparent rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-1 transition-colors duration-150" 
                                     title="Flight Details (' . $flightCount . ')">';
                         $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
                         $html .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>';
@@ -256,7 +263,7 @@ class BookingController extends Controller
                     $hotelCount = $booking->hotelBookings->count();
                     if ($hotelCount > 0) {
                         $html .= '<a href="' . route('admin-dashboard.booking.booking-hotels.index', ['booking_id' => $booking->id]) . '" 
-                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-700 bg-green-100 rounded hover:bg-green-200 dark:bg-green-800 dark:text-green-200 dark:hover:bg-green-700" 
+                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-green-600 border border-transparent rounded hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-colors duration-150" 
                                     title="Hotel Details (' . $hotelCount . ')">';
                         $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
                         $html .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>';
@@ -269,7 +276,7 @@ class BookingController extends Controller
                     $tourCount = $booking->tourBookings->count();
                     if ($tourCount > 0) {
                         $html .= '<a href="' . route('admin-dashboard.booking.booking-tours.index', ['booking_id' => $booking->id]) . '" 
-                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-indigo-700 bg-indigo-100 rounded hover:bg-indigo-200 dark:bg-indigo-800 dark:text-indigo-200 dark:hover:bg-indigo-700" 
+                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-indigo-600 border border-transparent rounded hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 transition-colors duration-150" 
                                     title="Tour Details (' . $tourCount . ')">';
                         $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
                         $html .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>';
