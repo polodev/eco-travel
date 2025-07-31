@@ -1,6 +1,7 @@
 <?php
 
 use Modules\Tour\Http\Controllers\TourController;
+use Modules\Tour\Http\Controllers\TourItineraryController;
 
 Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
     
@@ -20,5 +21,21 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
         
         // AJAX Routes
         Route::get('/ajax/cities-by-country', [TourController::class, 'getCitiesByCountry'])->name('cities-by-country');
+    });
+
+    // Tour Itinerary Management Routes
+    Route::prefix('itineraries')->name('tour.itineraries.')->group(function () {
+        Route::get('/', [TourItineraryController::class, 'index'])->name('index');
+        Route::post('/json', [TourItineraryController::class, 'indexJson'])->name('json');
+        Route::get('/create', [TourItineraryController::class, 'create'])->name('create');
+        Route::post('/', [TourItineraryController::class, 'store'])->name('store');
+        Route::get('/{itinerary}', [TourItineraryController::class, 'show'])->name('show');
+        Route::get('/{itinerary}/edit', [TourItineraryController::class, 'edit'])->name('edit');
+        Route::put('/{itinerary}', [TourItineraryController::class, 'update'])->name('update');
+        Route::delete('/{itinerary}', [TourItineraryController::class, 'destroy'])->name('destroy');
+        Route::post('/{itinerary}/duplicate', [TourItineraryController::class, 'duplicate'])->name('duplicate');
+        
+        // AJAX Routes
+        Route::get('/ajax/itineraries-by-tour/{tour}', [TourItineraryController::class, 'getItinerariesByTour'])->name('itineraries-by-tour');
     });
 });

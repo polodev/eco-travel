@@ -5,7 +5,6 @@ namespace Modules\Tour\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\Tour\Models\Tour;
 use Modules\Tour\Models\TourItinerary;
-use Modules\Tour\Models\TourDate;
 use Modules\Location\Models\Country;
 use Modules\Location\Models\City;
 use Carbon\Carbon;
@@ -227,7 +226,7 @@ class TourSeeder extends Seeder
                     'Personal medications'
                 ],
                 'meeting_point' => 'Bangkok Suvarnabhumi Airport',
-                'meeting_time' => 'Upon arrival',
+                'meeting_time' => '10:00:00',
                 'cancellation_policy' => [
                     '45_days_before' => '10% cancellation fee',
                     '30_days_before' => '25% cancellation fee',
@@ -260,8 +259,6 @@ class TourSeeder extends Seeder
             // Create itineraries for each tour
             $this->createItineraries($tour);
             
-            // Create tour dates
-            $this->createTourDates($tour);
         }
     }
 
@@ -642,186 +639,4 @@ class TourSeeder extends Seeder
         }
     }
 
-    /**
-     * Create tour dates for a tour.
-     */
-    private function createTourDates(Tour $tour)
-    {
-        $startDate = Carbon::now()->addDays(15); // Start 15 days from now
-        
-        // Create 12 tour dates (once per month for a year)
-        for ($i = 0; $i < 12; $i++) {
-            $tourStartDate = $startDate->copy()->addMonths($i);
-            $tourEndDate = $tourStartDate->copy()->addDays($tour->duration_days - 1);
-            
-            // Vary pricing by season
-            $seasonMultiplier = 1.0;
-            $isPeakSeason = false;
-            
-            // Peak season pricing (December-February and June-August)
-            if (in_array($tourStartDate->month, [12, 1, 2, 6, 7, 8])) {
-                $seasonMultiplier = 1.3;
-                $isPeakSeason = true;
-            }
-            
-            $pricePerPerson = $tour->base_price * $seasonMultiplier;
-            $childPrice = $tour->child_price ? $tour->child_price * $seasonMultiplier : null;
-            
-            // Random availability
-            $availableSpots = rand(10, $tour->max_group_size);
-            $bookedSpots = rand(0, min(5, $availableSpots - 2));
-            
-            // Determine status based on availability
-            $remainingSpots = $availableSpots - $bookedSpots;
-            if ($remainingSpots <= 0) {
-                $status = 'fully_booked';
-            } elseif ($remainingSpots <= 3) {
-                $status = 'limited';
-            } else {
-                $status = 'available';
-            }
-            
-            // Special offers for some dates
-            $specialOffers = null;
-            if (rand(1, 4) === 1) { // 25% chance of special offer
-                $specialOffers = [
-                    [
-                        'type' => 'percentage',
-                        'value' => rand(10, 25),
-                        'description' => 'Early bird discount'
-                    ]
-                ];
-            }
-            
-            TourDate::create([
-                'tour_id' => $tour->id,
-                'start_date' => $tourStartDate,
-                'end_date' => $tourEndDate,
-                'price_per_person' => $pricePerPerson,
-                'child_price' => $childPrice,
-                'single_supplement' => $tour->single_supplement,
-                'available_spots' => $availableSpots,
-                'booked_spots' => $bookedSpots,
-                'min_participants' => $tour->min_group_size,
-                'status' => $status,
-                'tour_guide' => $this->getRandomGuide(),
-                'seasonal_adjustments' => [
-                    'season' => $isPeakSeason ? 'peak' : 'regular',
-                    'multiplier' => $seasonMultiplier
-                ],
-                'special_offers' => $specialOffers,
-                'special_notes' => $isPeakSeason ? 'Peak season - advance booking recommended' : null,
-                'is_peak_season' => $isPeakSeason,
-                'is_guaranteed' => $bookedSpots >= $tour->min_group_size,
-                'booking_deadline' => $tourStartDate->copy()->subDays(7),
-                'cancellation_deadline' => $tourStartDate->copy()->subDays(3),
-                'deposit_amount' => $pricePerPerson * 0.3, // 30% deposit
-                'deposit_percentage' => 30,
-                'weather_info' => $this->getWeatherInfo($tourStartDate->month, $tour->city->name),
-                'local_events' => $this->getLocalEvents($tourStartDate->month, $tour->city->name)
-            ]);
-        }
-    }
-
-    /**
-     * Get random tour guide name.
-     */
-    private function getRandomGuide(): string
-    {
-        $guides = [
-            'Rashid Ahmed',
-            'Fatima Begum',
-            'Karim Rahman',
-            'Nasir Uddin',
-            'Ruma Khatun',
-            'Tariq Hassan',
-            'Somchai Prasert',
-            'Siriporn Nakamura',
-            'Malee Wongsawat'
-        ];
-        
-        return $guides[array_rand($guides)];
-    }
-
-    /**
-     * Get weather information based on month and location.
-     */
-    private function getWeatherInfo(int $month, string $city): array
-    {
-        $weatherData = [
-            "Cox's Bazar" => [
-                1 => ['temp' => '15-25°C', 'condition' => 'Cool and dry', 'rainfall' => 'Low'],
-                2 => ['temp' => '18-28°C', 'condition' => 'Pleasant and dry', 'rainfall' => 'Low'],
-                3 => ['temp' => '22-32°C', 'condition' => 'Warm and dry', 'rainfall' => 'Low'],
-                4 => ['temp' => '25-35°C', 'condition' => 'Hot and humid', 'rainfall' => 'Moderate'],
-                5 => ['temp' => '26-35°C', 'condition' => 'Hot and humid', 'rainfall' => 'High'],
-                6 => ['temp' => '25-32°C', 'condition' => 'Monsoon season', 'rainfall' => 'Very High'],
-                7 => ['temp' => '25-32°C', 'condition' => 'Monsoon season', 'rainfall' => 'Very High'],
-                8 => ['temp' => '25-32°C', 'condition' => 'Monsoon season', 'rainfall' => 'Very High'],
-                9 => ['temp' => '24-31°C', 'condition' => 'Post-monsoon', 'rainfall' => 'High'],
-                10 => ['temp' => '22-30°C', 'condition' => 'Pleasant', 'rainfall' => 'Moderate'],
-                11 => ['temp' => '18-28°C', 'condition' => 'Cool and pleasant', 'rainfall' => 'Low'],
-                12 => ['temp' => '15-25°C', 'condition' => 'Cool and dry', 'rainfall' => 'Low']
-            ],
-            'Sylhet' => [
-                1 => ['temp' => '10-20°C', 'condition' => 'Cool and misty', 'rainfall' => 'Low'],
-                2 => ['temp' => '15-25°C', 'condition' => 'Pleasant', 'rainfall' => 'Low'],
-                3 => ['temp' => '20-30°C', 'condition' => 'Warm', 'rainfall' => 'Moderate'],
-                4 => ['temp' => '22-32°C', 'condition' => 'Hot and humid', 'rainfall' => 'High'],
-                5 => ['temp' => '24-33°C', 'condition' => 'Pre-monsoon', 'rainfall' => 'High'],
-                6 => ['temp' => '24-30°C', 'condition' => 'Monsoon', 'rainfall' => 'Very High'],
-                7 => ['temp' => '24-30°C', 'condition' => 'Heavy monsoon', 'rainfall' => 'Very High'],
-                8 => ['temp' => '24-30°C', 'condition' => 'Monsoon', 'rainfall' => 'Very High'],
-                9 => ['temp' => '23-29°C', 'condition' => 'Post-monsoon', 'rainfall' => 'High'],
-                10 => ['temp' => '20-28°C', 'condition' => 'Pleasant', 'rainfall' => 'Moderate'],
-                11 => ['temp' => '15-25°C', 'condition' => 'Cool and clear', 'rainfall' => 'Low'],
-                12 => ['temp' => '10-20°C', 'condition' => 'Cool and misty', 'rainfall' => 'Low']
-            ],
-            'Bangkok' => [
-                1 => ['temp' => '20-32°C', 'condition' => 'Cool and dry', 'rainfall' => 'Low'],
-                2 => ['temp' => '23-34°C', 'condition' => 'Warm and dry', 'rainfall' => 'Low'],
-                3 => ['temp' => '25-36°C', 'condition' => 'Hot and dry', 'rainfall' => 'Low'],
-                4 => ['temp' => '27-38°C', 'condition' => 'Very hot', 'rainfall' => 'Moderate'],
-                5 => ['temp' => '26-36°C', 'condition' => 'Hot and humid', 'rainfall' => 'High'],
-                6 => ['temp' => '25-34°C', 'condition' => 'Rainy season', 'rainfall' => 'Very High'],
-                7 => ['temp' => '25-33°C', 'condition' => 'Rainy season', 'rainfall' => 'Very High'],
-                8 => ['temp' => '25-33°C', 'condition' => 'Rainy season', 'rainfall' => 'Very High'],
-                9 => ['temp' => '25-33°C', 'condition' => 'Rainy season', 'rainfall' => 'High'],
-                10 => ['temp' => '24-32°C', 'condition' => 'Post-rain', 'rainfall' => 'Moderate'],
-                11 => ['temp' => '22-31°C', 'condition' => 'Cool and pleasant', 'rainfall' => 'Low'],
-                12 => ['temp' => '20-30°C', 'condition' => 'Cool and dry', 'rainfall' => 'Low']
-            ]
-        ];
-        
-        return $weatherData[$city][$month] ?? ['temp' => 'N/A', 'condition' => 'Variable', 'rainfall' => 'Moderate'];
-    }
-
-    /**
-     * Get local events based on month and location.
-     */
-    private function getLocalEvents(int $month, string $city): array
-    {
-        $events = [
-            "Cox's Bazar" => [
-                2 => ['Pahela Falgun (Spring Festival)', 'Beach volleyball tournament'],
-                4 => ['Pohela Boishakh (Bengali New Year)', 'Traditional boat race'],
-                11 => ['Cox\'s Bazar Beach Festival', 'International kite festival'],
-                12 => ['Winter tourism season opening', 'Beach concert series']
-            ],
-            'Sylhet' => [
-                3 => ['Tea harvest season begins', 'Cultural programs in tea gardens'],
-                4 => ['Pohela Boishakh celebrations', 'Traditional music festivals'],
-                7 => ['Monsoon season tea tours', 'Rain festival celebrations'],
-                11 => ['Orange harvest festival', 'Folk music competitions']
-            ],
-            'Bangkok' => [
-                2 => ['Chinese New Year celebrations', 'Flower markets festival'],
-                4 => ['Songkran (Thai New Year)', 'Water festival citywide'],
-                11 => ['Loy Krathong festival', 'River lantern ceremonies'],
-                12 => ['King\'s Birthday celebrations', 'Royal ceremonies and parades']
-            ]
-        ];
-        
-        return $events[$city][$month] ?? [];
-    }
 }

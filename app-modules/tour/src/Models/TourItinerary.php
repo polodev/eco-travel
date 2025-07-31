@@ -207,10 +207,10 @@ class TourItinerary extends Model
     public function getDayTypeBadgeAttribute()
     {
         if ($this->is_rest_day) {
-            return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">Rest Day</span>';
+            return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Rest Day</span>';
         }
 
-        return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">Activity Day</span>';
+        return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Activity Day</span>';
     }
 
     /**
@@ -259,5 +259,78 @@ class TourItinerary extends Model
         }
 
         return is_array($this->optional_activities) ? $this->optional_activities : [$this->optional_activities];
+    }
+
+    /**
+     * Get meal badge for a specific meal type.
+     */
+    public static function getMealBadge(string $meal): string
+    {
+        $colors = [
+            'breakfast' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+            'lunch' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+            'dinner' => 'bg-purple-100 text-purple-800 dark:bg-indigo-900 dark:text-indigo-200'
+        ];
+        
+        $color = $colors[$meal] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
+        
+        return sprintf(
+            '<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium %s">%s</span>',
+            $color,
+            ucfirst($meal)
+        );
+    }
+
+    /**
+     * Get meals badges HTML for multiple meals.
+     */
+    public function getMealsBadgesAttribute(): string
+    {
+        $meals = $this->meals_included ?? [];
+        if (empty($meals)) {
+            return '<span class="text-gray-500 dark:text-gray-400">No meals</span>';
+        }
+        
+        $badges = array_map(function($meal) {
+            return self::getMealBadge($meal);
+        }, $meals);
+        
+        return sprintf('<div class="flex flex-wrap gap-1">%s</div>', implode('', $badges));
+    }
+
+    /**
+     * Get available meal types.
+     */
+    public static function getAvailableMealTypes(): array
+    {
+        return [
+            'breakfast' => 'Breakfast',
+            'lunch' => 'Lunch', 
+            'dinner' => 'Dinner'
+        ];
+    }
+
+    /**
+     * Get action buttons HTML for DataTable.
+     */
+    public function getActionButtonsAttribute(): string
+    {
+        $viewButton = sprintf(
+            '<a href="%s" class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200" title="View">%s</a>',
+            route('admin-dashboard.tour.itineraries.show', $this),
+            '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>'
+        );
+
+        $editButton = sprintf(
+            '<a href="%s" class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200" title="Edit">%s</a>',
+            route('admin-dashboard.tour.itineraries.edit', $this),
+            '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>'
+        );
+
+        return sprintf(
+            '<div class="flex items-center justify-center space-x-1">%s%s</div>',
+            $viewButton,
+            $editButton
+        );
     }
 }

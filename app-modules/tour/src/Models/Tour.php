@@ -118,24 +118,6 @@ class Tour extends Model implements HasMedia
         return $this->hasMany(TourItinerary::class)->orderBy('day_number');
     }
 
-    /**
-     * Get the tour dates.
-     */
-    public function tourDates(): HasMany
-    {
-        return $this->hasMany(TourDate::class)->orderBy('start_date');
-    }
-
-    /**
-     * Get available tour dates.
-     */
-    public function availableDates(): HasMany
-    {
-        return $this->hasMany(TourDate::class)
-                   ->where('status', 'available')
-                   ->where('start_date', '>=', now())
-                   ->orderBy('start_date');
-    }
 
     /**
      * Scope for active tours.
@@ -246,17 +228,17 @@ class Tour extends Model implements HasMedia
     public function getTourTypeBadgeAttribute()
     {
         $colors = [
-            'cultural' => 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100',
-            'adventure' => 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100',
-            'wildlife' => 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
-            'historical' => 'bg-brown-100 text-brown-800 dark:bg-brown-800 dark:text-brown-100',
-            'religious' => 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100',
-            'beach' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-800 dark:text-cyan-100',
-            'city' => 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100',
-            'nature' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-100',
+            'cultural' => 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+            'adventure' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+            'wildlife' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+            'historical' => 'bg-brown-100 text-brown-800 dark:bg-brown-900 dark:text-brown-200',
+            'religious' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+            'beach' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200',
+            'city' => 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
+            'nature' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200',
         ];
 
-        $color = $colors[$this->tour_type] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+        $color = $colors[$this->tour_type] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
         $name = self::getAvailableTourTypes()[$this->tour_type] ?? ucfirst($this->tour_type);
 
         return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $color . '">' 
@@ -269,13 +251,13 @@ class Tour extends Model implements HasMedia
     public function getDifficultyBadgeAttribute()
     {
         $colors = [
-            'easy' => 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
-            'moderate' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100',
-            'challenging' => 'bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100',
-            'expert' => 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100',
+            'easy' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+            'moderate' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+            'challenging' => 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+            'expert' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
         ];
 
-        $color = $colors[$this->difficulty_level] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+        $color = $colors[$this->difficulty_level] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
         $name = self::getAvailableDifficultyLevels()[$this->difficulty_level] ?? ucfirst($this->difficulty_level);
 
         return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $color . '">' 
@@ -288,13 +270,13 @@ class Tour extends Model implements HasMedia
     public function getAvailabilityBadgeAttribute()
     {
         $colors = [
-            'available' => 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
-            'limited' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100',
-            'sold_out' => 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100',
-            'suspended' => 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100',
+            'available' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+            'limited' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+            'sold_out' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+            'suspended' => 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
         ];
 
-        $color = $colors[$this->availability_status] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+        $color = $colors[$this->availability_status] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
         $name = self::getAvailableStatuses()[$this->availability_status] ?? ucfirst($this->availability_status);
 
         return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $color . '">' 
@@ -314,30 +296,12 @@ class Tour extends Model implements HasMedia
     }
 
     /**
-     * Get minimum price for available dates.
-     */
-    public function getMinimumPriceAttribute()
-    {
-        $minPrice = $this->availableDates()->min('price_per_person');
-        return $minPrice ?: $this->base_price;
-    }
-
-    /**
      * Check if tour has availability.
      */
     public function hasAvailability(): bool
     {
         return $this->is_active 
-            && $this->availability_status !== 'suspended'
-            && $this->availableDates()->exists();
-    }
-
-    /**
-     * Get next available tour date.
-     */
-    public function getNextAvailableDateAttribute()
-    {
-        return $this->availableDates()->first();
+            && $this->availability_status !== 'suspended';
     }
 
     /**

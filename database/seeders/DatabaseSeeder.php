@@ -5,18 +5,19 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Modules\Blog\Database\Seeders\BlogSeeder;
-use Modules\Documentation\Database\Seeders\DocumentationSeeder;
-use Modules\Location\Database\Seeders\CountrySeeder;
-use Modules\Location\Database\Seeders\CitySeeder;
-use Modules\Location\Database\Seeders\AirportSeeder;
-use Modules\Flight\Database\Seeders\AirlineSeeder;
-use Modules\Flight\Database\Seeders\FlightSeeder;
-use Modules\Flight\Database\Seeders\FlightScheduleSeeder;
-use Modules\Hotel\Database\Seeders\HotelSeeder;
 use Modules\Booking\Database\Seeders\BookingSeeder;
-use Modules\Payment\Database\Seeders\PaymentSeeder;
+use Modules\Documentation\Database\Seeders\DocumentationSeeder;
+use Modules\Flight\Database\Seeders\AirlineSeeder;
+use Modules\Flight\Database\Seeders\FlightScheduleSeeder;
+use Modules\Flight\Database\Seeders\FlightSeeder;
+use Modules\Hotel\Database\Seeders\HotelSeeder;
+use Modules\Location\Database\Seeders\AirportSeeder;
+use Modules\Location\Database\Seeders\CitySeeder;
+use Modules\Location\Database\Seeders\CountrySeeder;
 use Modules\Option\Database\Seeders\OptionSeeder;
 use Modules\Page\Database\Seeders\PageSeeder;
+use Modules\Payment\Database\Seeders\PaymentSeeder;
+use Modules\Tour\Database\Seeders\TourSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -50,6 +51,9 @@ class DatabaseSeeder extends Seeder
 
             // Payment Module - Depends on Booking
             PaymentSeeder::class,
+
+            // tour 
+            TourSeeder::class,
         ]);
     }
 }

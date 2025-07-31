@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Tour\Models\Tour;
 use Modules\Tour\Models\TourItinerary;
-use Modules\Tour\Models\TourDate;
 use Modules\Location\Models\Country;
 use Modules\Location\Models\City;
 use Yajra\DataTables\Facades\DataTables;
@@ -18,7 +17,9 @@ class TourController extends Controller
      */
     public function index()
     {
-        return view('tour::index');
+        $countries = Country::active()->orderBy('name')->get();
+        $cities = City::active()->orderBy('name')->get();
+        return view('tour::tours.index', compact('countries', 'cities'));
     }
 
     /**
@@ -27,12 +28,12 @@ class TourController extends Controller
     public function indexJson(Request $request)
     {
         $model = Tour::with(['country', 'city'])
-                    ->withCount(['itineraries', 'tourDates']);
+                    ->withCount(['itineraries']);
 
         return DataTables::eloquent($model)
             ->filter(function ($query) use ($request) {
                 // Search text filter
-                if ($request->has('search_text') && $request->get('search_text')) {
+                if ($request->get('search_text')) {
                     $searchText = $request->get('search_text');
                     $query->where(function ($q) use ($searchText) {
                         $q->where('name', 'like', "%{$searchText}%")
@@ -47,22 +48,24 @@ class TourController extends Controller
                 }
 
                 // Tour type filter
-                if ($request->has('tour_type') && $request->get('tour_type') !== '') {
-                    $query->where('tour_type', $request->get('tour_type'));
+                $tourType = $request->get('tour_type');
+                if ($tourType && $tourType !== '' && $tourType !== 'null') {
+                    $query->where('tour_type', $tourType);
                 }
 
                 // Difficulty level filter
-                if ($request->has('difficulty_level') && $request->get('difficulty_level') !== '') {
-                    $query->where('difficulty_level', $request->get('difficulty_level'));
+                $difficultyLevel = $request->get('difficulty_level');
+                if ($difficultyLevel && $difficultyLevel !== '' && $difficultyLevel !== 'null') {
+                    $query->where('difficulty_level', $difficultyLevel);
                 }
 
                 // Active filter
-                if ($request->has('is_active') && $request->get('is_active') !== '') {
+                if ($request->filled('is_active')) {
                     $query->where('is_active', $request->boolean('is_active'));
                 }
 
                 // Featured filter
-                if ($request->has('is_featured') && $request->get('is_featured') !== '') {
+                if ($request->filled('is_featured')) {
                     $query->where('is_featured', $request->boolean('is_featured'));
                 }
 
@@ -134,14 +137,18 @@ class TourController extends Controller
                 }
                 return $html;
             })
-            ->addColumn('actions', function (Tour $tour) {
-                return '<div class="flex items-center space-x-2">' .
-                       '<a href="' . route('tours.show', $tour->id) . '" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</a>' .
-                       '<a href="' . route('tours.edit', $tour->id) . '" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>' .
-                       '<button type="button" onclick="deleteTour(' . $tour->id . ')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>' .
-                       '</div>';
+            ->addColumn('action', function (Tour $tour) {
+                $actions = '<div class="flex items-center justify-center space-x-1">';
+                $actions .= '<a href="' . route('admin-dashboard.tour.tours.show', $tour) . '" class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200" title="View">';
+                $actions .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
+                $actions .= '</a>';
+                $actions .= '<a href="' . route('admin-dashboard.tour.tours.edit', $tour) . '" class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200" title="Edit">';
+                $actions .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>';
+                $actions .= '</a>';
+                $actions .= '</div>';
+                return $actions;
             })
-            ->rawColumns(['name_formatted', 'tour_type_badge', 'difficulty_badge', 'availability_badge', 'rating_formatted', 'status_badges', 'actions'])
+            ->rawColumns(['name_formatted', 'tour_type_badge', 'difficulty_badge', 'availability_badge', 'rating_formatted', 'status_badges', 'action'])
             ->make(true);
     }
 
@@ -156,7 +163,7 @@ class TourController extends Controller
         $difficultyLevels = Tour::getAvailableDifficultyLevels();
         $availabilityStatuses = Tour::getAvailableStatuses();
 
-        return view('tour::create', compact(
+        return view('tour::tours.create', compact(
             'countries',
             'cities',
             'tourTypes',
@@ -173,7 +180,6 @@ class TourController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'detailed_description' => 'nullable|string',
             'country_id' => 'required|exists:countries,id',
             'city_id' => 'required|exists:cities,id',
             'duration_days' => 'required|integer|min:1',
@@ -185,30 +191,24 @@ class TourController extends Controller
             'base_price' => 'required|numeric|min:0',
             'child_price' => 'nullable|numeric|min:0',
             'single_supplement' => 'nullable|numeric|min:0',
-            'included_services' => 'required|array',
-            'excluded_services' => 'nullable|array',
-            'amenities' => 'nullable|array',
-            'age_restrictions' => 'nullable|array',
-            'physical_requirements' => 'nullable|array',
-            'what_to_bring' => 'nullable|array',
-            'meeting_point' => 'nullable|string|max:255',
-            'meeting_time' => 'nullable|date_format:H:i',
-            'cancellation_policy' => 'required|array',
+            'included_services' => 'required|string',
+            'excluded_services' => 'nullable|string',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
             'availability_status' => 'required|in:available,limited,sold_out,suspended',
-            'tour_operator' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'contact_phone' => 'nullable|string|max:20',
-            'contact_email' => 'nullable|email|max:255',
-            'pickup_locations' => 'nullable|array',
-            'languages' => 'nullable|array',
-            'special_notes' => 'nullable|string',
         ]);
+
+        // Convert JSON strings to arrays
+        if ($validatedData['included_services']) {
+            $validatedData['included_services'] = json_decode($validatedData['included_services'], true);
+        }
+        if ($validatedData['excluded_services'] ?? null) {
+            $validatedData['excluded_services'] = json_decode($validatedData['excluded_services'], true);
+        }
 
         $tour = Tour::create($validatedData);
 
-        return redirect()->route('tours.index')
+        return redirect()->route('admin-dashboard.tour.tours.index')
                         ->with('success', 'Tour created successfully.');
     }
 
@@ -222,13 +222,10 @@ class TourController extends Controller
             'city',
             'itineraries' => function ($query) {
                 $query->orderBy('day_number');
-            },
-            'tourDates' => function ($query) {
-                $query->upcoming()->orderBy('start_date');
             }
         ]);
 
-        return view('tour::show', compact('tour'));
+        return view('tour::tours.show', compact('tour'));
     }
 
     /**
@@ -242,7 +239,7 @@ class TourController extends Controller
         $difficultyLevels = Tour::getAvailableDifficultyLevels();
         $availabilityStatuses = Tour::getAvailableStatuses();
 
-        return view('tour::edit', compact(
+        return view('tour::tours.edit', compact(
             'tour',
             'countries',
             'cities',
@@ -260,7 +257,6 @@ class TourController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'detailed_description' => 'nullable|string',
             'country_id' => 'required|exists:countries,id',
             'city_id' => 'required|exists:cities,id',
             'duration_days' => 'required|integer|min:1',
@@ -272,30 +268,24 @@ class TourController extends Controller
             'base_price' => 'required|numeric|min:0',
             'child_price' => 'nullable|numeric|min:0',
             'single_supplement' => 'nullable|numeric|min:0',
-            'included_services' => 'required|array',
-            'excluded_services' => 'nullable|array',
-            'amenities' => 'nullable|array',
-            'age_restrictions' => 'nullable|array',
-            'physical_requirements' => 'nullable|array',
-            'what_to_bring' => 'nullable|array',
-            'meeting_point' => 'nullable|string|max:255',
-            'meeting_time' => 'nullable|date_format:H:i',
-            'cancellation_policy' => 'required|array',
+            'included_services' => 'required|string',
+            'excluded_services' => 'nullable|string',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
             'availability_status' => 'required|in:available,limited,sold_out,suspended',
-            'tour_operator' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'contact_phone' => 'nullable|string|max:20',
-            'contact_email' => 'nullable|email|max:255',
-            'pickup_locations' => 'nullable|array',
-            'languages' => 'nullable|array',
-            'special_notes' => 'nullable|string',
         ]);
+
+        // Convert JSON strings to arrays
+        if ($validatedData['included_services']) {
+            $validatedData['included_services'] = json_decode($validatedData['included_services'], true);
+        }
+        if ($validatedData['excluded_services'] ?? null) {
+            $validatedData['excluded_services'] = json_decode($validatedData['excluded_services'], true);
+        }
 
         $tour->update($validatedData);
 
-        return redirect()->route('tours.index')
+        return redirect()->route('admin-dashboard.tour.tours.index')
                         ->with('success', 'Tour updated successfully.');
     }
 
@@ -377,7 +367,7 @@ class TourController extends Controller
             $newItinerary->save();
         }
 
-        return redirect()->route('tours.edit', $newTour)
+        return redirect()->route('admin-dashboard.tour.tours.edit', $newTour)
                         ->with('success', 'Tour duplicated successfully. Please review and update the details.');
     }
 }

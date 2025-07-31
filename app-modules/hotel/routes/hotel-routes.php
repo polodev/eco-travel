@@ -2,6 +2,7 @@
 
 use Modules\Hotel\Http\Controllers\HotelController;
 use Modules\Hotel\Http\Controllers\HotelRoomController;
+use Modules\Hotel\Http\Controllers\RoomInventoryController;
 
 Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
     
@@ -27,5 +28,17 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
         Route::get('/{room}/edit', [HotelRoomController::class, 'edit'])->name('edit');
         Route::put('/{room}', [HotelRoomController::class, 'update'])->name('update');
         Route::delete('/{room}', [HotelRoomController::class, 'destroy'])->name('destroy');
+    });
+
+    // Room Inventory Management Routes
+    Route::prefix('room-inventories')->name('hotel.room-inventories.')->group(function () {
+        Route::get('/', [RoomInventoryController::class, 'index'])->name('index');
+        Route::post('/json', [RoomInventoryController::class, 'indexJson'])->name('json');
+        Route::get('/create', [RoomInventoryController::class, 'create'])->name('create');
+        Route::post('/', [RoomInventoryController::class, 'store'])->name('store');
+        Route::get('/{roomInventory}', [RoomInventoryController::class, 'show'])->name('show');
+        Route::get('/{roomInventory}/edit', [RoomInventoryController::class, 'edit'])->name('edit');
+        Route::put('/{roomInventory}', [RoomInventoryController::class, 'update'])->name('update');
+        Route::delete('/{roomInventory}', [RoomInventoryController::class, 'destroy'])->name('destroy');
     });
 });

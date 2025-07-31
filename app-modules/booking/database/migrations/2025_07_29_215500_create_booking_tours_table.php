@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
             $table->foreignId('tour_id')->constrained('tours')->onDelete('cascade');
-            $table->foreignId('tour_date_id')->constrained('tour_dates')->onDelete('cascade');
             $table->date('tour_start_date'); // Tour start date
             $table->date('tour_end_date'); // Tour end date
             $table->integer('adults')->default(1); // Number of adults
