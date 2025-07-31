@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Location\Models\Country;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Airline extends Model
+class Airline extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'name',
         'code',
         'icao_code',
-        'logo_url',
         'website',
         'headquarters',
         'country_id',
@@ -67,6 +69,7 @@ class Airline extends Model
     {
         return $query->where('is_low_cost', true);
     }
+
 
     /**
      * Scope for ordered airlines.
@@ -168,5 +171,62 @@ class Airline extends Model
     public function getDisplayNameAttribute()
     {
         return $this->name . ' (' . $this->code . ')';
+    }
+
+    /**
+     * Register media collections.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('logo')->singleFile();
+    }
+
+
+    /**
+     * Register media conversions.
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(150)
+            ->height(150)
+            ->sharpen(10);
+
+        $this->addMediaConversion('medium')
+            ->width(300)
+            ->height(300)
+            ->sharpen(10);
+    }
+
+    /**
+     * Get the logo URL.
+     */
+    public function getLogoUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('logo');
+    }
+
+    /**
+     * Get the logo thumbnail URL.
+     */
+    public function getLogoThumbUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('logo', 'thumb');
+    }
+
+    /**
+     * Get the logo medium URL.
+     */
+    public function getLogoMediumUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('logo', 'medium');
+    }
+
+    /**
+     * Check if airline has logo.
+     */
+    public function hasLogo(): bool
+    {
+        return $this->getMedia('logo')->isNotEmpty();
     }
 }

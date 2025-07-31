@@ -16,7 +16,10 @@ class FlightController extends Controller
      */
     public function index()
     {
-        return view('flight::flights.index');
+        $airlines = Airline::where('is_active', true)->orderBy('name')->get();
+        $airports = Airport::with('city')->orderBy('name')->get();
+        
+        return view('flight::flights.index', compact('airlines', 'airports'));
     }
 
     /**
@@ -50,20 +53,20 @@ class FlightController extends Controller
                 }
 
                 // Airline filter
-                if ($request->has('airline_id') && $request->get('airline_id') !== '') {
+                if ($request->has('airline_id') && $request->get('airline_id') !== '' && $request->get('airline_id') !== null) {
                     $query->where('airline_id', $request->get('airline_id'));
                 }
 
                 // Route filter
-                if ($request->has('departure_airport_id') && $request->get('departure_airport_id') !== '') {
+                if ($request->has('departure_airport_id') && $request->get('departure_airport_id') !== '' && $request->get('departure_airport_id') !== null) {
                     $query->where('departure_airport_id', $request->get('departure_airport_id'));
                 }
-                if ($request->has('arrival_airport_id') && $request->get('arrival_airport_id') !== '') {
+                if ($request->has('arrival_airport_id') && $request->get('arrival_airport_id') !== '' && $request->get('arrival_airport_id') !== null) {
                     $query->where('arrival_airport_id', $request->get('arrival_airport_id'));
                 }
 
                 // Active filter
-                if ($request->has('is_active') && $request->get('is_active') !== '') {
+                if ($request->has('is_active') && $request->get('is_active') !== '' && $request->get('is_active') !== null) {
                     $query->where('is_active', $request->boolean('is_active'));
                 }
             }, true)
@@ -90,15 +93,15 @@ class FlightController extends Controller
                 return $html;
             })
             ->addColumn('duration_formatted', function (Flight $flight) {
-                $hours = floor($flight->estimated_duration / 60);
-                $minutes = $flight->estimated_duration % 60;
+                $hours = floor($flight->duration_minutes / 60);
+                $minutes = $flight->duration_minutes % 60;
                 return $hours . 'h ' . $minutes . 'm';
             })
             ->addColumn('capacity_info', function (Flight $flight) {
-                $total = $flight->economy_seats + $flight->business_seats + $flight->first_class_seats;
+                $total = $flight->economy_seats + $flight->business_seats + $flight->first_seats;
                 return '<div class="text-sm">' .
                        '<div>Total: ' . $total . ' seats</div>' .
-                       '<div class="text-xs text-gray-500">E:' . $flight->economy_seats . ' | B:' . $flight->business_seats . ' | F:' . $flight->first_class_seats . '</div>' .
+                       '<div class="text-xs text-gray-500">E:' . $flight->economy_seats . ' | B:' . $flight->business_seats . ' | F:' . $flight->first_seats . '</div>' .
                        '</div>';
             })
             ->addColumn('status_badge', function (Flight $flight) {
@@ -109,9 +112,17 @@ class FlightController extends Controller
             })
             ->addColumn('actions', function (Flight $flight) {
                 return '<div class="flex items-center space-x-2">' .
-                       '<a href="' . route('flights.show', $flight->id) . '" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</a>' .
-                       '<a href="' . route('flights.edit', $flight->id) . '" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>' .
-                       '<button type="button" onclick="deleteFlight(' . $flight->id . ')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>' .
+                       '<a href="' . route('admin-dashboard.flight.flights.show', $flight->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 transition-colors" title="View">' .
+                           '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">' .
+                               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>' .
+                               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>' .
+                           '</svg>' .
+                       '</a>' .
+                       '<a href="' . route('admin-dashboard.flight.flights.edit', $flight->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-yellow-600 hover:bg-yellow-700 transition-colors" title="Edit">' .
+                           '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">' .
+                               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>' .
+                           '</svg>' .
+                       '</a>' .
                        '</div>';
             })
             ->rawColumns(['flight_info', 'route', 'capacity_info', 'status_badge', 'schedules_count', 'actions'])
@@ -139,23 +150,28 @@ class FlightController extends Controller
             'flight_number' => 'required|string|max:10',
             'departure_airport_id' => 'required|exists:airports,id',
             'arrival_airport_id' => 'required|exists:airports,id|different:departure_airport_id',
-            'aircraft_type' => 'required|string|max:50',
-            'estimated_duration' => 'required|integer|min:1',
-            'distance' => 'nullable|numeric|min:0',
-            'economy_seats' => 'required|integer|min:0',
+            'departure_time' => 'nullable|date_format:H:i',
+            'arrival_time' => 'nullable|date_format:H:i',
+            'duration_minutes' => 'required|integer|min:1',
+            'aircraft_type' => 'required|in:boeing_737,boeing_777,airbus_a320,airbus_a330,dash_8,atr_72,other',
+            'operating_days' => 'nullable|array',
+            'flight_type' => 'required|in:domestic,international,regional',
+            'economy_seats' => 'nullable|integer|min:0',
             'business_seats' => 'nullable|integer|min:0',
-            'first_class_seats' => 'nullable|integer|min:0',
+            'first_seats' => 'nullable|integer|min:0',
+            'total_seats' => 'nullable|integer|min:0',
+            'base_price' => 'nullable|numeric|min:0',
             'baggage_allowance' => 'nullable|array',
-            'meal_service' => 'nullable|array',
-            'entertainment' => 'nullable|array',
-            'wifi_available' => 'boolean',
-            'power_outlets' => 'boolean',
+            'has_meal' => 'boolean',
+            'has_wifi' => 'boolean',
+            'has_entertainment' => 'boolean',
             'is_active' => 'boolean',
+            'position' => 'nullable|integer|min:0',
         ]);
 
         Flight::create($validatedData);
 
-        return redirect()->route('flights.index')
+        return redirect()->route('admin-dashboard.flight.flights.index')
                         ->with('success', 'Flight created successfully.');
     }
 
@@ -194,26 +210,31 @@ class FlightController extends Controller
     {
         $validatedData = $request->validate([
             'airline_id' => 'required|exists:airlines,id',
-            'flight_number' => 'required|string|max:10',
+            'flight_number' => 'required|string|max:10|unique:flights,flight_number,' . $flight->id . ',id,airline_id,' . $request->airline_id,
             'departure_airport_id' => 'required|exists:airports,id',
             'arrival_airport_id' => 'required|exists:airports,id|different:departure_airport_id',
-            'aircraft_type' => 'required|string|max:50',
-            'estimated_duration' => 'required|integer|min:1',
-            'distance' => 'nullable|numeric|min:0',
-            'economy_seats' => 'required|integer|min:0',
+            'departure_time' => 'nullable|date_format:H:i',
+            'arrival_time' => 'nullable|date_format:H:i',
+            'duration_minutes' => 'required|integer|min:1',
+            'aircraft_type' => 'required|in:boeing_737,boeing_777,airbus_a320,airbus_a330,dash_8,atr_72,other',
+            'operating_days' => 'nullable|array',
+            'flight_type' => 'required|in:domestic,international,regional',
+            'economy_seats' => 'nullable|integer|min:0',
             'business_seats' => 'nullable|integer|min:0',
-            'first_class_seats' => 'nullable|integer|min:0',
+            'first_seats' => 'nullable|integer|min:0',
+            'total_seats' => 'nullable|integer|min:0',
+            'base_price' => 'nullable|numeric|min:0',
             'baggage_allowance' => 'nullable|array',
-            'meal_service' => 'nullable|array',
-            'entertainment' => 'nullable|array',
-            'wifi_available' => 'boolean',
-            'power_outlets' => 'boolean',
+            'has_meal' => 'boolean',
+            'has_wifi' => 'boolean',
+            'has_entertainment' => 'boolean',
             'is_active' => 'boolean',
+            'position' => 'nullable|integer|min:0',
         ]);
 
         $flight->update($validatedData);
 
-        return redirect()->route('flights.index')
+        return redirect()->route('admin-dashboard.flight.flights.index')
                         ->with('success', 'Flight updated successfully.');
     }
 

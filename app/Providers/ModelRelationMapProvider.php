@@ -42,6 +42,8 @@ class ModelRelationMapProvider extends ServiceProvider
             // Module Models  
             'user_address' => \Modules\UserData\Models\UserAddress::class,
             'my_file' => \Modules\MyFile\Models\MyFile::class,
+            'airline' => \Modules\Flight\Models\Airline::class,
+            'flight' => \Modules\Flight\Models\Flight::class,
         ]);
     }
 }

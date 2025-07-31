@@ -202,15 +202,15 @@ class Flight extends Model
         $badges = '';
         
         if ($this->has_meal) {
-            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100 mr-1">Meal</span>';
+            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 mr-1">Meal</span>';
         }
         
         if ($this->has_wifi) {
-            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 mr-1">WiFi</span>';
+            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 mr-1">WiFi</span>';
         }
         
         if ($this->has_entertainment) {
-            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100 mr-1">Entertainment</span>';
+            $badges .= '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-gray-800 dark:text-purple-300 mr-1">Entertainment</span>';
         }
 
         return $badges ?: '<span class="text-gray-400 text-sm">-</span>';

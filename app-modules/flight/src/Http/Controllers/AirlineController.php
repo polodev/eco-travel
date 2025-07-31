@@ -15,7 +15,9 @@ class AirlineController extends Controller
      */
     public function index()
     {
-        return view('flight::airlines.index');
+        $countries = Country::where('is_active', true)->orderBy('name')->get();
+        
+        return view('flight::airlines.index', compact('countries'));
     }
 
     /**
@@ -32,7 +34,7 @@ class AirlineController extends Controller
                     $searchText = $request->get('search_text');
                     $query->where(function ($q) use ($searchText) {
                         $q->where('name', 'like', "%{$searchText}%")
-                          ->orWhere('iata_code', 'like', "%{$searchText}%")
+                          ->orWhere('code', 'like', "%{$searchText}%")
                           ->orWhere('icao_code', 'like', "%{$searchText}%")
                           ->orWhereHas('country', function ($countryQuery) use ($searchText) {
                               $countryQuery->where('name', 'like', "%{$searchText}%");
@@ -41,23 +43,23 @@ class AirlineController extends Controller
                 }
 
                 // Country filter
-                if ($request->has('country_id') && $request->get('country_id') !== '') {
+                if ($request->has('country_id') && $request->get('country_id') !== '' && $request->get('country_id') !== null && $request->get('country_id') !== 'null') {
                     $query->where('country_id', $request->get('country_id'));
                 }
 
                 // Active filter
-                if ($request->has('is_active') && $request->get('is_active') !== '') {
-                    $query->where('is_active', $request->boolean('is_active'));
+                if ($request->has('is_active') && $request->get('is_active') !== '' && $request->get('is_active') !== null && $request->get('is_active') !== 'null') {
+                    $query->where('is_active', $request->get('is_active') === '1' || $request->get('is_active') === 'true');
                 }
             }, true)
             ->addColumn('name_formatted', function (Airline $airline) {
                 $html = '<div class="flex items-center">';
-                if ($airline->logo_url) {
-                    $html .= '<img src="' . htmlspecialchars($airline->logo_url) . '" alt="' . htmlspecialchars($airline->name) . '" class="w-8 h-8 mr-3 rounded object-cover">';
+                if ($airline->hasLogo()) {
+                    $html .= '<img src="' . htmlspecialchars($airline->logo_thumb_url) . '" alt="' . htmlspecialchars($airline->name) . '" class="w-8 h-8 mr-3 rounded object-cover">';
                 }
                 $html .= '<div>';
                 $html .= '<div class="font-medium text-gray-900 dark:text-gray-100">' . htmlspecialchars($airline->name) . '</div>';
-                $html .= '<div class="text-sm text-gray-500 dark:text-gray-400">' . htmlspecialchars($airline->iata_code . ' / ' . $airline->icao_code) . '</div>';
+                $html .= '<div class="text-sm text-gray-500 dark:text-gray-400">' . htmlspecialchars($airline->code . ' / ' . $airline->icao_code) . '</div>';
                 $html .= '</div></div>';
                 return $html;
             })
@@ -71,11 +73,23 @@ class AirlineController extends Controller
                 return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">' . $airline->flights_count . ' flights</span>';
             })
             ->addColumn('actions', function (Airline $airline) {
-                return '<div class="flex items-center space-x-2">' .
-                       '<a href="' . route('admin-dashboard.flight.airlines.show', $airline->id) . '" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</a>' .
-                       '<a href="' . route('admin-dashboard.flight.airlines.edit', $airline->id) . '" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>' .
-                       '<button type="button" onclick="deleteAirline(' . $airline->id . ')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>' .
-                       '</div>';
+                $actions = '<div class="flex items-center space-x-2">';
+                
+                $actions .= '<a href="' . route('admin-dashboard.flight.airlines.show', $airline->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 transition-colors" title="View">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </a>';
+                
+                $actions .= '<a href="' . route('admin-dashboard.flight.airlines.edit', $airline->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-yellow-600 hover:bg-yellow-700 transition-colors" title="Edit">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </a>';
+                
+                $actions .= '</div>';
+                return $actions;
             })
             ->rawColumns(['name_formatted', 'status_badge', 'flights_count', 'actions'])
             ->make(true);
@@ -98,23 +112,27 @@ class AirlineController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'iata_code' => 'required|string|size:2|unique:airlines',
-            'icao_code' => 'required|string|size:3|unique:airlines',
+            'code' => 'required|string|max:3|unique:airlines',
+            'icao_code' => 'required|string|size:4|unique:airlines',
             'country_id' => 'required|exists:countries,id',
-            'logo_url' => 'nullable|url',
-            'website_url' => 'nullable|url',
-            'contact_email' => 'nullable|email',
-            'contact_phone' => 'nullable|string|max:20',
-            'hub_airport' => 'nullable|string|max:255',
-            'founded_year' => 'nullable|integer|min:1900|max:' . date('Y'),
-            'fleet_size' => 'nullable|integer|min:0',
-            'destinations' => 'nullable|integer|min:0',
-            'alliance' => 'nullable|string|max:100',
-            'description' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'website' => 'nullable|url',
+            'headquarters' => 'nullable|string|max:255',
+            'founded' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'alliance' => 'nullable|in:star_alliance,oneworld,skyteam,none',
             'is_active' => 'boolean',
+            'is_low_cost' => 'boolean',
+            'operating_countries' => 'nullable|array',
+            'position' => 'nullable|integer|min:0',
         ]);
 
-        Airline::create($validatedData);
+        $airline = Airline::create($validatedData);
+
+        // Handle logo upload
+        if ($request->hasFile('logo')) {
+            $airline->addMediaFromRequest('logo')
+                ->toMediaCollection('logo');
+        }
 
         return redirect()->route('admin-dashboard.flight.airlines.index')
                         ->with('success', 'Airline created successfully.');
@@ -149,23 +167,28 @@ class AirlineController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'iata_code' => 'required|string|size:2|unique:airlines,iata_code,' . $airline->id,
-            'icao_code' => 'required|string|size:3|unique:airlines,icao_code,' . $airline->id,
+            'code' => 'required|string|max:3|unique:airlines,code,' . $airline->id,
+            'icao_code' => 'required|string|size:4|unique:airlines,icao_code,' . $airline->id,
             'country_id' => 'required|exists:countries,id',
-            'logo_url' => 'nullable|url',
-            'website_url' => 'nullable|url',
-            'contact_email' => 'nullable|email',
-            'contact_phone' => 'nullable|string|max:20',
-            'hub_airport' => 'nullable|string|max:255',
-            'founded_year' => 'nullable|integer|min:1900|max:' . date('Y'),
-            'fleet_size' => 'nullable|integer|min:0',
-            'destinations' => 'nullable|integer|min:0',
-            'alliance' => 'nullable|string|max:100',
-            'description' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'website' => 'nullable|url',
+            'headquarters' => 'nullable|string|max:255',
+            'founded' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'alliance' => 'nullable|in:star_alliance,oneworld,skyteam,none',
             'is_active' => 'boolean',
+            'is_low_cost' => 'boolean',
+            'operating_countries' => 'nullable|array',
+            'position' => 'nullable|integer|min:0',
         ]);
 
         $airline->update($validatedData);
+
+        // Handle logo upload
+        if ($request->hasFile('logo')) {
+            $airline->clearMediaCollection('logo');
+            $airline->addMediaFromRequest('logo')
+                ->toMediaCollection('logo');
+        }
 
         return redirect()->route('admin-dashboard.flight.airlines.index')
                         ->with('success', 'Airline updated successfully.');

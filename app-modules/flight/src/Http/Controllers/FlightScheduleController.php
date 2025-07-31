@@ -16,7 +16,12 @@ class FlightScheduleController extends Controller
      */
     public function index()
     {
-        return view('flight::schedules.index');
+        $flights = Flight::with(['airline', 'departureAirport.city', 'arrivalAirport.city'])
+                        ->where('is_active', true)
+                        ->orderBy('flight_number')
+                        ->get();
+        
+        return view('flight::schedules.index', compact('flights'));
     }
 
     /**
@@ -44,20 +49,20 @@ class FlightScheduleController extends Controller
                 }
 
                 // Flight filter
-                if ($request->has('flight_id') && $request->get('flight_id') !== '') {
+                if ($request->has('flight_id') && $request->get('flight_id') !== '' && $request->get('flight_id') !== null) {
                     $query->where('flight_id', $request->get('flight_id'));
                 }
 
                 // Date range filter
-                if ($request->has('start_date') && $request->get('start_date')) {
-                    $query->where('departure_datetime', '>=', $request->get('start_date'));
+                if ($request->has('start_date') && $request->get('start_date') !== '' && $request->get('start_date') !== null) {
+                    $query->where('scheduled_departure', '>=', $request->get('start_date'));
                 }
-                if ($request->has('end_date') && $request->get('end_date')) {
-                    $query->where('departure_datetime', '<=', $request->get('end_date'));
+                if ($request->has('end_date') && $request->get('end_date') !== '' && $request->get('end_date') !== null) {
+                    $query->where('scheduled_departure', '<=', $request->get('end_date'));
                 }
 
                 // Status filter
-                if ($request->has('status') && $request->get('status') !== '') {
+                if ($request->has('status') && $request->get('status') !== '' && $request->get('status') !== null) {
                     $query->where('status', $request->get('status'));
                 }
             }, true)
@@ -75,12 +80,12 @@ class FlightScheduleController extends Controller
             ->addColumn('schedule_info', function (FlightSchedule $schedule) {
                 $html = '<div class="text-sm">';
                 $html .= '<div class="font-medium">';
-                $html .= Carbon::parse($schedule->departure_datetime)->format('M j, Y');
+                $html .= Carbon::parse($schedule->scheduled_departure)->format('M j, Y');
                 $html .= '</div>';
                 $html .= '<div class="flex items-center space-x-2 text-xs text-gray-500">';
-                $html .= '<span>' . Carbon::parse($schedule->departure_datetime)->format('H:i') . '</span>';
+                $html .= '<span>' . Carbon::parse($schedule->scheduled_departure)->format('H:i') . '</span>';
                 $html .= '<span>→</span>';
-                $html .= '<span>' . Carbon::parse($schedule->arrival_datetime)->format('H:i') . '</span>';
+                $html .= '<span>' . Carbon::parse($schedule->scheduled_arrival)->format('H:i') . '</span>';
                 $html .= '</div>';
                 $html .= '</div>';
                 return $html;
@@ -95,8 +100,8 @@ class FlightScheduleController extends Controller
                 return $html;
             })
             ->addColumn('availability', function (FlightSchedule $schedule) {
-                $totalSeats = $schedule->flight->economy_seats + $schedule->flight->business_seats + $schedule->flight->first_class_seats;
-                $availableSeats = $schedule->available_economy + $schedule->available_business + $schedule->available_first;
+                $totalSeats = $schedule->flight->economy_seats + $schedule->flight->business_seats + $schedule->flight->first_seats;
+                $availableSeats = $schedule->available_economy_seats + $schedule->available_business_seats + $schedule->available_first_seats;
                 $percentage = $totalSeats > 0 ? round(($availableSeats / $totalSeats) * 100) : 0;
                 
                 $colorClass = $percentage > 70 ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' :
@@ -111,9 +116,17 @@ class FlightScheduleController extends Controller
             })
             ->addColumn('actions', function (FlightSchedule $schedule) {
                 return '<div class="flex items-center space-x-2">' .
-                       '<a href="' . route('flight-schedules.show', $schedule->id) . '" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</a>' .
-                       '<a href="' . route('flight-schedules.edit', $schedule->id) . '" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Edit</a>' .
-                       '<button type="button" onclick="deleteSchedule(' . $schedule->id . ')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>' .
+                       '<a href="' . route('admin-dashboard.flight.flight-schedules.show', $schedule->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 transition-colors" title="View">' .
+                           '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">' .
+                               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>' .
+                               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>' .
+                           '</svg>' .
+                       '</a>' .
+                       '<a href="' . route('admin-dashboard.flight.flight-schedules.edit', $schedule->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-yellow-600 hover:bg-yellow-700 transition-colors" title="Edit">' .
+                           '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">' .
+                               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>' .
+                           '</svg>' .
+                       '</a>' .
                        '</div>';
             })
             ->rawColumns(['flight_info', 'schedule_info', 'pricing', 'availability', 'status_badge', 'actions'])
@@ -140,27 +153,27 @@ class FlightScheduleController extends Controller
     {
         $validatedData = $request->validate([
             'flight_id' => 'required|exists:flights,id',
-            'departure_datetime' => 'required|date|after:now',
-            'arrival_datetime' => 'required|date|after:departure_datetime',
+            'flight_date' => 'required|date|after_or_equal:today',
+            'scheduled_departure' => 'required|date|after:now',
+            'scheduled_arrival' => 'required|date|after:scheduled_departure',
             'economy_price' => 'required|numeric|min:0',
             'business_price' => 'nullable|numeric|min:0',
-            'first_class_price' => 'nullable|numeric|min:0',
-            'available_economy' => 'required|integer|min:0',
-            'available_business' => 'nullable|integer|min:0',
-            'available_first' => 'nullable|integer|min:0',
+            'first_price' => 'nullable|numeric|min:0',
+            'available_economy_seats' => 'required|integer|min:0',
+            'available_business_seats' => 'required|integer|min:0',
+            'available_first_seats' => 'required|integer|min:0',
             'gate' => 'nullable|string|max:10',
             'terminal' => 'nullable|string|max:10',
-            'check_in_counter' => 'nullable|string|max:20',
-            'baggage_claim' => 'nullable|string|max:20',
-            'status' => 'required|in:scheduled,boarding,departed,arrived,delayed,cancelled',
+            'status' => 'required|in:scheduled,delayed,cancelled,departed,arrived,diverted',
             'delay_minutes' => 'nullable|integer|min:0',
-            'delay_reason' => 'nullable|string',
+            'meal_options' => 'nullable|array',
             'notes' => 'nullable|string',
+            'is_available_for_booking' => 'boolean',
         ]);
 
         FlightSchedule::create($validatedData);
 
-        return redirect()->route('flight-schedules.index')
+        return redirect()->route('admin-dashboard.flight.flight-schedules.index')
                         ->with('success', 'Flight schedule created successfully.');
     }
 
@@ -198,27 +211,27 @@ class FlightScheduleController extends Controller
     {
         $validatedData = $request->validate([
             'flight_id' => 'required|exists:flights,id',
-            'departure_datetime' => 'required|date',
-            'arrival_datetime' => 'required|date|after:departure_datetime',
+            'flight_date' => 'required|date',
+            'scheduled_departure' => 'required|date',
+            'scheduled_arrival' => 'required|date|after:scheduled_departure',
             'economy_price' => 'required|numeric|min:0',
             'business_price' => 'nullable|numeric|min:0',
-            'first_class_price' => 'nullable|numeric|min:0',
-            'available_economy' => 'required|integer|min:0',
-            'available_business' => 'nullable|integer|min:0',
-            'available_first' => 'nullable|integer|min:0',
+            'first_price' => 'nullable|numeric|min:0',
+            'available_economy_seats' => 'required|integer|min:0',
+            'available_business_seats' => 'required|integer|min:0',
+            'available_first_seats' => 'required|integer|min:0',
             'gate' => 'nullable|string|max:10',
             'terminal' => 'nullable|string|max:10',
-            'check_in_counter' => 'nullable|string|max:20',
-            'baggage_claim' => 'nullable|string|max:20',
-            'status' => 'required|in:scheduled,boarding,departed,arrived,delayed,cancelled',
+            'status' => 'required|in:scheduled,delayed,cancelled,departed,arrived,diverted',
             'delay_minutes' => 'nullable|integer|min:0',
-            'delay_reason' => 'nullable|string',
+            'meal_options' => 'nullable|array',
             'notes' => 'nullable|string',
+            'is_available_for_booking' => 'boolean',
         ]);
 
         $flightSchedule->update($validatedData);
 
-        return redirect()->route('flight-schedules.index')
+        return redirect()->route('admin-dashboard.flight.flight-schedules.index')
                         ->with('success', 'Flight schedule updated successfully.');
     }
 
@@ -248,15 +261,13 @@ class FlightScheduleController extends Controller
     public function updateStatus(Request $request, FlightSchedule $flightSchedule)
     {
         $request->validate([
-            'status' => 'required|in:scheduled,boarding,departed,arrived,delayed,cancelled',
+            'status' => 'required|in:scheduled,delayed,cancelled,departed,arrived,diverted',
             'delay_minutes' => 'nullable|integer|min:0',
-            'delay_reason' => 'nullable|string',
         ]);
 
         $flightSchedule->update([
             'status' => $request->status,
-            'delay_minutes' => $request->delay_minutes,
-            'delay_reason' => $request->delay_reason,
+            'delay_minutes' => $request->delay_minutes ?? 0,
         ]);
 
         return response()->json([

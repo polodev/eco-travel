@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('code', 3)->unique(); // IATA 2-letter or 3-letter code
             $table->string('icao_code', 4)->unique(); // ICAO 4-letter code
-            $table->string('logo_url')->nullable();
             $table->string('website')->nullable();
             $table->string('headquarters')->nullable();
             $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
