@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('icao_code', 4)->unique(); // ICAO 4-letter code
             $table->string('website')->nullable();
             $table->string('headquarters')->nullable();
-            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
+            $table->foreignId('country_id')->nullable();
             $table->year('founded')->nullable();
             $table->enum('alliance', ['star_alliance', 'oneworld', 'skyteam', 'none'])->default('none');
             $table->boolean('is_active')->default(true);

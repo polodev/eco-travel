@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
+use Modules\Payment\Models\Payment;
 
 class Booking extends Model
 {
@@ -18,8 +19,9 @@ class Booking extends Model
         'booking_type',
         'status',
         'total_amount',
-        'paid_amount',
-        'due_amount',
+        'net_receivable_amount',
+        'discount',
+        'coupon_code',
         'customer_details',
         'contact_details',
         'additional_requirements',
@@ -31,7 +33,6 @@ class Booking extends Model
         'infants',
         'cancellation_policy',
         'notes',
-        'payment_status',
         'confirmation_code',
         'confirmed_at',
         'cancelled_at',
@@ -41,8 +42,8 @@ class Booking extends Model
 
     protected $casts = [
         'total_amount' => 'decimal:2',
-        'paid_amount' => 'decimal:2',
-        'due_amount' => 'decimal:2',
+        'net_receivable_amount' => 'decimal:2',
+        'discount' => 'decimal:2',
         'customer_details' => 'array',
         'contact_details' => 'array',
         'additional_requirements' => 'array',
@@ -104,6 +105,14 @@ class Booking extends Model
     }
 
     /**
+     * Get payments for this booking.
+     */
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
      * Scope for booking type.
      */
     public function scopeType($query, $type)
@@ -162,18 +171,6 @@ class Booking extends Model
         ];
     }
 
-    /**
-     * Get available payment statuses.
-     */
-    public static function getAvailablePaymentStatuses(): array
-    {
-        return [
-            'pending' => 'Pending',
-            'partial' => 'Partially Paid',
-            'paid' => 'Fully Paid',
-            'refunded' => 'Refunded',
-        ];
-    }
 
     /**
      * Generate unique booking reference.
@@ -238,22 +235,32 @@ class Booking extends Model
     }
 
     /**
-     * Get payment status badge.
+     * Get payment status badge based on payment completion.
      */
-    public function getPaymentStatusBadgeAttribute()
+    public function getPaymentStatusBadgeAttribute(): string
     {
-        $colors = [
-            'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100',
-            'partial' => 'bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100',
-            'paid' => 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
-            'refunded' => 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100',
-        ];
+        $paidAmount = $this->total_paid_amount;
+        $netReceivable = $this->net_receivable_amount;
+        
+        if ($paidAmount <= 0) {
+            $status = 'pending';
+            $name = 'Pending Payment';
+            $color = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+        } elseif ($paidAmount >= $netReceivable) {
+            $status = 'paid';
+            $name = 'Fully Paid';
+            $color = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+        } else {
+            $status = 'partial';
+            $name = 'Partially Paid';
+            $color = 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+        }
 
-        $color = $colors[$this->payment_status] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
-        $name = self::getAvailablePaymentStatuses()[$this->payment_status] ?? ucfirst($this->payment_status);
-
-        return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $color . '">' 
-               . $name . '</span>';
+        return sprintf(
+            '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium %s">%s</span>',
+            $color,
+            $name
+        );
     }
 
     /**
@@ -309,11 +316,55 @@ class Booking extends Model
     }
 
     /**
-     * Get payment balance.
+     * Get total paid amount from completed payments.
      */
-    public function getPaymentBalanceAttribute()
+    public function getTotalPaidAmountAttribute(): float
     {
-        return $this->total_amount - $this->paid_amount;
+        return (float) $this->payments()->completed()->sum('amount');
+    }
+
+    /**
+     * Get remaining amount to be paid.
+     */
+    public function getRemainingAmountAttribute(): float
+    {
+        return (float) ($this->net_receivable_amount - $this->total_paid_amount);
+    }
+
+    /**
+     * Get formatted total paid amount.
+     */
+    public function getFormattedTotalPaidAttribute(): string
+    {
+        return '৳' . number_format($this->total_paid_amount, 2);
+    }
+
+    /**
+     * Get formatted remaining amount.
+     */
+    public function getFormattedRemainingAmountAttribute(): string
+    {
+        return '৳' . number_format($this->remaining_amount, 2);
+    }
+
+    /**
+     * Get formatted net receivable amount.
+     */
+    public function getFormattedNetReceivableAmountAttribute(): string
+    {
+        return '৳' . number_format($this->net_receivable_amount, 2);
+    }
+
+    /**
+     * Get payment completion percentage.
+     */
+    public function getPaymentCompletionPercentageAttribute(): float
+    {
+        if ($this->net_receivable_amount <= 0) {
+            return 0;
+        }
+        
+        return round(($this->total_paid_amount / $this->net_receivable_amount) * 100, 2);
     }
 
     /**
@@ -321,7 +372,15 @@ class Booking extends Model
      */
     public function isFullyPaid(): bool
     {
-        return $this->paid_amount >= $this->total_amount;
+        return $this->total_paid_amount >= $this->net_receivable_amount;
+    }
+
+    /**
+     * Check if partially paid.
+     */
+    public function isPartiallyPaid(): bool
+    {
+        return $this->total_paid_amount > 0 && !$this->isFullyPaid();
     }
 
     /**

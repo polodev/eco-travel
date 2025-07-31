@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('booking_tours', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
-            $table->foreignId('tour_id')->constrained('tours')->onDelete('cascade');
+            $table->foreignId('booking_id');
+            $table->foreignId('tour_id');
             $table->date('tour_start_date'); // Tour start date
             $table->date('tour_end_date'); // Tour end date
             $table->integer('adults')->default(1); // Number of adults
@@ -22,16 +22,16 @@ return new class extends Migration
             $table->decimal('adult_price', 10, 2); // Price per adult
             $table->decimal('child_price', 10, 2)->nullable(); // Price per child
             $table->decimal('single_supplement', 10, 2)->default(0.00); // Single room supplement
-            $table->decimal('total_price', 10, 2); // Total tour price
+            $table->decimal('total_amount', 10, 2); // Total tour amount
             $table->json('participant_details'); // Participant information
-            $table->enum('accommodation_type', ['shared', 'single', 'twin', 'double'])->default('shared');
+            $table->string('accommodation_type')->default('shared'); // 'shared', 'single', 'twin', 'double'
             $table->json('dietary_requirements')->nullable(); // Dietary restrictions
             $table->json('medical_conditions')->nullable(); // Medical information
             $table->json('emergency_contacts'); // Emergency contact details
             $table->json('special_requests')->nullable(); // Special requests
             $table->json('optional_activities')->nullable(); // Booked optional activities
             $table->string('tour_voucher')->nullable(); // Tour operator voucher
-            $table->enum('booking_status', ['pending', 'confirmed', 'in_progress', 'completed', 'cancelled'])->default('pending');
+            $table->string('booking_status')->default('pending'); // 'pending', 'confirmed', 'in_progress', 'completed', 'cancelled'
             $table->string('tour_guide')->nullable(); // Assigned tour guide
             $table->json('pickup_details')->nullable(); // Pickup location and time
             $table->text('tour_inclusions')->nullable(); // What's included

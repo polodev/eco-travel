@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('booking_hotels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
-            $table->foreignId('hotel_id')->constrained('hotels')->onDelete('cascade');
-            $table->foreignId('hotel_room_id')->constrained('hotel_rooms')->onDelete('cascade');
+            $table->foreignId('booking_id');
+            $table->foreignId('hotel_id');
+            $table->foreignId('hotel_room_id');
             $table->date('checkin_date'); // Check-in date
             $table->date('checkout_date'); // Check-out date
             $table->integer('nights'); // Number of nights
@@ -25,13 +25,13 @@ return new class extends Migration
             $table->decimal('room_rate', 10, 2); // Rate per room per night
             $table->decimal('total_room_cost', 10, 2); // Total cost for rooms
             $table->decimal('taxes_fees', 10, 2)->default(0.00); // Hotel taxes
-            $table->decimal('total_price', 10, 2); // Total price including taxes
+            $table->decimal('total_amount', 10, 2); // Total amount including taxes
             $table->json('guest_details'); // Guest information
-            $table->enum('rate_plan', ['room_only', 'breakfast_included', 'half_board', 'full_board', 'all_inclusive'])->default('room_only');
+            $table->string('rate_plan')->default('room_only'); // 'room_only', 'breakfast_included', 'half_board', 'full_board', 'all_inclusive'
             $table->json('room_preferences')->nullable(); // Room preferences
             $table->json('special_requests')->nullable(); // Special requests
             $table->string('confirmation_number')->nullable(); // Hotel confirmation
-            $table->enum('booking_status', ['pending', 'confirmed', 'checked_in', 'checked_out', 'no_show', 'cancelled'])->default('pending');
+            $table->string('booking_status')->default('pending'); // 'pending', 'confirmed', 'checked_in', 'checked_out', 'no_show', 'cancelled'
             $table->time('checkin_time')->nullable(); // Expected check-in time
             $table->time('checkout_time')->nullable(); // Expected check-out time
             $table->text('hotel_policies')->nullable(); // Hotel policies
