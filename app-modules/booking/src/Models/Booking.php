@@ -152,7 +152,7 @@ class Booking extends Model
         return [
             'flight' => 'Flight',
             'hotel' => 'Hotel',
-            'tour' => 'Tour Package',
+            'tour' => 'Tour',
             'package' => 'Holiday Package',
         ];
     }
@@ -221,17 +221,17 @@ class Booking extends Model
     public function getBookingTypeBadgeAttribute()
     {
         $colors = [
-            'flight' => 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100',
-            'hotel' => 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100',
-            'tour' => 'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100',
-            'package' => 'bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100',
+            'flight' => 'bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100',
+            'hotel' => 'bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100',
+            'tour' => 'bg-purple-100 text-purple-900 dark:bg-purple-900 dark:text-purple-100',
+            'package' => 'bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100',
         ];
 
-        $color = $colors[$this->booking_type] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100';
+        $color = $colors[$this->booking_type] ?? 'bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100';
         $name = self::getAvailableBookingTypes()[$this->booking_type] ?? ucfirst($this->booking_type);
 
         return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ' . $color . '">' 
-               . $name . '</span>';
+               . htmlspecialchars($name) . '</span>';
     }
 
     /**
@@ -245,15 +245,15 @@ class Booking extends Model
         if ($paidAmount <= 0) {
             $status = 'pending';
             $name = 'Pending Payment';
-            $color = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+            $color = 'bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100';
         } elseif ($paidAmount >= $netReceivable) {
             $status = 'paid';
             $name = 'Fully Paid';
-            $color = 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+            $color = 'bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100';
         } else {
             $status = 'partial';
             $name = 'Partially Paid';
-            $color = 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+            $color = 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-100';
         }
 
         return sprintf(
@@ -405,5 +405,29 @@ class Booking extends Model
             'cancelled_by' => $cancelledBy,
             'cancellation_reason' => $reason,
         ]);
+    }
+
+    /**
+     * Get formatted travel date.
+     */
+    public function getTravelDateFormattedAttribute(): string
+    {
+        return $this->travel_date ? $this->travel_date->format('M j, Y') : 'N/A';
+    }
+
+    /**
+     * Get formatted booking date (created_at).
+     */
+    public function getCreatedAtFormattedAttribute(): string
+    {
+        return $this->created_at->format('M j, Y');
+    }
+
+    /**
+     * Get paid amount from the sum of completed payments.
+     */
+    public function getPaidAmountAttribute(): float
+    {
+        return $this->total_paid_amount;
     }
 }
