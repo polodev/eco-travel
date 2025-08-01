@@ -55,7 +55,7 @@
 
                                             <!-- Title -->
                                             <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
-                                                <a href="{{ route('blog.show', $blog->slug) }}" 
+                                                <a href="{{ route('blog::blog.show', $blog->slug) }}" 
                                                    class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                                                     {{ $blog->getTranslation('title', app()->getLocale()) }}
                                                 </a>
@@ -73,7 +73,7 @@
                                             @endif
 
                                             <!-- Read More -->
-                                            <a href="{{ route('blog.show', $blog->slug) }}" 
+                                            <a href="{{ route('blog::blog.show', $blog->slug) }}" 
                                                class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                                                 {{ __('messages.read_more') }}
                                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@
                                     @endforeach
                                 </div>
                                 <div class="mt-4">
-                                    <a href="{{ route('blog.tags') }}" 
+                                    <a href="{{ route('blog::blog.tags') }}" 
                                        class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium">
                                         {{ __('messages.view_all_tags') }} →
                                     </a>
@@ -131,7 +131,7 @@
                         <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.stay_updated') }}</h3>
                             <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">{{ __('messages.stay_updated_description') }}</p>
-                            <a href="{{ route('blog.tags') }}" 
+                            <a href="{{ route('blog::blog.tags') }}" 
                                class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm">
                                 {{ __('messages.explore_topics') }}
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

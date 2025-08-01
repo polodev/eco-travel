@@ -5,9 +5,12 @@ namespace Modules\Booking\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Tour\Models\Tour;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class BookingTour extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'booking_id',
         'tour_id',
@@ -149,5 +152,49 @@ class BookingTour extends Model
             $color,
             $name
         );
+    }
+
+    /**
+     * Configure activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'adult_price',
+                'child_price',
+                'single_supplement',
+                'total_amount',
+                'booking_status'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at']);
+    }
+
+    /**
+     * Determine if the given event should be logged.
+     */
+    public function shouldLogEvent(string $eventName): bool
+    {
+        return in_array($eventName, ['updated', 'deleted']);
+    }
+
+    /**
+     * Get description for activity log.
+     */
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $tourInfo = "Tour Booking #{$this->id}";
+        if ($this->booking_id) {
+            $tourInfo .= " (Booking #{$this->booking_id})";
+        }
+
+        return match($eventName) {
+            'created' => "Tour booking created {$tourInfo} with {$this->formatted_total_amount}",
+            'updated' => "Tour booking updated {$tourInfo}",
+            'deleted' => "Tour booking deleted {$tourInfo}",
+            default => "Tour booking {$eventName} {$tourInfo}"
+        };
     }
 }

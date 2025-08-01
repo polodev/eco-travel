@@ -5,10 +5,10 @@ use Modules\Booking\Controllers\Admin\BookingFlightController;
 use Modules\Booking\Controllers\Admin\BookingHotelController;
 use Modules\Booking\Controllers\Admin\BookingTourController;
 
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('booking::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Booking Management Routes
-    Route::prefix('bookings')->name('booking.bookings.')->group(function () {
+    Route::prefix('bookings')->name('bookings.')->group(function () {
         Route::get('/', [BookingController::class, 'index'])->name('index');
         Route::post('/json', [BookingController::class, 'indexJson'])->name('json');
         Route::get('/create', [BookingController::class, 'create'])->name('create');
@@ -20,7 +20,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Flight Booking Management Routes
-    Route::prefix('booking-flights')->name('booking.booking-flights.')->group(function () {
+    Route::prefix('booking-flights')->name('booking-flights.')->group(function () {
         Route::get('/', [BookingFlightController::class, 'index'])->name('index');
         Route::post('/json', [BookingFlightController::class, 'indexJson'])->name('json');
         Route::get('/create', [BookingFlightController::class, 'create'])->name('create');
@@ -32,7 +32,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Hotel Booking Management Routes  
-    Route::prefix('booking-hotels')->name('booking.booking-hotels.')->group(function () {
+    Route::prefix('booking-hotels')->name('booking-hotels.')->group(function () {
         Route::get('/', [BookingHotelController::class, 'index'])->name('index');
         Route::post('/json', [BookingHotelController::class, 'indexJson'])->name('json');
         Route::get('/create', [BookingHotelController::class, 'create'])->name('create');
@@ -44,7 +44,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Tour Booking Management Routes
-    Route::prefix('booking-tours')->name('booking.booking-tours.')->group(function () {
+    Route::prefix('booking-tours')->name('booking-tours.')->group(function () {
         Route::get('/', [BookingTourController::class, 'index'])->name('index');
         Route::post('/json', [BookingTourController::class, 'indexJson'])->name('json');
         Route::get('/create', [BookingTourController::class, 'create'])->name('create');

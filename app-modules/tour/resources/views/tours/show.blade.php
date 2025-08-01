@@ -16,13 +16,13 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('admin-dashboard.tour.tours.edit', $tour) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
+                    <a href="{{ route('tour::admin.tours.edit', $tour) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                         Edit
                     </a>
-                    <a href="{{ route('admin-dashboard.tour.tours.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <a href="{{ route('tour::admin.tours.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -140,7 +140,7 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Tour Itineraries ({{ $tour->itineraries->count() }})</h3>
-                            <a href="{{ route('admin-dashboard.tour.itineraries.create', ['tour_id' => $tour->id]) }}" 
+                            <a href="{{ route('tour::admin.itineraries.create', ['tour_id' => $tour->id]) }}" 
                                class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700">
                                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -205,7 +205,7 @@
                                                 @endif
                                             </div>
                                             <div class="flex items-center space-x-2 ml-4">
-                                                <a href="{{ route('admin-dashboard.tour.itineraries.show', $itinerary) }}" 
+                                                <a href="{{ route('tour::admin.itineraries.show', $itinerary) }}" 
                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded hover:bg-blue-100 dark:hover:bg-blue-800">
                                                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -213,7 +213,7 @@
                                                     </svg>
                                                     View
                                                 </a>
-                                                <a href="{{ route('admin-dashboard.tour.itineraries.edit', $itinerary) }}" 
+                                                <a href="{{ route('tour::admin.itineraries.edit', $itinerary) }}" 
                                                    class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 dark:text-yellow-300 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded hover:bg-yellow-100 dark:hover:bg-yellow-800">
                                                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -228,7 +228,7 @@
                             
                             <!-- View All Itineraries Link -->
                             <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                                <a href="{{ route('admin-dashboard.tour.itineraries.index', ['tour_id' => $tour->id]) }}" 
+                                <a href="{{ route('tour::admin.itineraries.index', ['tour_id' => $tour->id]) }}" 
                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-md hover:bg-blue-100 dark:hover:bg-blue-800">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
@@ -245,7 +245,7 @@
                                 </div>
                                 <h4 class="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">No Itineraries Found</h4>
                                 <p class="text-sm text-gray-500 dark:text-gray-500 mb-4">This tour doesn't have any day-by-day itineraries configured yet.</p>
-                                <a href="{{ route('admin-dashboard.tour.itineraries.create', ['tour_id' => $tour->id]) }}" 
+                                <a href="{{ route('tour::admin.itineraries.create', ['tour_id' => $tour->id]) }}" 
                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -336,14 +336,14 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Quick Actions</h3>
                         <div class="space-y-2">
-                            <a href="{{ route('admin-dashboard.tour.tours.edit', $tour) }}" 
+                            <a href="{{ route('tour::admin.tours.edit', $tour) }}" 
                                class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
                                 Edit Tour
                             </a>
-                            <a href="{{ route('admin-dashboard.tour.tours.create', ['country_id' => $tour->country_id, 'city_id' => $tour->city_id]) }}" 
+                            <a href="{{ route('tour::admin.tours.create', ['country_id' => $tour->country_id, 'city_id' => $tour->city_id]) }}" 
                                class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-md hover:bg-gray-50 dark:hover:bg-gray-500">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

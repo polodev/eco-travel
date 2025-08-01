@@ -9,14 +9,14 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $bookingFlight->booking->booking_reference }} - {{ $bookingFlight->airline_code }} {{ $bookingFlight->flight_number }}</p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <a href="{{ route('admin-dashboard.booking.booking-flights.index') }}" 
+                        <a href="{{ route('booking::admin.booking-flights.index') }}" 
                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                             </svg>
                             Back to Flight Bookings
                         </a>
-                        <a href="{{ route('admin-dashboard.booking.bookings.show', $bookingFlight->booking) }}" 
+                        <a href="{{ route('booking::admin.bookings.show', $bookingFlight->booking) }}" 
                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-800 border border-blue-200 dark:border-blue-600 rounded-md hover:bg-blue-100 dark:hover:bg-blue-700">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -24,7 +24,7 @@
                             View Main Booking
                         </a>
                         @if(in_array($bookingFlight->ticket_status, ['pending', 'issued']))
-                            <a href="{{ route('admin-dashboard.booking.booking-flights.edit', $bookingFlight) }}" 
+                            <a href="{{ route('booking::admin.booking-flights.edit', $bookingFlight) }}" 
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -247,7 +247,7 @@
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Actions</h3>
                             <div class="space-y-2">
-                                <a href="{{ route('admin-dashboard.booking.booking-flights.edit', $bookingFlight) }}" 
+                                <a href="{{ route('booking::admin.booking-flights.edit', $bookingFlight) }}" 
                                    class="w-full inline-flex justify-center items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -262,6 +262,22 @@
                                     Delete Flight
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Activity Log -->
+                @if($bookingFlight->activities->count() > 0)
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+                        <div class="p-6">
+                            <x-utility::collapsible-card 
+                                title="ActivityLog - Flight Booking"
+                                :collapsed="true"
+                                headerClass="bg-green-500 text-white hover:bg-green-600"
+                                cardClass="border border-gray-200 dark:border-gray-600"
+                            >
+                                <x-utility::activity-log :model="$bookingFlight" />
+                            </x-utility::collapsible-card>
                         </div>
                     </div>
                 @endif
@@ -286,7 +302,7 @@
                         if (data.redirect) {
                             window.location.href = data.redirect;
                         } else {
-                            window.location.href = '{{ route("admin-dashboard.booking.booking-flights.index") }}';
+                            window.location.href = '{{ route("booking::admin.booking-flights.index") }}';
                         }
                     } else {
                         alert('Error: ' + data.message);

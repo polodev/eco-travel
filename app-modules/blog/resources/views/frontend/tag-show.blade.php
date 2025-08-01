@@ -10,13 +10,13 @@
                 <nav class="mb-8">
                     <ol class="flex items-center space-x-2 text-sm text-blue-200">
                         <li>
-                            <a href="{{ route('blog.index') }}" class="hover:text-white transition-colors">
+                            <a href="{{ route('blog::blog.index') }}" class="hover:text-white transition-colors">
                                 {{ __('messages.blog') }}
                             </a>
                         </li>
                         <li class="text-blue-300">/</li>
                         <li>
-                            <a href="{{ route('blog.tags') }}" class="hover:text-white transition-colors">
+                            <a href="{{ route('blog::blog.tags') }}" class="hover:text-white transition-colors">
                                 {{ __('messages.tags') }}
                             </a>
                         </li>
@@ -71,7 +71,7 @@
 
                                     <!-- Title -->
                                     <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
-                                        <a href="{{ route('blog.show', $blog->slug) }}" 
+                                        <a href="{{ route('blog::blog.show', $blog->slug) }}" 
                                            class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                                             {{ $blog->getTranslation('title', app()->getLocale()) }}
                                         </a>
@@ -89,7 +89,7 @@
                                     @endif
 
                                     <!-- Read More -->
-                                    <a href="{{ route('blog.show', $blog->slug) }}" 
+                                    <a href="{{ route('blog::blog.show', $blog->slug) }}" 
                                        class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                                         {{ __('messages.read_more') }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +114,7 @@
                     </svg>
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">{{ __('messages.no_posts_for_tag') }}</h3>
                     <p class="text-gray-500 dark:text-gray-400 mb-6">{{ __('messages.no_posts_for_tag_description', ['tag' => $tag->getTranslation('name', app()->getLocale())]) }}</p>
-                    <a href="{{ route('blog.index') }}" 
+                    <a href="{{ route('blog::blog.index') }}" 
                        class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                         {{ __('messages.explore_all_posts') }}
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,7 +126,7 @@
 
             <!-- Navigation -->
             <div class="mt-12 flex justify-center space-x-6">
-                <a href="{{ route('blog.tags') }}" 
+                <a href="{{ route('blog::blog.tags') }}" 
                    class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -134,7 +134,7 @@
                     {{ __('messages.all_tags') }}
                 </a>
                 <span class="text-gray-300 dark:text-gray-600">|</span>
-                <a href="{{ route('blog.index') }}" 
+                <a href="{{ route('blog::blog.index') }}" 
                    class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                     {{ __('messages.all_posts') }}
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

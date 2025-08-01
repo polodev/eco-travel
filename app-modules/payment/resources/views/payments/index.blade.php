@@ -20,7 +20,7 @@
                         </svg>
                         Clear Filters
                     </button>
-                    <a href="{{ route('admin-dashboard.payment.payments.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                    <a href="{{ route('payment::admin.payments.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
@@ -103,7 +103,7 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route('admin-dashboard.payment.payments.json') }}',
+                    url: '{{ route('payment::admin.payments.json') }}',
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

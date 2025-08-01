@@ -8,14 +8,14 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Reference: {{ $booking->booking_reference }}</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin-dashboard.booking.bookings.index') }}" 
+                    <a href="{{ route('booking::admin.bookings.index') }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                         </svg>
                         List View
                     </a>
-                    <a href="{{ route('admin-dashboard.booking.bookings.show', $booking) }}" 
+                    <a href="{{ route('booking::admin.bookings.show', $booking) }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -29,7 +29,7 @@
 
         <!-- Edit Form -->
         <div class="p-6">
-            <form method="POST" action="{{ route('admin-dashboard.booking.bookings.update', $booking) }}">
+            <form method="POST" action="{{ route('booking::admin.bookings.update', $booking) }}">
                 @csrf
                 @method('PUT')
 

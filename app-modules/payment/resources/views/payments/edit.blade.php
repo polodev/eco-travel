@@ -8,7 +8,7 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">ID: {{ $payment->id }}</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin-dashboard.payment.payments.show', $payment) }}" 
+                    <a href="{{ route('payment::admin.payments.show', $payment) }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -21,7 +21,7 @@
 
         <!-- Edit Form -->
         <div class="p-6">
-            <form method="POST" action="{{ route('admin-dashboard.payment.payments.update', $payment) }}">
+            <form method="POST" action="{{ route('payment::admin.payments.update', $payment) }}">
                 @csrf
                 @method('PUT')
 
@@ -219,7 +219,7 @@
 
                 <!-- Submit Button -->
                 <div class="mt-8 flex justify-end space-x-3">
-                    <a href="{{ route('admin-dashboard.payment.payments.show', $payment) }}" 
+                    <a href="{{ route('payment::admin.payments.show', $payment) }}" 
                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         Cancel
                     </a>

@@ -5,10 +5,10 @@ use Modules\Flight\Http\Controllers\FlightController;
 use Modules\Flight\Http\Controllers\FlightScheduleController;
 
 
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('flight::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Airline Management Routes
-    Route::prefix('airlines')->name('flight.airlines.')->group(function () {
+    Route::prefix('airlines')->name('airlines.')->group(function () {
         Route::get('/', [AirlineController::class, 'index'])->name('index');
         Route::get('/create', [AirlineController::class, 'create'])->name('create');
         Route::post('/', [AirlineController::class, 'store'])->name('store');
@@ -21,7 +21,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Flight Management Routes
-    Route::prefix('flights')->name('flight.flights.')->group(function () {
+    Route::prefix('flights')->name('flights.')->group(function () {
         Route::get('/', [FlightController::class, 'index'])->name('index');
         Route::get('/create', [FlightController::class, 'create'])->name('create');
         Route::post('/', [FlightController::class, 'store'])->name('store');
@@ -34,7 +34,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Flight Schedule Management Routes
-    Route::prefix('flight-schedules')->name('flight.flight-schedules.')->group(function () {
+    Route::prefix('flight-schedules')->name('flight-schedules.')->group(function () {
         Route::get('/', [FlightScheduleController::class, 'index'])->name('index');
         Route::post('/json', [FlightScheduleController::class, 'indexJson'])->name('json');
         Route::get('/create', [FlightScheduleController::class, 'create'])->name('create');

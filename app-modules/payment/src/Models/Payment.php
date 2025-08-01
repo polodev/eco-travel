@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Booking\Models\Booking;
 use App\Models\User;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Payment extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'booking_id',
         'custom_payment_id',
@@ -224,5 +227,56 @@ class Payment extends Model
     public function isRefunded(): bool
     {
         return $this->status === 'refunded';
+    }
+
+    /**
+     * Configure activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'amount',
+                'status', 
+                'payment_method',
+                'transaction_id',
+                'gateway_payment_id',
+                'payment_date',
+                'bank_name',
+                'notes',
+                'receipt_number'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at']);
+    }
+
+    /**
+     * Determine if the given event should be logged.
+     */
+    public function shouldLogEvent(string $eventName): bool
+    {
+        return in_array($eventName, ['updated', 'deleted']);
+    }
+
+    /**
+     * Get description for activity log.
+     */
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $relatedInfo = '';
+        
+        if ($this->booking_id) {
+            $relatedInfo = " for Booking #{$this->booking_id}";
+        } elseif ($this->custom_payment_id) {
+            $relatedInfo = " for Custom Payment #{$this->custom_payment_id}";
+        }
+
+        return match($eventName) {
+            'created' => "Payment of {$this->formatted_amount} created{$relatedInfo}",
+            'updated' => "Payment #{$this->id} updated{$relatedInfo}",
+            'deleted' => "Payment #{$this->id} deleted{$relatedInfo}",
+            default => "Payment {$eventName}{$relatedInfo}"
+        };
     }
 }

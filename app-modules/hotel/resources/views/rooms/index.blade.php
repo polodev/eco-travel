@@ -6,7 +6,7 @@
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Hotel Rooms</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage hotel room types and configurations</p>
                 </div>
-                <a href="{{ route('admin-dashboard.hotel.rooms.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                <a href="{{ route('hotel::admin.rooms.create') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -125,7 +125,7 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route("admin-dashboard.hotel.rooms.json") }}',
+                    url: '{{ route("hotel::admin.rooms.json") }}'
                     type: 'POST',
                     data: function(d) {
                         d.search_text = $('#search_text').val();

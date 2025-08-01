@@ -5,10 +5,10 @@ use Modules\Payment\Http\Controllers\PaymentController;
 use Modules\Payment\Http\Controllers\CustomPaymentController;
 
 // Admin Routes (No localization - admin/dashboard only)
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('payment::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Payment Management Routes
-    Route::prefix('payments')->name('payment.payments.')->group(function () {
+    Route::prefix('payments')->name('payments.')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
         Route::post('/json', [PaymentController::class, 'indexJson'])->name('json');
         Route::get('/create', [PaymentController::class, 'create'])->name('create');
@@ -20,7 +20,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Custom Payment Management Routes
-    Route::prefix('custom-payments')->name('payment.custom-payments.')->group(function () {
+    Route::prefix('custom-payments')->name('custom-payments.')->group(function () {
         Route::get('/', [CustomPaymentController::class, 'index'])->name('index');
         Route::post('/json', [CustomPaymentController::class, 'indexJson'])->name('json');
         Route::get('/create', [CustomPaymentController::class, 'create'])->name('create');

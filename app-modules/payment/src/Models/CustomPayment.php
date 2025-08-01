@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class CustomPayment extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'name',
         'email',
@@ -217,5 +220,53 @@ class CustomPayment extends Model
     public function isCancelled(): bool
     {
         return $this->status === 'cancelled';
+    }
+
+    /**
+     * Configure activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'name',
+                'email', 
+                'mobile',
+                'amount',
+                'purpose',
+                'description',
+                'reference_number',
+                'status',
+                'admin_notes'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at']);
+    }
+
+    /**
+     * Determine if the given event should be logged.
+     */
+    public function shouldLogEvent(string $eventName): bool
+    {
+        return in_array($eventName, ['updated', 'deleted']);
+    }
+
+    /**
+     * Get description for activity log.
+     */
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $customerInfo = $this->name;
+        if ($this->reference_number) {
+            $customerInfo .= " (Ref: {$this->reference_number})";
+        }
+
+        return match($eventName) {
+            'created' => "Custom payment request of {$this->formatted_amount} created for {$customerInfo}",
+            'updated' => "Custom payment request #{$this->id} updated for {$customerInfo}",
+            'deleted' => "Custom payment request #{$this->id} deleted for {$customerInfo}",
+            default => "Custom payment {$eventName} for {$customerInfo}"
+        };
     }
 }

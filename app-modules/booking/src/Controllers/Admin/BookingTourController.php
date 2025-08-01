@@ -185,7 +185,7 @@ class BookingTourController extends Controller
                 $html = '<div class="flex items-center space-x-1">';
                 
                 // View button
-                $html .= '<a href="' . route('admin-dashboard.booking.booking-tours.show', $tour) . '" 
+                $html .= '<a href="' . route('booking::admin.booking-tours.show', $tour) . '" 
                             class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700" 
                             title="View Details">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -196,7 +196,7 @@ class BookingTourController extends Controller
                 
                 // Edit button (only for pending/confirmed bookings)
                 if (in_array($tour->booking_status, ['pending', 'confirmed'])) {
-                    $html .= '<a href="' . route('admin-dashboard.booking.booking-tours.edit', $tour) . '" 
+                    $html .= '<a href="' . route('booking::admin.booking-tours.edit', $tour) . '" 
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-200 dark:hover:bg-yellow-700" 
                                 title="Edit Tour Booking">';
                     $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -206,7 +206,7 @@ class BookingTourController extends Controller
                 }
                 
                 // Main booking link
-                $html .= '<a href="' . route('admin-dashboard.booking.bookings.show', $tour->booking) . '" 
+                $html .= '<a href="' . route('booking::admin.bookings.show', $tour->booking) . '" 
                             class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500" 
                             title="View Main Booking">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -276,7 +276,7 @@ class BookingTourController extends Controller
             'tour_guide' => $request->tour_guide,
         ]);
 
-        return redirect()->route('admin-dashboard.booking.booking-tours.show', $bookingTour)
+        return redirect()->route('booking::admin.booking-tours.show', $bookingTour)
                         ->with('success', 'Tour booking updated successfully.');
     }
 
@@ -292,7 +292,7 @@ class BookingTourController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Tour booking deleted successfully.',
-                'redirect' => route('admin-dashboard.booking.bookings.show', $bookingId)
+                'redirect' => route('booking::admin.bookings.show', $bookingId)
             ]);
         } catch (\Exception $e) {
             return response()->json([

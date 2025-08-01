@@ -5,9 +5,12 @@ namespace Modules\Booking\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Flight\Models\FlightSchedule;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class BookingFlight extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'booking_id',
         'flight_schedule_id',
@@ -126,5 +129,53 @@ class BookingFlight extends Model
             $color,
             $name
         );
+    }
+
+    /**
+     * Configure activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'adult_price',
+                'child_price',
+                'infant_price',
+                'taxes_fees',
+                'total_amount',
+                'ticket_status'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at']);
+    }
+
+    /**
+     * Determine if the given event should be logged.
+     */
+    public function shouldLogEvent(string $eventName): bool
+    {
+        return in_array($eventName, ['updated', 'deleted']);
+    }
+
+    /**
+     * Get description for activity log.
+     */
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $flightInfo = "Flight Booking #{$this->id}";
+        if ($this->booking_id) {
+            $flightInfo .= " (Booking #{$this->booking_id})";
+        }
+        if ($this->flight_number) {
+            $flightInfo .= " - Flight {$this->flight_number}";
+        }
+
+        return match($eventName) {
+            'created' => "Flight booking created {$flightInfo} with {$this->formatted_total_amount}",
+            'updated' => "Flight booking updated {$flightInfo}",
+            'deleted' => "Flight booking deleted {$flightInfo}",
+            default => "Flight booking {$eventName} {$flightInfo}"
+        };
     }
 }

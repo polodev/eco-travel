@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\User;
 use Modules\Payment\Models\Payment;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Booking extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'booking_reference',
@@ -429,5 +431,49 @@ class Booking extends Model
     public function getPaidAmountAttribute(): float
     {
         return $this->total_paid_amount;
+    }
+
+    /**
+     * Configure activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'total_amount',
+                'net_receivable_amount',
+                'discount',
+                'coupon_code',
+                'status'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at']);
+    }
+
+    /**
+     * Determine if the given event should be logged.
+     */
+    public function shouldLogEvent(string $eventName): bool
+    {
+        return in_array($eventName, ['updated', 'deleted']);
+    }
+
+    /**
+     * Get description for activity log.
+     */
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $bookingInfo = "Booking #{$this->booking_reference}";
+        if ($this->customer_name !== 'N/A') {
+            $bookingInfo .= " for {$this->customer_name}";
+        }
+
+        return match($eventName) {
+            'created' => "Booking {$bookingInfo} created with {$this->formatted_net_receivable_amount}",
+            'updated' => "Booking {$bookingInfo} updated",
+            'deleted' => "Booking {$bookingInfo} deleted",
+            default => "Booking {$eventName} for {$bookingInfo}"
+        };
     }
 }

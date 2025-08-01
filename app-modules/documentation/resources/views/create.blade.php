@@ -6,7 +6,7 @@
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Create Documentation</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Add new documentation to help users</p>
                 </div>
-                <a href="{{ route('admin-dashboard.documentation.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                <a href="{{ route('documentation::admin.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -16,7 +16,7 @@
         </div>
 
         <div class="p-6">
-            <form action="{{ route('admin-dashboard.documentation.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('documentation::admin.store') }}" method="POST" class="space-y-6">
                 @csrf
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -131,7 +131,7 @@
 
                 <!-- Submit Buttons -->
                 <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-                    <a href="{{ route('admin-dashboard.documentation.index') }}" 
+                    <a href="{{ route('documentation::admin.index') }}" 
                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         Cancel
                     </a>

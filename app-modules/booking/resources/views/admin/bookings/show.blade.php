@@ -9,7 +9,7 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $booking->booking_reference }}</p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <a href="{{ route('admin-dashboard.booking.bookings.index') }}" 
+                        <a href="{{ route('booking::admin.bookings.index') }}" 
                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -17,7 +17,7 @@
                             Back to Bookings
                         </a>
                         @if(in_array($booking->status, ['pending', 'confirmed']))
-                            <a href="{{ route('admin-dashboard.booking.bookings.edit', $booking) }}" 
+                            <a href="{{ route('booking::admin.bookings.edit', $booking) }}" 
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -159,7 +159,7 @@
                         <div class="mb-6">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="text-md font-medium text-gray-700 dark:text-gray-300">Flight Bookings ({{ $booking->flightBookings->count() }})</h4>
-                                <a href="{{ route('admin-dashboard.booking.booking-flights.index', ['booking_id' => $booking->id]) }}" 
+                                <a href="{{ route('booking::admin.booking-flights.index', ['booking_id' => $booking->id]) }}" 
                                    class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">View All →</a>
                             </div>
                             <div class="space-y-2">
@@ -185,12 +185,12 @@
                         </div>
 
                         @endif
-                        <a href="{{ route('admin-dashboard.booking.bookings.edit', $booking) }}" class="btn btn-primary">Edit Booking</a>
+                        <a href="{{ route('booking::admin.bookings.edit', $booking) }}" class="btn btn-primary">Edit Booking</a>
                         @if($booking->hotelBookings->count() > 0)
                         <div class="mb-6">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="text-md font-medium text-gray-700 dark:text-gray-300">Hotel Bookings ({{ $booking->hotelBookings->count() }})</h4>
-                                <a href="{{ route('admin-dashboard.booking.booking-hotels.index', ['booking_id' => $booking->id]) }}" 
+                                <a href="{{ route('booking::admin.booking-hotels.index', ['booking_id' => $booking->id]) }}" 
                                    class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">View All →</a>
                             </div>
                             <div class="space-y-2">
@@ -220,7 +220,7 @@
                         <div class="mb-6">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="text-md font-medium text-gray-700 dark:text-gray-300">Tour Bookings ({{ $booking->tourBookings->count() }})</h4>
-                                <a href="{{ route('admin-dashboard.booking.booking-tours.index', ['booking_id' => $booking->id]) }}" 
+                                <a href="{{ route('booking::admin.booking-tours.index', ['booking_id' => $booking->id]) }}" 
                                    class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">View All →</a>
                             </div>
                             <div class="space-y-2">
@@ -315,7 +315,7 @@
                         <div class="space-y-2">
                             @if($booking->booking_type === 'flight' || $booking->booking_type === 'package')
                                 @if($booking->flightBookings->count() > 0)
-                                <a href="{{ route('admin-dashboard.booking.booking-flights.index', ['booking_id' => $booking->id]) }}" 
+                                <a href="{{ route('booking::admin.booking-flights.index', ['booking_id' => $booking->id]) }}" 
                                    class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md hover:bg-purple-700">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
@@ -327,7 +327,7 @@
 
                             @if($booking->booking_type === 'hotel' || $booking->booking_type === 'package')
                                 @if($booking->hotelBookings->count() > 0)
-                                <a href="{{ route('admin-dashboard.booking.booking-hotels.index', ['booking_id' => $booking->id]) }}" 
+                                <a href="{{ route('booking::admin.booking-hotels.index', ['booking_id' => $booking->id]) }}" 
                                    class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
@@ -339,7 +339,7 @@
 
                             @if($booking->booking_type === 'tour' || $booking->booking_type === 'package')
                                 @if($booking->tourBookings->count() > 0)
-                                <a href="{{ route('admin-dashboard.booking.booking-tours.index', ['booking_id' => $booking->id]) }}" 
+                                <a href="{{ route('booking::admin.booking-tours.index', ['booking_id' => $booking->id]) }}" 
                                    class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -359,6 +359,22 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Activity Log -->
+                @if($booking->activities->count() > 0)
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+                        <div class="p-6">
+                            <x-utility::collapsible-card 
+                                title="ActivityLog - Booking"
+                                :collapsed="true"
+                                headerClass="bg-green-500 text-white hover:bg-green-600"
+                                cardClass="border border-gray-200 dark:border-gray-600"
+                            >
+                                <x-utility::activity-log :model="$booking" />
+                            </x-utility::collapsible-card>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

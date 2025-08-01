@@ -6,7 +6,7 @@
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Pages Management</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage website pages with multilingual support</p>
                 </div>
-                <a href="{{ route('admin-dashboard.pages.create') }}" 
+                <a href="{{ route('page::admin.pages.create') }}" 
                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -87,7 +87,7 @@
                                     {{ $page->published_at ? $page->published_at->format('M d, Y') : '-' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                    <a href="{{ route('admin-dashboard.pages.show', $page->slug) }}" 
+                                    <a href="{{ route('page::admin.pages.show', $page->slug) }}" 
                                        class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">
                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -95,7 +95,7 @@
                                         </svg>
                                         View
                                     </a>
-                                    <a href="{{ route('admin-dashboard.pages.edit', $page->slug) }}" 
+                                    <a href="{{ route('page::admin.pages.edit', $page->slug) }}" 
                                        class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300">
                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -114,7 +114,7 @@
                                         <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No pages</h3>
                                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new page.</p>
                                         <div class="mt-6">
-                                            <a href="{{ route('admin-dashboard.pages.create') }}"
+                                            <a href="{{ route('page::admin.pages.create') }}"
                                                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

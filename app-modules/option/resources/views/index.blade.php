@@ -137,7 +137,7 @@
 
     @push('scripts')
     <script>
-        const current_route_name = 'admin-dashboard.options.index';
+        const current_route_name = 'option::admin.options.index';
         
         $(document).ready(function() {
             // DataTable configuration
@@ -152,7 +152,7 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route('admin-dashboard.options.json') }}',
+                    url: '{{ route('option::admin.options.json') }}',
                     type: "POST",
                     data: function(d) {
                         d.option_type = $('#option_type').val();

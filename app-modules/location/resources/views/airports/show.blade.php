@@ -10,10 +10,10 @@
             </div>
 
             <div class="flex space-x-3">
-                <a href="{{ route('admin-dashboard.location.airports.edit', $airport) }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-yellow-600 rounded-md hover:bg-yellow-700">
+                <a href="{{ route('location::admin.airports.edit', $airport) }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-yellow-600 rounded-md hover:bg-yellow-700">
                     Edit
                 </a>
-                <a href="{{ route('admin-dashboard.location.airports.index') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                <a href="{{ route('location::admin.airports.index') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
                     Back to List
                 </a>
             </div>

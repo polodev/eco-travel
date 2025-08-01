@@ -80,18 +80,15 @@ class CustomPaymentController extends Controller
             ->addColumn('status_badge', function (CustomPayment $customPayment) {
                 return $customPayment->status_badge;
             })
-            ->addColumn('submitted_at_formatted', function (CustomPayment $customPayment) {
-                return $customPayment->submitted_at ? $customPayment->submitted_at->format('M j, Y H:i') : 'N/A';
-            })
             ->addColumn('created_at_formatted', function (CustomPayment $customPayment) {
                 return $customPayment->created_at->format('M j, Y H:i');
             })
             ->addColumn('actions', function (CustomPayment $customPayment) {
                 $actions = '<div class="flex items-center justify-center space-x-1">';
-                $actions .= '<a href="' . route('admin-dashboard.payment.custom-payments.show', $customPayment->id) . '" class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200" title="View">';
+                $actions .= '<a href="' . route('payment::admin.custom-payments.show', $customPayment->id) . '" class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200" title="View">';
                 $actions .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
                 $actions .= '</a>';
-                $actions .= '<a href="' . route('admin-dashboard.payment.custom-payments.edit', $customPayment->id) . '" class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200" title="Edit">';
+                $actions .= '<a href="' . route('payment::admin.custom-payments.edit', $customPayment->id) . '" class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200" title="Edit">';
                 $actions .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>';
                 $actions .= '</a>';
                 $actions .= '</div>';
@@ -120,23 +117,21 @@ class CustomPaymentController extends Controller
             'admin_notes' => 'nullable|string',
         ]);
 
-        // Set timestamps
-        $validatedData['submitted_at'] = now();
+        // Set user who processed this payment
         $validatedData['processed_by'] = auth()->id();
-
-        if ($validatedData['status'] === 'processing') {
-            $validatedData['processed_at'] = now();
-        } elseif ($validatedData['status'] === 'completed') {
-            $validatedData['processed_at'] = now();
-            $validatedData['completed_at'] = now();
-        }
 
         // Get IP and user agent from request
         $validatedData['ip_address'] = $request->ip();
         $validatedData['user_agent'] = $request->userAgent();
 
-        CustomPayment::create($validatedData);
-        return redirect()->route('admin-dashboard.payment.custom-payments.index')->with('success', 'Custom payment created successfully.');
+        $customPayment = CustomPayment::create($validatedData);
+
+        // Auto-create payment record if feature is enabled
+        if (config('payment.auto_create_payment', true)) {
+            $this->createAutoPayment($customPayment);
+        }
+
+        return redirect()->route('payment::admin.custom-payments.show', $customPayment->id)->with('success', 'Custom payment created successfully.');
     }
 
     public function show(CustomPayment $customPayment)
@@ -167,16 +162,10 @@ class CustomPaymentController extends Controller
         // Set processed_by to current admin user
         $validatedData['processed_by'] = auth()->id();
 
-        // Update timestamps based on status changes
-        if ($validatedData['status'] === 'processing' && $customPayment->status !== 'processing') {
-            $validatedData['processed_at'] = now();
-        } elseif ($validatedData['status'] === 'completed' && $customPayment->status !== 'completed') {
-            $validatedData['processed_at'] = now();
-            $validatedData['completed_at'] = now();
-        }
+        // No additional timestamp updates needed - using created_at and updated_at
 
         $customPayment->update($validatedData);
-        return redirect()->route('admin-dashboard.payment.custom-payments.index')->with('success', 'Custom payment updated successfully.');
+        return redirect()->route('payment::admin.custom-payments.show', $customPayment->id)->with('success', 'Custom payment updated successfully.');
     }
 
     public function destroy(CustomPayment $customPayment)
@@ -191,6 +180,40 @@ class CustomPaymentController extends Controller
             return response()->json(['success' => true, 'message' => 'Custom payment deleted successfully.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Error deleting custom payment: ' . $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Automatically create a payment record for the custom payment.
+     * This helps operators by creating an initial payment record that can be modified later.
+     */
+    private function createAutoPayment(CustomPayment $customPayment)
+    {
+        try {
+            $defaults = config('payment.auto_payment_defaults');
+            
+            Payment::create([
+                'custom_payment_id' => $customPayment->id,
+                'amount' => $customPayment->amount,
+                'payment_method' => $defaults['payment_method'] ?? 'sslcommerz',
+                'status' => $defaults['status'] ?? 'pending',
+                'payment_date' => now(),
+                'notes' => $defaults['notes'] ?? 'Auto-created payment record for custom payment processing'
+            ]);
+
+            // Log this auto-creation for transparency
+            \Log::info('Auto-payment created for CustomPayment', [
+                'custom_payment_id' => $customPayment->id,
+                'amount' => $customPayment->amount,
+                'created_by' => auth()->user()->name ?? 'System'
+            ]);
+
+        } catch (\Exception $e) {
+            // Log error but don't fail the custom payment creation
+            \Log::error('Failed to auto-create payment for CustomPayment', [
+                'custom_payment_id' => $customPayment->id,
+                'error' => $e->getMessage()
+            ]);
         }
     }
 }

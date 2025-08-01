@@ -11,10 +11,10 @@ use Modules\Location\Http\Controllers\AirportController;
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('location::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Country Management Routes
-    Route::prefix('countries')->name('location.countries.')->group(function () {
+    Route::prefix('countries')->name('countries.')->group(function () {
         Route::get('/', [CountryController::class, 'index'])->name('index');
         Route::post('/json', [CountryController::class, 'indexJson'])->name('json');
         Route::get('/create', [CountryController::class, 'create'])->name('create');
@@ -26,7 +26,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // City Management Routes
-    Route::prefix('cities')->name('location.cities.')->group(function () {
+    Route::prefix('cities')->name('cities.')->group(function () {
         Route::get('/', [CityController::class, 'index'])->name('index');
         Route::post('/json', [CityController::class, 'indexJson'])->name('json');
         Route::get('/create', [CityController::class, 'create'])->name('create');
@@ -38,7 +38,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Airport Management Routes
-    Route::prefix('airports')->name('location.airports.')->group(function () {
+    Route::prefix('airports')->name('airports.')->group(function () {
         Route::get('/', [AirportController::class, 'index'])->name('index');
         Route::post('/json', [AirportController::class, 'indexJson'])->name('json');
         Route::get('/create', [AirportController::class, 'create'])->name('create');

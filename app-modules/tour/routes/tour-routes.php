@@ -3,10 +3,10 @@
 use Modules\Tour\Http\Controllers\TourController;
 use Modules\Tour\Http\Controllers\TourItineraryController;
 
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('tour::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Tour Management Routes
-    Route::prefix('tours')->name('tour.tours.')->group(function () {
+    Route::prefix('tours')->name('tours.')->group(function () {
         Route::get('/', [TourController::class, 'index'])->name('index');
         Route::post('/json', [TourController::class, 'indexJson'])->name('json');
         Route::get('/create', [TourController::class, 'create'])->name('create');
@@ -24,7 +24,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Tour Itinerary Management Routes
-    Route::prefix('itineraries')->name('tour.itineraries.')->group(function () {
+    Route::prefix('itineraries')->name('itineraries.')->group(function () {
         Route::get('/', [TourItineraryController::class, 'index'])->name('index');
         Route::post('/json', [TourItineraryController::class, 'indexJson'])->name('json');
         Route::get('/create', [TourItineraryController::class, 'create'])->name('create');

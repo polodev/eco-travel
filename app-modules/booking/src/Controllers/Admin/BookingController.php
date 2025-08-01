@@ -225,7 +225,7 @@ class BookingController extends Controller
                 $html = '<div class="flex items-center justify-center space-x-2">';
                 
                 // View button with better contrast
-                $html .= '<a href="' . route('admin-dashboard.booking.bookings.show', $booking) . '" 
+                $html .= '<a href="' . route('booking::admin.bookings.show', $booking) . '" 
                             class="inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition-colors duration-150" 
                             title="View Details">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -236,7 +236,7 @@ class BookingController extends Controller
                 
                 // Edit button (only for pending/confirmed) with better contrast
                 if (in_array($booking->status, ['pending', 'confirmed'])) {
-                    $html .= '<a href="' . route('admin-dashboard.booking.bookings.edit', $booking) . '" 
+                    $html .= '<a href="' . route('booking::admin.bookings.edit', $booking) . '" 
                                 class="inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-amber-600 border border-transparent rounded-md hover:bg-amber-700 focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 transition-colors duration-150" 
                                 title="Edit Booking">';
                     $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -249,7 +249,7 @@ class BookingController extends Controller
                 if ($booking->booking_type === 'flight' || $booking->booking_type === 'package') {
                     $flightCount = $booking->flightBookings->count();
                     if ($flightCount > 0) {
-                        $html .= '<a href="' . route('admin-dashboard.booking.booking-flights.index', ['booking_id' => $booking->id]) . '" 
+                        $html .= '<a href="' . route('booking::admin.booking-flights.index', ['booking_id' => $booking->id]) . '" 
                                     class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-purple-600 border border-transparent rounded hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-1 transition-colors duration-150" 
                                     title="Flight Details (' . $flightCount . ')">';
                         $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -262,7 +262,7 @@ class BookingController extends Controller
                 if ($booking->booking_type === 'hotel' || $booking->booking_type === 'package') {
                     $hotelCount = $booking->hotelBookings->count();
                     if ($hotelCount > 0) {
-                        $html .= '<a href="' . route('admin-dashboard.booking.booking-hotels.index', ['booking_id' => $booking->id]) . '" 
+                        $html .= '<a href="' . route('booking::admin.booking-hotels.index', ['booking_id' => $booking->id]) . '" 
                                     class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-green-600 border border-transparent rounded hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-colors duration-150" 
                                     title="Hotel Details (' . $hotelCount . ')">';
                         $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -275,7 +275,7 @@ class BookingController extends Controller
                 if ($booking->booking_type === 'tour' || $booking->booking_type === 'package') {
                     $tourCount = $booking->tourBookings->count();
                     if ($tourCount > 0) {
-                        $html .= '<a href="' . route('admin-dashboard.booking.booking-tours.index', ['booking_id' => $booking->id]) . '" 
+                        $html .= '<a href="' . route('booking::admin.booking-tours.index', ['booking_id' => $booking->id]) . '" 
                                     class="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-indigo-600 border border-transparent rounded hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 transition-colors duration-150" 
                                     title="Tour Details (' . $tourCount . ')">';
                         $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -368,7 +368,7 @@ class BookingController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return redirect()->route('admin-dashboard.booking.bookings.show', $booking)
+        return redirect()->route('booking::admin.bookings.show', $booking)
                         ->with('success', 'Booking created successfully.');
     }
 
@@ -458,7 +458,7 @@ class BookingController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return redirect()->route('admin-dashboard.booking.bookings.show', $booking)
+        return redirect()->route('booking::admin.bookings.show', $booking)
                         ->with('success', 'Booking updated successfully.');
     }
 

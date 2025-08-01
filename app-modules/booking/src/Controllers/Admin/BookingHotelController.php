@@ -187,7 +187,7 @@ class BookingHotelController extends Controller
                 $html = '<div class="flex items-center space-x-1">';
                 
                 // View button
-                $html .= '<a href="' . route('admin-dashboard.booking.booking-hotels.show', $hotel) . '" 
+                $html .= '<a href="' . route('booking::admin.booking-hotels.show', $hotel) . '" 
                             class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700" 
                             title="View Details">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -198,7 +198,7 @@ class BookingHotelController extends Controller
                 
                 // Edit button (only for pending/confirmed bookings)
                 if (in_array($hotel->booking_status, ['pending', 'confirmed'])) {
-                    $html .= '<a href="' . route('admin-dashboard.booking.booking-hotels.edit', $hotel) . '" 
+                    $html .= '<a href="' . route('booking::admin.booking-hotels.edit', $hotel) . '" 
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-200 dark:hover:bg-yellow-700" 
                                 title="Edit Hotel Booking">';
                     $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -208,7 +208,7 @@ class BookingHotelController extends Controller
                 }
                 
                 // Main booking link
-                $html .= '<a href="' . route('admin-dashboard.booking.bookings.show', $hotel->booking) . '" 
+                $html .= '<a href="' . route('booking::admin.bookings.show', $hotel->booking) . '" 
                             class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500" 
                             title="View Main Booking">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -284,7 +284,7 @@ class BookingHotelController extends Controller
             'checkout_time' => $request->checkout_time,
         ]);
 
-        return redirect()->route('admin-dashboard.booking.booking-hotels.show', $bookingHotel)
+        return redirect()->route('booking::admin.booking-hotels.show', $bookingHotel)
                         ->with('success', 'Hotel booking updated successfully.');
     }
 
@@ -300,7 +300,7 @@ class BookingHotelController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Hotel booking deleted successfully.',
-                'redirect' => route('admin-dashboard.booking.bookings.show', $bookingId)
+                'redirect' => route('booking::admin.bookings.show', $bookingId)
             ]);
         } catch (\Exception $e) {
             return response()->json([

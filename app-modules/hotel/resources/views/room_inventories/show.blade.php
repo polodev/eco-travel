@@ -12,19 +12,19 @@
                             @endif
                         </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            <a href="{{ route('admin-dashboard.hotel.hotels.show', $roomInventory->hotelRoom->hotel) }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ $roomInventory->hotelRoom->hotel->name }}</a> - 
-                            <a href="{{ route('admin-dashboard.hotel.rooms.show', $roomInventory->hotelRoom) }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ $roomInventory->hotelRoom->name }}</a>
+                            <a href="{{ route('hotel::admin.hotels.show', $roomInventory->hotelRoom->hotel) }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ $roomInventory->hotelRoom->hotel->name }}</a> - 
+                            <a href="{{ route('hotel::admin.rooms.show', $roomInventory->hotelRoom) }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ $roomInventory->hotelRoom->name }}</a>
                         </p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('admin-dashboard.hotel.room-inventories.edit', $roomInventory) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
+                    <a href="{{ route('hotel::admin.room-inventories.edit', $roomInventory) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                         Edit
                     </a>
-                    <a href="{{ route('admin-dashboard.hotel.room-inventories.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <a href="{{ route('hotel::admin.room-inventories.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -44,7 +44,7 @@
                             <div>
                                 <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hotel</label>
                                 <p class="mt-1 text-sm font-medium">
-                                    <a href="{{ route('admin-dashboard.hotel.hotels.show', $roomInventory->hotelRoom->hotel) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors">
+                                    <a href="{{ route('hotel::admin.hotels.show', $roomInventory->hotelRoom->hotel) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors">
                                         {{ $roomInventory->hotelRoom->hotel->name }}
                                     </a>
                                 </p>
@@ -52,7 +52,7 @@
                             <div>
                                 <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Room</label>
                                 <p class="mt-1 text-sm font-medium">
-                                    <a href="{{ route('admin-dashboard.hotel.rooms.show', $roomInventory->hotelRoom) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors">
+                                    <a href="{{ route('hotel::admin.rooms.show', $roomInventory->hotelRoom) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors">
                                         {{ $roomInventory->hotelRoom->name }}
                                     </a>
                                 </p>
@@ -248,14 +248,14 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Quick Actions</h3>
                         <div class="space-y-2">
-                            <a href="{{ route('admin-dashboard.hotel.room-inventories.edit', $roomInventory) }}" 
+                            <a href="{{ route('hotel::admin.room-inventories.edit', $roomInventory) }}" 
                                class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
                                 Edit Inventory
                             </a>
-                            <a href="{{ route('admin-dashboard.hotel.room-inventories.create', ['hotel_room_id' => $roomInventory->hotel_room_id, 'date' => $roomInventory->date->addDay()->toDateString()]) }}" 
+                            <a href="{{ route('hotel::admin.room-inventories.create', ['hotel_room_id' => $roomInventory->hotel_room_id, 'date' => $roomInventory->date->addDay()->toDateString()]) }}" 
                                class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-md hover:bg-gray-50 dark:hover:bg-gray-500">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

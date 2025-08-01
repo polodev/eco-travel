@@ -18,13 +18,13 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('admin-dashboard.flight.airlines.edit', $airline->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
+                    <a href="{{ route('flight::admin.airlines.edit', $airline->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                         Edit
                     </a>
-                    <a href="{{ route('admin-dashboard.flight.airlines.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <a href="{{ route('flight::admin.airlines.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -112,7 +112,7 @@
                             <div>
                                 <div class="flex items-center justify-between mb-3">
                                     <h4 class="font-medium text-gray-800 dark:text-gray-100">Flights ({{ $airline->flights->count() }})</h4>
-                                    <a href="{{ route('admin-dashboard.flight.flights.index') }}?airline_id={{ $airline->id }}" class="text-xs text-blue-600 hover:text-blue-800">View All</a>
+                                    <a href="{{ route('flight::admin.flights.index') }}?airline_id={{ $airline->id }}" class="text-xs text-blue-600 hover:text-blue-800">View All</a>
                                 </div>
                                 @if($airline->flights->count() > 0)
                                     <div class="space-y-2">
@@ -142,7 +142,7 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Quick Actions</h3>
                         <div class="space-y-3">
-                            <a href="{{ route('admin-dashboard.flight.flights.create') }}?airline_id={{ $airline->id }}" class="block w-full text-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                            <a href="{{ route('flight::admin.flights.create') }}?airline_id={{ $airline->id }}" class="block w-full text-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                                 Add Flight
                             </a>
                             @if($airline->is_low_cost)

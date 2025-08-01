@@ -4,10 +4,10 @@ use Modules\Hotel\Http\Controllers\HotelController;
 use Modules\Hotel\Http\Controllers\HotelRoomController;
 use Modules\Hotel\Http\Controllers\RoomInventoryController;
 
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('hotel::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Hotel Management Routes
-    Route::prefix('hotels')->name('hotel.hotels.')->group(function () {
+    Route::prefix('hotels')->name('hotels.')->group(function () {
         Route::get('/', [HotelController::class, 'index'])->name('index');
         Route::post('/json', [HotelController::class, 'indexJson'])->name('json');
         Route::get('/create', [HotelController::class, 'create'])->name('create');
@@ -19,7 +19,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Hotel Room Management Routes
-    Route::prefix('hotel-rooms')->name('hotel.rooms.')->group(function () {
+    Route::prefix('hotel-rooms')->name('rooms.')->group(function () {
         Route::get('/', [HotelRoomController::class, 'index'])->name('index');
         Route::post('/json', [HotelRoomController::class, 'indexJson'])->name('json');
         Route::get('/create', [HotelRoomController::class, 'create'])->name('create');
@@ -31,7 +31,7 @@ Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', '
     });
 
     // Room Inventory Management Routes
-    Route::prefix('room-inventories')->name('hotel.room-inventories.')->group(function () {
+    Route::prefix('room-inventories')->name('room-inventories.')->group(function () {
         Route::get('/', [RoomInventoryController::class, 'index'])->name('index');
         Route::post('/json', [RoomInventoryController::class, 'indexJson'])->name('json');
         Route::get('/create', [RoomInventoryController::class, 'create'])->name('create');

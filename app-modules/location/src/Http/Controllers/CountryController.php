@@ -77,14 +77,14 @@ class CountryController extends Controller
             ->addColumn('action', function (Country $country) {
                 $actions = '<div class="flex items-center space-x-2">';
                 
-                $actions .= '<a href="' . route('admin-dashboard.location.countries.show', $country->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 transition-colors" title="View">
+                $actions .= '<a href="' . route('location::admin.countries.show', $country->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-blue-600 hover:bg-blue-700 transition-colors" title="View">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                 </svg>
                             </a>';
                 
-                $actions .= '<a href="' . route('admin-dashboard.location.countries.edit', $country->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-yellow-600 hover:bg-yellow-700 transition-colors" title="Edit">
+                $actions .= '<a href="' . route('location::admin.countries.edit', $country->id) . '" class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium rounded text-white bg-yellow-600 hover:bg-yellow-700 transition-colors" title="Edit">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
@@ -127,7 +127,7 @@ class CountryController extends Controller
 
         Country::create($request->all());
 
-        return redirect()->route('admin-dashboard.location.countries.index')
+        return redirect()->route('location::admin.countries.index')
                        ->with('success', 'Country created successfully!');
     }
 
@@ -169,7 +169,7 @@ class CountryController extends Controller
 
         $country->update($request->all());
 
-        return redirect()->route('admin-dashboard.location.countries.show', $country->id)
+        return redirect()->route('location::admin.countries.show', $country->id)
                        ->with('success', 'Country updated successfully!');
     }
 

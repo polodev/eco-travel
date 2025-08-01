@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf3ca592949d7c9877f6d589be0a476d",
+    "content-hash": "12f52eb21fb66eec2fa13305050dfda5",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -4342,6 +4342,38 @@
                     "Modules\\UserData\\Tests\\": "tests/",
                     "Modules\\UserData\\Database\\Factories\\": "database/factories/",
                     "Modules\\UserData\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/utility",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/utility",
+                "reference": "d188831b5cfdbec1db4cd9c3541b7a06c6ad4e0f"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Utility\\Providers\\UtilityServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Utility\\": "src/",
+                    "Modules\\Utility\\Tests\\": "tests/",
+                    "Modules\\Utility\\Database\\Factories\\": "database/factories/",
+                    "Modules\\Utility\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [

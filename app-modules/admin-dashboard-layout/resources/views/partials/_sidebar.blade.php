@@ -95,9 +95,9 @@
                             </svg>
                         </button>
                         <div x-show="locationOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.location.countries.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.location.countries.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Countries</a>
-                            <a href="{{ route('admin-dashboard.location.cities.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.location.cities.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Cities</a>
-                            <a href="{{ route('admin-dashboard.location.airports.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.location.airports.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Airports</a>
+                            <a href="{{ route('location::admin.countries.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('location::admin.countries.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Countries</a>
+                            <a href="{{ route('location::admin.cities.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('location::admin.cities.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Cities</a>
+                            <a href="{{ route('location::admin.airports.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('location::admin.airports.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Airports</a>
                         </div>
                     </div>
 
@@ -116,9 +116,9 @@
                             </svg>
                         </button>
                         <div x-show="flightOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.flight.airlines.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.flight.airlines.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Airlines</a>
-                            <a href="{{ route('admin-dashboard.flight.flights.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.flight.flights.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Flights</a>
-                            <a href="{{ route('admin-dashboard.flight.flight-schedules.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.flight.flight-schedules.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Schedules</a>
+                            <a href="{{ route('flight::admin.airlines.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('flight::admin.airlines.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Airlines</a>
+                            <a href="{{ route('flight::admin.flights.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('flight::admin.flights.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Flights</a>
+                            <a href="{{ route('flight::admin.flight-schedules.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('flight::admin.flight-schedules.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Schedules</a>
                         </div>
                     </div>
 
@@ -137,9 +137,9 @@
                             </svg>
                         </button>
                         <div x-show="hotelOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.hotel.hotels.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.hotel.hotels.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Hotels</a>
-                            <a href="{{ route('admin-dashboard.hotel.rooms.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.hotel.rooms.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Rooms</a>
-                            <a href="{{ route('admin-dashboard.hotel.room-inventories.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.hotel.room-inventories.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Room Inventory</a>
+                            <a href="{{ route('hotel::admin.hotels.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('hotel::admin.hotels.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Hotels</a>
+                            <a href="{{ route('hotel::admin.rooms.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('hotel::admin.rooms.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Rooms</a>
+                            <a href="{{ route('hotel::admin.room-inventories.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('hotel::admin.room-inventories.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Room Inventory</a>
                         </div>
                     </div>
 
@@ -159,8 +159,8 @@
                             </svg>
                         </button>
                         <div x-show="tourOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.tour.tours.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.tour.tours.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Tours</a>
-                            <a href="{{ route('admin-dashboard.tour.itineraries.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.tour.itineraries.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Itineraries</a>
+                            <a href="{{ route('tour::admin.tours.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('tour::admin.tours.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Tours</a>
+                            <a href="{{ route('tour::admin.itineraries.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('tour::admin.itineraries.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Itineraries</a>
                         </div>
                     </div>
 
@@ -179,10 +179,10 @@
                             </svg>
                         </button>
                         <div x-show="bookingOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.booking.bookings.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.booking.bookings.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Bookings</a>
-                            <a href="{{ route('admin-dashboard.booking.booking-flights.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.booking.booking-flights.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Flight Bookings</a>
-                            <a href="{{ route('admin-dashboard.booking.booking-hotels.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.booking.booking-hotels.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Hotel Bookings</a>
-                            <a href="{{ route('admin-dashboard.booking.booking-tours.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.booking.booking-tours.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Tour Bookings</a>
+                            <a href="{{ route('booking::admin.bookings.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('booking::admin.bookings.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Bookings</a>
+                            <a href="{{ route('booking::admin.booking-flights.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('booking::admin.booking-flights.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Flight Bookings</a>
+                            <a href="{{ route('booking::admin.booking-hotels.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('booking::admin.booking-hotels.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Hotel Bookings</a>
+                            <a href="{{ route('booking::admin.booking-tours.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('booking::admin.booking-tours.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Tour Bookings</a>
                         </div>
                     </div>
 
@@ -201,8 +201,8 @@
                             </svg>
                         </button>
                         <div x-show="paymentOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.payment.payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.payment.payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Payments</a>
-                            <a href="{{ route('admin-dashboard.payment.custom-payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.payment.custom-payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Custom Payments</a>
+                            <a href="{{ route('payment::admin.payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('payment::admin.payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Payments</a>
+                            <a href="{{ route('payment::admin.custom-payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('payment::admin.custom-payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Custom Payments</a>
                         </div>
                     </div>
                 </div>
@@ -230,24 +230,24 @@
                         </button>
                         
                         <div x-show="contentManagementOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.pages.index') }}" 
-                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.pages.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('page::admin.pages.index') }}" 
+                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('page::admin.pages.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Pages
                             </a>
                             <a href="{{ route('my-file::index') }}" 
                                class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('my-file::*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 My Files
                             </a>
-                            <a href="{{ route('admin-dashboard.documentation.index') }}" 
-                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.documentation.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('documentation::admin.index') }}" 
+                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('documentation::admin.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Documentation
                             </a>
-                            <a href="{{ route('admin-dashboard.blog.index') }}" 
-                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.blog.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('blog::admin.blog.index') }}" 
+                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('blog::admin.blog.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Blog Posts
                             </a>
-                            <a href="{{ route('admin-dashboard.tags.index') }}" 
-                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.tags.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('blog::admin.tags.index') }}" 
+                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('blog::admin.tags.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Blog Tags
                             </a>
                         </div>
@@ -296,8 +296,8 @@
                         </button>
                         
                         <div x-show="systemOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('admin-dashboard.options.index') }}" 
-                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('admin-dashboard.options.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                            <a href="{{ route('option::admin.options.index') }}" 
+                               class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('option::admin.options.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
                                 Options
                             </a>
                             <a href="#" 

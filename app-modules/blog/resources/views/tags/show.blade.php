@@ -7,13 +7,13 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">View tag information and associated blog posts</p>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('admin-dashboard.tags.edit', $tag->slug) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
+                    <a href="{{ route('blog::admin.tags.edit', $tag->slug) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-md hover:bg-yellow-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                         Edit Tag
                     </a>
-                    <form method="POST" action="{{ route('admin-dashboard.tags.destroy', $tag->slug) }}" class="inline-block" 
+                    <form method="POST" action="{{ route('blog::admin.tags.destroy', $tag->slug) }}" class="inline-block" 
                           onsubmit="return confirm('Are you sure you want to delete this tag? This action cannot be undone.')">
                         @csrf
                         @method('DELETE')
@@ -24,7 +24,7 @@
                             Delete Tag
                         </button>
                     </form>
-                    <a href="{{ route('admin-dashboard.tags.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <a href="{{ route('blog::admin.tags.index') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -115,10 +115,10 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        <a href="{{ route('admin-dashboard.blog.show', $blog->slug) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">
+                                        <a href="{{ route('blog::admin.blog.show', $blog->slug) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">
                                             View
                                         </a>
-                                        <a href="{{ route('admin-dashboard.blog.edit', $blog->slug) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300">
+                                        <a href="{{ route('blog::admin.blog.edit', $blog->slug) }}" class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300">
                                             Edit
                                         </a>
                                     </div>

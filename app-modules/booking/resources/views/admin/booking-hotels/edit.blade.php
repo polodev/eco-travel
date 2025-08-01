@@ -9,7 +9,7 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $bookingHotel->booking->booking_reference }} - {{ $bookingHotel->hotel->name ?? 'Unknown Hotel' }}</p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <a href="{{ route('admin-dashboard.booking.booking-hotels.show', $bookingHotel) }}" 
+                        <a href="{{ route('booking::admin.booking-hotels.show', $bookingHotel) }}" 
                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -23,7 +23,7 @@
 
         <!-- Edit Form -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
-            <form action="{{ route('admin-dashboard.booking.booking-hotels.update', $bookingHotel) }}" method="POST" class="p-6">
+            <form action="{{ route('booking::admin.booking-hotels.update', $bookingHotel) }}" method="POST" class="p-6">
                 @csrf
                 @method('PUT')
 
@@ -224,7 +224,7 @@
 
                 <!-- Form Actions -->
                 <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <a href="{{ route('admin-dashboard.booking.booking-hotels.show', $bookingHotel) }}" 
+                    <a href="{{ route('booking::admin.booking-hotels.show', $bookingHotel) }}" 
                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         Cancel
                     </a>

@@ -22,7 +22,8 @@
       "Bash(aws configure:*)",
       "Bash(touch:*)",
       "WebFetch(domain:gozayaan.com)",
-      "WebFetch(domain:sharetrip.net)"
+      "WebFetch(domain:sharetrip.net)",
+      "Bash(open http://rajib.test/)"
     ],
     "deny": []
   }

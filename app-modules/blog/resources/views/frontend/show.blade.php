@@ -10,7 +10,7 @@
                 <nav class="mb-8">
                     <ol class="flex items-center space-x-2 text-sm text-blue-200">
                         <li>
-                            <a href="{{ route('blog.index') }}" class="hover:text-white transition-colors">
+                            <a href="{{ route('blog::blog.index') }}" class="hover:text-white transition-colors">
                                 {{ __('messages.blog') }}
                             </a>
                         </li>
@@ -138,7 +138,7 @@
                                 <div class="space-y-4">
                                     @foreach($relatedBlogs as $relatedBlog)
                                         <article class="group">
-                                            <a href="{{ route('blog.show', $relatedBlog->slug) }}" class="block">
+                                            <a href="{{ route('blog::blog.show', $relatedBlog->slug) }}" class="block">
                                                 @if($relatedBlog->featured_image)
                                                     <img src="{{ $relatedBlog->featured_image }}" 
                                                          alt="{{ $relatedBlog->getTranslation('title', app()->getLocale()) }}"
@@ -160,7 +160,7 @@
                         <!-- Back to Blog -->
                         <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.explore_more') }}</h3>
-                            <a href="{{ route('blog.index') }}" 
+                            <a href="{{ route('blog::blog.index') }}" 
                                class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>

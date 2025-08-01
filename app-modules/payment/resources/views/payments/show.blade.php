@@ -8,14 +8,14 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">ID: {{ $payment->id }}</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin-dashboard.payment.payments.edit', $payment) }}" 
+                    <a href="{{ route('payment::admin.payments.edit', $payment) }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-yellow-700 bg-yellow-100 border border-yellow-300 rounded-md hover:bg-yellow-200">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                         Edit Payment
                     </a>
-                    <a href="{{ route('admin-dashboard.payment.payments.index') }}" 
+                    <a href="{{ route('payment::admin.payments.index') }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -153,6 +153,18 @@
                         @endif
                     </div>
                     @endif
+
+                    <!-- Activity Log -->
+                    @if($payment->activities->count() > 0)
+                        <x-utility::collapsible-card 
+                            title="ActivityLog - Payment"
+                            :collapsed="true"
+                            headerClass="bg-green-500 text-white hover:bg-green-600"
+                            cardClass="border border-gray-200 dark:border-gray-600"
+                        >
+                            <x-utility::activity-log :model="$payment" />
+                        </x-utility::collapsible-card>
+                    @endif
                 </div>
 
                 <!-- Sidebar -->
@@ -196,7 +208,7 @@
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
                         <div class="space-y-2">
-                            <a href="{{ route('admin-dashboard.payment.payments.edit', $payment) }}" 
+                            <a href="{{ route('payment::admin.payments.edit', $payment) }}" 
                                class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-yellow-700 bg-yellow-100 border border-yellow-300 rounded-md hover:bg-yellow-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
@@ -205,7 +217,7 @@
                             </a>
                             
                             @if($payment->booking)
-                            <a href="{{ route('admin-dashboard.booking.bookings.show', $payment->booking) }}" 
+                            <a href="{{ route('booking::admin.bookings.show', $payment->booking) }}" 
                                class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-700 bg-blue-100 border border-blue-300 rounded-md hover:bg-blue-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -216,7 +228,7 @@
                             @endif
 
                             @if($payment->customPayment)
-                            <a href="{{ route('admin-dashboard.payment.custom-payments.show', $payment->customPayment) }}" 
+                            <a href="{{ route('payment::admin.custom-payments.show', $payment->customPayment) }}" 
                                class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-green-700 bg-green-100 border border-green-300 rounded-md hover:bg-green-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

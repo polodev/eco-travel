@@ -15,7 +15,7 @@
                 </div>
                 <div class="flex flex-wrap gap-2">
                     @if($booking)
-                        <a href="{{ route('admin-dashboard.booking.bookings.show', $booking) }}" 
+                        <a href="{{ route('booking::admin.bookings.show', $booking) }}" 
                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -170,7 +170,7 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route('admin-dashboard.booking.booking-tours.json') }}',
+                    url: '{{ route('booking::admin.booking-tours.json') }}',
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

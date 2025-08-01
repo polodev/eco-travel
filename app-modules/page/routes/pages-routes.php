@@ -5,7 +5,7 @@ use Modules\Page\Http\Controllers\PageController;
 use Modules\Page\Http\Controllers\PageFrontendController;
 
 // Admin Routes (No localization - admin/dashboard only)
-Route::prefix('admin-dashboard')->name('admin-dashboard.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('page::admin.')->middleware(['web', 'auth'])->group(function () {
     
     // Page Management Routes
     Route::prefix('pages')->name('pages.')->group(function () {
@@ -29,5 +29,5 @@ Route::group([
 ], function() {
     
     // Page Frontend Routes
-    Route::get('/pages/{slug}', [PageFrontendController::class, 'show'])->name('pages.show');
+    Route::get('/pages/{slug}', [PageFrontendController::class, 'show'])->name('page::pages.show');
 });

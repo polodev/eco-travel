@@ -20,7 +20,7 @@
                         </svg>
                         Clear Filters
                     </button>
-                    <a href="{{ route('admin-dashboard.location.countries.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                    <a href="{{ route('location::admin.countries.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
@@ -62,7 +62,7 @@
 
     @push('scripts')
     <script>
-        const current_route_name = 'admin-dashboard.location.countries.index';
+        const current_route_name = 'location::admin.countries.index';
         
         $(document).ready(function() {
             // DataTable configuration
@@ -77,7 +77,7 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route('admin-dashboard.location.countries.json') }}',
+                    url: '{{ route('location::admin.countries.json') }}',
                     type: "POST",
                     data: function(d) {
                         d.is_active = $('#is_active').val();

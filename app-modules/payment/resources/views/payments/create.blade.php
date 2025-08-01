@@ -8,7 +8,7 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Add a new payment record</p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('admin-dashboard.payment.payments.index') }}" 
+                    <a href="{{ route('payment::admin.payments.index') }}" 
                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -21,7 +21,7 @@
 
         <!-- Create Form -->
         <div class="p-6">
-            <form method="POST" action="{{ route('admin-dashboard.payment.payments.store') }}">
+            <form method="POST" action="{{ route('payment::admin.payments.store') }}">
                 @csrf
 
                 @if($errors->has('general'))
@@ -206,7 +206,7 @@
 
                 <!-- Submit Button -->
                 <div class="mt-8 flex justify-end space-x-3">
-                    <a href="{{ route('admin-dashboard.payment.payments.index') }}" 
+                    <a href="{{ route('payment::admin.payments.index') }}" 
                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                         Cancel
                     </a>

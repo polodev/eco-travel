@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Option\Http\Controllers\OptionController;
 
 // Admin Dashboard Routes for Options
-Route::prefix('dashboard')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->name('admin-dashboard.')->group(function () {
+Route::prefix('dashboard')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->name('option::admin.')->group(function () {
     Route::prefix('options')->name('options.')->group(function () {
         Route::get('/', [OptionController::class, 'index'])->name('index');
         Route::post('/json', [OptionController::class, 'indexJson'])->name('json');

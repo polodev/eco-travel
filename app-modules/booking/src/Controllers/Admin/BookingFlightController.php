@@ -173,7 +173,7 @@ class BookingFlightController extends Controller
                 $html = '<div class="flex items-center space-x-1">';
                 
                 // View button
-                $html .= '<a href="' . route('admin-dashboard.booking.booking-flights.show', $flight) . '" 
+                $html .= '<a href="' . route('booking::admin.booking-flights.show', $flight) . '" 
                             class="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-100 rounded hover:bg-blue-200 dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700" 
                             title="View Details">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -184,7 +184,7 @@ class BookingFlightController extends Controller
                 
                 // Edit button (only for pending/issued tickets)
                 if (in_array($flight->ticket_status, ['pending', 'issued'])) {
-                    $html .= '<a href="' . route('admin-dashboard.booking.booking-flights.edit', $flight) . '" 
+                    $html .= '<a href="' . route('booking::admin.booking-flights.edit', $flight) . '" 
                                 class="inline-flex items-center px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded hover:bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-200 dark:hover:bg-yellow-700" 
                                 title="Edit Flight">';
                     $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -194,7 +194,7 @@ class BookingFlightController extends Controller
                 }
                 
                 // Main booking link
-                $html .= '<a href="' . route('admin-dashboard.booking.bookings.show', $flight->booking) . '" 
+                $html .= '<a href="' . route('booking::admin.bookings.show', $flight->booking) . '" 
                             class="inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500" 
                             title="View Main Booking">';
                 $html .= '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">';
@@ -278,7 +278,7 @@ class BookingFlightController extends Controller
             'flight_number' => $request->flight_number,
         ]);
 
-        return redirect()->route('admin-dashboard.booking.booking-flights.show', $bookingFlight)
+        return redirect()->route('booking::admin.booking-flights.show', $bookingFlight)
                         ->with('success', 'Flight booking updated successfully.');
     }
 
@@ -294,7 +294,7 @@ class BookingFlightController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Flight booking deleted successfully.',
-                'redirect' => route('admin-dashboard.booking.bookings.show', $bookingId)
+                'redirect' => route('booking::admin.bookings.show', $bookingId)
             ]);
         } catch (\Exception $e) {
             return response()->json([

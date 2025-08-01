@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Hotel\Models\Hotel;
 use Modules\Hotel\Models\HotelRoom;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class BookingHotel extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'booking_id',
         'hotel_id',
@@ -149,5 +152,49 @@ class BookingHotel extends Model
             $color,
             $name
         );
+    }
+
+    /**
+     * Configure activity logging.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([
+                'room_rate',
+                'total_room_cost',
+                'taxes_fees',
+                'total_amount',
+                'booking_status'
+            ])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['created_at', 'updated_at']);
+    }
+
+    /**
+     * Determine if the given event should be logged.
+     */
+    public function shouldLogEvent(string $eventName): bool
+    {
+        return in_array($eventName, ['updated', 'deleted']);
+    }
+
+    /**
+     * Get description for activity log.
+     */
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        $hotelInfo = "Hotel Booking #{$this->id}";
+        if ($this->booking_id) {
+            $hotelInfo .= " (Booking #{$this->booking_id})";
+        }
+
+        return match($eventName) {
+            'created' => "Hotel booking created {$hotelInfo} with {$this->formatted_total_amount}",
+            'updated' => "Hotel booking updated {$hotelInfo}",
+            'deleted' => "Hotel booking deleted {$hotelInfo}",
+            default => "Hotel booking {$eventName} {$hotelInfo}"
+        };
     }
 }

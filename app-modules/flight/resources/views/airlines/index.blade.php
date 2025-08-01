@@ -20,7 +20,7 @@
                         </svg>
                         Clear Filters
                     </button>
-                    <a href="{{ route('admin-dashboard.flight.airlines.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                    <a href="{{ route('flight::admin.airlines.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
@@ -71,7 +71,7 @@
 
     @push('scripts')
     <script>
-        const current_route_name = 'admin-dashboard.flight.airlines.index';
+        const current_route_name = 'flight::admin.airlines.index';
         
         $(document).ready(function() {
             // DataTable configuration
@@ -86,7 +86,7 @@
                 autoWidth: false,
                 responsive: false,
                 ajax: {
-                    url: '{{ route('admin-dashboard.flight.airlines.json') }}',
+                    url: '{{ route('flight::admin.airlines.json') }}',
                     type: "POST",
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

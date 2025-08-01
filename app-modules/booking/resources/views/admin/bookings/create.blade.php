@@ -4,7 +4,7 @@
         <div class="p-6 border-b border-gray-200 dark:border-gray-700">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Create New Booking</h2>
-                <a href="{{ route('admin-dashboard.booking.bookings.index') }}" 
+                <a href="{{ route('booking::admin.bookings.index') }}" 
                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -15,7 +15,7 @@
         </div>
         <!-- Form Content -->
         <div class="p-6">
-            <form method="POST" action="{{ route('admin-dashboard.booking.bookings.store') }}">
+            <form method="POST" action="{{ route('booking::admin.bookings.store') }}">
                 @csrf
                 <!-- Booking Info -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
