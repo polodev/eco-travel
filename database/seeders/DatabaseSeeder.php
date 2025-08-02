@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Modules\Blog\Database\Seeders\BlogSeeder;
 use Modules\Booking\Database\Seeders\BookingSeeder;
+use Modules\Contact\Database\Seeders\ContactSeeder;
 use Modules\Documentation\Database\Seeders\DocumentationSeeder;
 use Modules\Flight\Database\Seeders\AirlineSeeder;
 use Modules\Flight\Database\Seeders\FlightScheduleSeeder;
@@ -54,6 +55,9 @@ class DatabaseSeeder extends Seeder
 
             // tour 
             TourSeeder::class,
+
+            // contact
+            ContactSeeder::class,
         ]);
     }
 }

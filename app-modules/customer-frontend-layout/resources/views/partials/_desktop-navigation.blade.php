@@ -24,7 +24,7 @@
         </div>
     </div>
     
-    <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+    <a href="{{ LaravelLocalization::localizeUrl('/contact') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
         {{ __('messages.contact') }}
     </a>
 

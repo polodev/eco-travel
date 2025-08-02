@@ -273,6 +273,23 @@
                 </div>
             </div>
 
+            <!-- Contact Management Section -->
+            <div>
+                <h3 class="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Contact Management
+                </h3>
+                <div class="space-y-1">
+                    <!-- Contact Inquiries -->
+                    <a href="{{ route('contact::admin.contacts.index') }}" 
+                       class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('contact::admin.contacts.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Contact Inquiries
+                    </a>
+                </div>
+            </div>
+
             <!-- System Section -->
             <div>
                 <h3 class="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">

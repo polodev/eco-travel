@@ -1,11 +1,32 @@
 <?php
 
-// use Modules\Contact\Http\Controllers\ContactController;
+use Modules\Contact\Http\Controllers\ContactController;
+use Modules\Contact\Http\Controllers\ContactFrontendController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-// Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
-// Route::get('/contacts/create', [ContactController::class, 'create'])->name('contacts.create');
-// Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
-// Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');
-// Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
-// Route::put('/contacts/{contact}', [ContactController::class, 'update'])->name('contacts.update');
-// Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+// Admin Routes
+Route::prefix('admin-dashboard')->name('contact::admin.')->middleware(['web', 'auth'])->group(function () {
+    
+    // Contact Management Routes
+    Route::prefix('contacts')->name('contacts.')->group(function () {
+        Route::get('/', [ContactController::class, 'index'])->name('index');
+        Route::post('/json', [ContactController::class, 'indexJson'])->name('json');
+        Route::get('/{contact}', [ContactController::class, 'show'])->name('show');
+        Route::get('/{contact}/edit', [ContactController::class, 'edit'])->name('edit');
+        Route::put('/{contact}', [ContactController::class, 'update'])->name('update');
+        Route::delete('/{contact}', [ContactController::class, 'destroy'])->name('destroy');
+    });
+});
+
+// Frontend Routes (Localized)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function() {
+    
+    // Contact Form Routes
+    Route::prefix('contact')->name('contact::frontend.contacts.')->group(function () {
+        Route::get('/', [ContactFrontendController::class, 'create'])->name('create');
+        Route::post('/', [ContactFrontendController::class, 'store'])->name('store');
+    });
+});
