@@ -48,6 +48,7 @@ return new class extends Migration
             $table->index(['user_id']);
             $table->index(['amount']);
         });
+        DB::statement("ALTER TABLE custom_payments AUTO_INCREMENT = 100000;");
     }
 
     /**

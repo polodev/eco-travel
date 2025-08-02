@@ -60,6 +60,8 @@ return new class extends Migration
             
             // Note: Foreign key constraints removed - validation handled at application level
         });
+        DB::statement("ALTER TABLE payments AUTO_INCREMENT = 100000;");
+
     }
 
     /**

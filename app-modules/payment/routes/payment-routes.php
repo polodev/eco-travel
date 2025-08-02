@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Payment\Http\Controllers\PaymentController;
 use Modules\Payment\Http\Controllers\CustomPaymentController;
+use Modules\Payment\Http\Controllers\FrontendPaymentController;
 
 // Admin Routes (No localization - admin/dashboard only)
 Route::prefix('admin-dashboard')->name('payment::admin.')->middleware(['web', 'auth'])->group(function () {
@@ -30,4 +31,25 @@ Route::prefix('admin-dashboard')->name('payment::admin.')->middleware(['web', 'a
         Route::put('/{customPayment}', [CustomPaymentController::class, 'update'])->name('update');
         Route::delete('/{customPayment}', [CustomPaymentController::class, 'destroy'])->name('destroy');
     });
+});
+
+// Frontend Routes (With localization support)
+Route::group([
+    'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'web'],
+    'as' => 'payment::'
+], function() {
+    
+    // Custom Payment Form Routes
+    Route::get('/custom-payment', [FrontendPaymentController::class, 'showCustomPaymentForm'])->name('custom-payment.form');
+    Route::post('/custom-payment', [FrontendPaymentController::class, 'submitCustomPaymentForm'])->name('custom-payment.submit');
+    
+    // Payment Processing Routes
+    Route::get('/payments/{payment}', [FrontendPaymentController::class, 'showPayment'])->name('payments.show');
+    Route::post('/payments/{payment}/process', [FrontendPaymentController::class, 'processPayment'])->name('payments.process');
+    
+    // Payment Callback Routes (for SSL Commerz)
+    Route::post('/payments/{payment}/success', [FrontendPaymentController::class, 'paymentSuccess'])->name('payments.success');
+    Route::post('/payments/{payment}/fail', [FrontendPaymentController::class, 'paymentFail'])->name('payments.fail');
+    Route::post('/payments/{payment}/cancel', [FrontendPaymentController::class, 'paymentCancel'])->name('payments.cancel');
 });

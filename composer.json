@@ -26,6 +26,7 @@
         "modules/auth": "*",
         "modules/blog": "*",
         "modules/booking": "*",
+        "modules/contact": "*",
         "modules/customer-account-layout": "*",
         "modules/customer-dashboard": "*",
         "modules/customer-frontend-layout": "*",

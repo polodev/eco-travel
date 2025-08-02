@@ -47,6 +47,7 @@ return new class extends Migration
             // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+        DB::statement("ALTER TABLE bookings AUTO_INCREMENT = 100000;");
     }
 
     /**
