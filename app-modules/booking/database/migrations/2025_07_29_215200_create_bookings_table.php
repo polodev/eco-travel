@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('coupon_code')->nullable(); // Applied coupon code
             $table->json('customer_details'); // Customer information
             $table->json('contact_details'); // Contact information
+            $table->string('email')->nullable(); // Customer email address
             $table->json('additional_requirements')->nullable(); // Special requests
             $table->datetime('booking_date'); // When booking was made
             $table->datetime('travel_date')->nullable(); // When travel starts

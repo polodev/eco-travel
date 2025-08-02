@@ -19,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
             'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
         ]);
+        
+        // Exclude SSL Commerz callback routes from CSRF verification
+        $middleware->validateCsrfTokens(except: [
+            'sslcommerz/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

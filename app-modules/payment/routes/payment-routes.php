@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Payment\Http\Controllers\PaymentController;
 use Modules\Payment\Http\Controllers\CustomPaymentController;
 use Modules\Payment\Http\Controllers\FrontendPaymentController;
+use Modules\Payment\Http\Controllers\SslCommerzController;
 
 // Admin Routes (No localization - admin/dashboard only)
 Route::prefix('admin-dashboard')->name('payment::admin.')->middleware(['web', 'auth'])->group(function () {
@@ -48,8 +49,14 @@ Route::group([
     Route::get('/payments/{payment}', [FrontendPaymentController::class, 'showPayment'])->name('payments.show');
     Route::post('/payments/{payment}/process', [FrontendPaymentController::class, 'processPayment'])->name('payments.process');
     
-    // Payment Callback Routes (for SSL Commerz)
-    Route::post('/payments/{payment}/success', [FrontendPaymentController::class, 'paymentSuccess'])->name('payments.success');
-    Route::post('/payments/{payment}/fail', [FrontendPaymentController::class, 'paymentFail'])->name('payments.fail');
-    Route::post('/payments/{payment}/cancel', [FrontendPaymentController::class, 'paymentCancel'])->name('payments.cancel');
+    // Payment Confirmation Route
+    Route::get('/payment-confirmation/{payment}', [FrontendPaymentController::class, 'showPaymentConfirmation'])->name('payment-confirmation');
+});
+
+// SSL Commerz Callback Routes (No localization - these are called by SSL Commerz gateway)
+Route::middleware(['web'])->name('payment::')->group(function () {
+    Route::post('/sslcommerz/success/{store?}', [SslCommerzController::class, 'success'])->name('sslcommerz.success');
+    Route::post('/sslcommerz/fail/{store?}', [SslCommerzController::class, 'fail'])->name('sslcommerz.fail');
+    Route::post('/sslcommerz/cancel/{store?}', [SslCommerzController::class, 'cancel'])->name('sslcommerz.cancel');
+    Route::post('/sslcommerz/ipn/{store?}', [SslCommerzController::class, 'ipn'])->name('sslcommerz.ipn');
 });

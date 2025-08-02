@@ -16,6 +16,8 @@ class Payment extends Model
         'booking_id',
         'custom_payment_id',
         'amount',
+        'email_address',
+        'store_name',
         'status',
         'payment_method',
         'transaction_id',
@@ -227,6 +229,30 @@ class Payment extends Model
     public function isRefunded(): bool
     {
         return $this->status === 'refunded';
+    }
+
+    /**
+     * Get email address for payment - with fallback hierarchy
+     */
+    public function getEmailForPaymentAttribute(): string
+    {
+        // 1. Use email_address column if set
+        if (!empty($this->email_address)) {
+            return $this->email_address;
+        }
+
+        // 2. Try to get email from custom payment
+        if ($this->customPayment && !empty($this->customPayment->email)) {
+            return $this->customPayment->email;
+        }
+
+        // 3. Try to get email from booking
+        if ($this->booking && !empty($this->booking->email)) {
+            return $this->booking->email;
+        }
+
+        // 4. Fall back to config fallback email
+        return config('sslcommerz.fallback_email', 'polodev10@gmail.com');
     }
 
     /**

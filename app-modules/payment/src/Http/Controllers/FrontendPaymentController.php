@@ -88,7 +88,9 @@ class FrontendPaymentController extends Controller
             $payment = Payment::create([
                 'custom_payment_id' => $customPayment->id,
                 'amount' => $request->amount,
+                'email_address' => $request->email, // Store email directly in payment
                 'payment_method' => 'sslcommerz',
+                'store_name' => config('sslcommerz.default_store', 'main-store'),
                 'status' => 'pending',
                 'payment_date' => now(),
             ]);
@@ -116,48 +118,29 @@ class FrontendPaymentController extends Controller
     }
 
     /**
-     * Process payment (for future SSL Commerz integration)
+     * Process payment - redirect to appropriate payment gateway
      */
     public function processPayment(Payment $payment, Request $request)
     {
-        // Validate payment method
-        if ($payment->payment_method !== 'sslcommerz') {
-            return back()->withErrors(['error' => 'This payment method is not currently supported.']);
+        // Route to appropriate payment gateway based on payment method
+        switch ($payment->payment_method) {
+            case 'sslcommerz':
+                $sslController = new \Modules\Payment\Http\Controllers\SslCommerzController();
+                return $sslController->processPayment($payment, $request);
+                
+            default:
+                return back()->withErrors(['error' => __('messages.payment_method_not_supported', ['method' => $payment->payment_method])]);
         }
-
-        // Here you would integrate with SSL Commerz API
-        // For now, we'll just show a message
-        return back()->with('info', 'SSL Commerz integration will be implemented in the next phase.');
     }
 
     /**
-     * Handle successful payment callback
+     * Show payment confirmation page
      */
-    public function paymentSuccess(Payment $payment, Request $request)
+    public function showPaymentConfirmation(Payment $payment)
     {
-        // Handle SSL Commerz success callback
-        // This will be implemented when SSL Commerz integration is added
-        
-        return view('payment::frontend.payment-success', compact('payment'));
-    }
+        // Load related data
+        $payment->load(['customPayment', 'booking']);
 
-    /**
-     * Handle failed payment callback
-     */
-    public function paymentFail(Payment $payment, Request $request)
-    {
-        // Handle SSL Commerz fail callback
-        
-        return view('payment::frontend.payment-failed', compact('payment'));
-    }
-
-    /**
-     * Handle cancelled payment callback
-     */
-    public function paymentCancel(Payment $payment, Request $request)
-    {
-        // Handle SSL Commerz cancel callback
-        
-        return view('payment::frontend.payment-cancelled', compact('payment'));
+        return view('payment::frontend.payment-confirmation', compact('payment'));
     }
 }

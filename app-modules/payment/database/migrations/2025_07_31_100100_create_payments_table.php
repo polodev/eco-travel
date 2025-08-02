@@ -23,6 +23,8 @@ return new class extends Migration
             
             // Payment details
             $table->decimal('amount', 10, 2);
+            $table->string('email_address')->nullable(); // Email address for payment
+            $table->string('store_name')->default('default_store'); // SSL Commerz store name
             $table->string('status')->default('pending'); // 'pending', 'processing', 'completed', 'failed', 'cancelled', 'refunded'
             $table->string('payment_method')->nullable(); // 'sslcommerz', 'bkash', 'nagad', 'city_bank', 'brac_bank', 'bank_transfer', 'cash', 'other'
             
