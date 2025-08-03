@@ -7,6 +7,7 @@ return [
     'about' => 'About',
     'contact' => 'Contact',
     'services' => 'Services',
+    'payment' => 'Payment',
     'dashboard' => 'Dashboard',
     'welcome_dashboard' => 'Welcome to your dashboard.',
     'my_profile' => 'My Profile',

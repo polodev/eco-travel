@@ -7,6 +7,7 @@ return [
     'about' => 'সম্পর্কে',
     'contact' => 'যোগাযোগ',
     'services' => 'সার্ভিস',
+    'payment' => 'পেমেন্ট',
     'dashboard' => 'ড্যাশবোর্ড',
     'welcome_dashboard' => 'আপনার ড্যাশবোর্ডে স্বাগতম।',
     'my_profile' => 'আমার প্রোফাইল',
