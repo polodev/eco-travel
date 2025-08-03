@@ -3,10 +3,10 @@
         <!-- Hero Section -->
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                {{ $page->getTranslation('title', app()->getLocale()) }}
+                {{ __('messages.privacy_policy') }}
             </h1>
             <p class="text-lg text-gray-600 dark:text-gray-400">
-                Effective date: {{ $page->published_at ? $page->published_at->format('F d, Y') : $page->created_at->format('F d, Y') }}
+                Effective date: January 2025
             </p>
         </div>
 
@@ -15,45 +15,29 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 border border-gray-200 dark:border-gray-700">
                 <!-- Privacy Notice -->
                 <div class="mb-8 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border-l-4 border-green-500">
-                    <h2 class="text-xl font-semibold text-green-900 dark:text-green-100 mb-2">Your Privacy Matters</h2>
+                    <h2 class="text-xl font-semibold text-green-900 dark:text-green-100 mb-2">
+                        @if(app()->getLocale() == 'bn')
+                            আপনার গোপনীয়তা গুরুত্বপূর্ণ
+                        @else
+                            Your Privacy Matters
+                        @endif
+                    </h2>
                     <p class="text-green-800 dark:text-green-200">
-                        We are committed to protecting your privacy and ensuring the security of your personal information.
+                        @if(app()->getLocale() == 'bn')
+                            আমরা আপনার গোপনীয়তা রক্ষা এবং আপনার ব্যক্তিগত তথ্যের নিরাপত্তা নিশ্চিত করতে প্রতিশ্রুতিবদ্ধ।
+                        @else
+                            We are committed to protecting your privacy and ensuring the security of your personal information.
+                        @endif
                     </p>
-                </div>
-
-                <!-- Information Collection Section -->
-                <div class="mb-8">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
-                        <svg class="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Information We Collect
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                            <h4 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">Personal Information</h4>
-                            <ul class="text-blue-800 dark:text-blue-200 text-sm space-y-1">
-                                <li>• Name and contact details</li>
-                                <li>• Email addresses</li>
-                                <li>• Phone numbers</li>
-                                <li>• Billing information</li>
-                            </ul>
-                        </div>
-                        <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
-                            <h4 class="font-semibold text-purple-900 dark:text-purple-100 mb-2">Usage Information</h4>
-                            <ul class="text-purple-800 dark:text-purple-200 text-sm space-y-1">
-                                <li>• Website interactions</li>
-                                <li>• IP addresses</li>
-                                <li>• Browser information</li>
-                                <li>• Device data</li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Page Content -->
                 <div class="space-y-6">
-                    {!! nl2br(e($page->getTranslation('content', app()->getLocale()))) !!}
+                    @if(app()->getLocale() == 'bn')
+                        @include('templates.legal.privacy-policy.content-bn')
+                    @else
+                        @include('templates.legal.privacy-policy.content-en')
+                    @endif
                 </div>
 
                 <!-- Data Rights Section -->
@@ -62,7 +46,11 @@
                         <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                         </svg>
-                        Your Rights
+                        @if(app()->getLocale() == 'bn')
+                            আপনার অধিকারসমূহ
+                        @else
+                            Your Rights
+                        @endif
                     </h3>
                     <div class="grid md:grid-cols-3 gap-4">
                         <div class="text-center">
@@ -71,8 +59,12 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                             </div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Access</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">View your data</p>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100">
+                                @if(app()->getLocale() == 'bn') অ্যাক্সেস @else Access @endif
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                @if(app()->getLocale() == 'bn') আপনার ডেটা দেখুন @else View your data @endif
+                            </p>
                         </div>
                         <div class="text-center">
                             <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-800 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -80,8 +72,12 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"></path>
                                 </svg>
                             </div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Correct</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Update your data</p>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100">
+                                @if(app()->getLocale() == 'bn') সংশোধন @else Correct @endif
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                @if(app()->getLocale() == 'bn') আপনার ডেটা আপডেট করুন @else Update your data @endif
+                            </p>
                         </div>
                         <div class="text-center">
                             <div class="w-12 h-12 bg-red-100 dark:bg-red-800 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -89,8 +85,12 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7"></path>
                                 </svg>
                             </div>
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Delete</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Remove your data</p>
+                            <h4 class="font-medium text-gray-900 dark:text-gray-100">
+                                @if(app()->getLocale() == 'bn') মুছে ফেলুন @else Delete @endif
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                @if(app()->getLocale() == 'bn') আপনার ডেটা সরান @else Remove your data @endif
+                            </p>
                         </div>
                     </div>
                 </div>

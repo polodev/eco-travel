@@ -3,10 +3,10 @@
         <!-- Hero Section -->
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                {{ $page->getTranslation('title', app()->getLocale()) }}
+                {{ __('messages.terms_of_service') }}
             </h1>
             <p class="text-lg text-gray-600 dark:text-gray-400">
-                Last updated: {{ $page->updated_at->format('F d, Y') }}
+                Last updated: January 2025
             </p>
         </div>
 
@@ -23,7 +23,11 @@
 
                 <!-- Page Content -->
                 <div class="space-y-6">
-                    {!! nl2br(e($page->getTranslation('content', app()->getLocale()))) !!}
+                    @if(app()->getLocale() == 'bn')
+                        @include('templates.legal.terms-of-service.content-bn')
+                    @else
+                        @include('templates.legal.terms-of-service.content-en')
+                    @endif
                 </div>
 
                 <!-- Contact Information -->
