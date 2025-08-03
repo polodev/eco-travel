@@ -109,12 +109,14 @@ class CustomPaymentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'mobile' => 'required|string|max:20',
-            'amount' => 'required|numeric|min:0.01',
+            'amount' => 'required|numeric|min:100',
             'purpose' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'reference_number' => 'nullable|string|max:255',
             'status' => 'required|in:submitted,processing,completed,cancelled',
             'admin_notes' => 'nullable|string',
+        ], [
+            'amount.min' => __('messages.amount_minimum_required'),
         ]);
 
         // Set user who processed this payment
@@ -151,12 +153,14 @@ class CustomPaymentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'mobile' => 'required|string|max:20',
-            'amount' => 'required|numeric|min:0.01',
+            'amount' => 'required|numeric|min:100',
             'purpose' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'reference_number' => 'nullable|string|max:255',
             'status' => 'required|in:submitted,processing,completed,cancelled',
             'admin_notes' => 'nullable|string',
+        ], [
+            'amount.min' => __('messages.amount_minimum_required'),
         ]);
 
         // Set processed_by to current admin user

@@ -81,10 +81,10 @@
                         <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Amount <span class="text-red-500">*</span>
                         </label>
-                        <input type="number" id="amount" name="amount" step="0.01" min="0.01" required
+                        <input type="number" id="amount" name="amount" step="0.01" min="100" required
                                value="{{ old('amount') }}"
                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                               placeholder="0.00">
+                               placeholder="100.00">
                         @error('amount')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
@@ -237,6 +237,65 @@
                     bookingSelect.value = '';
                 }
             });
+            
+            // Amount validation
+            const amountInput = document.getElementById('amount');
+            const form = amountInput.closest('form');
+            
+            // Real-time validation
+            amountInput.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                const errorElement = this.parentElement.querySelector('.text-red-600, .text-red-400');
+                
+                if (value < 100 && this.value !== '') {
+                    this.classList.add('border-red-500');
+                    this.classList.remove('border-gray-300', 'dark:border-gray-600');
+                    
+                    // Show error message if doesn't exist
+                    if (!errorElement) {
+                        const errorMsg = document.createElement('p');
+                        errorMsg.className = 'mt-1 text-sm text-red-600 dark:text-red-400';
+                        errorMsg.textContent = 'Amount must be at least ৳100.00';
+                        this.parentElement.appendChild(errorMsg);
+                    }
+                } else {
+                    this.classList.remove('border-red-500');
+                    this.classList.add('border-gray-300', 'dark:border-gray-600');
+                    
+                    // Remove error message if exists and was added by JS
+                    if (errorElement && !errorElement.hasAttribute('data-server-error')) {
+                        errorElement.remove();
+                    }
+                }
+            });
+            
+            // Form submission validation
+            form.addEventListener('submit', function(e) {
+                const value = parseFloat(amountInput.value);
+                
+                if (value < 100) {
+                    e.preventDefault();
+                    amountInput.focus();
+                    
+                    // Show error if not already shown
+                    const errorElement = amountInput.parentElement.querySelector('.text-red-600, .text-red-400');
+                    if (!errorElement) {
+                        const errorMsg = document.createElement('p');
+                        errorMsg.className = 'mt-1 text-sm text-red-600 dark:text-red-400';
+                        errorMsg.textContent = 'Amount must be at least ৳100.00';
+                        amountInput.parentElement.appendChild(errorMsg);
+                    }
+                    
+                    amountInput.classList.add('border-red-500');
+                    return false;
+                }
+            });
+            
+            // Mark server errors so they don't get removed by JS
+            const existingError = amountInput.parentElement.querySelector('.text-red-600, .text-red-400');
+            if (existingError) {
+                existingError.setAttribute('data-server-error', 'true');
+            }
         });
     </script>
     @endpush

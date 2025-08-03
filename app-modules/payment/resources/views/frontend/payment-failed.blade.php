@@ -49,7 +49,7 @@
                 <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         {{ __('messages.payment_help_text') }}
-                        <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.contact_support') }}</a>
+                        <a href="{{ LaravelLocalization::localizeUrl('/contact') }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.contact_support') }}</a>
                     </p>
                 </div>
             </div>

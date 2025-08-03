@@ -132,7 +132,7 @@ class PaymentController extends Controller
         $validatedData = $request->validate([
             'booking_id' => 'nullable|exists:bookings,id',
             'custom_payment_id' => 'nullable|exists:custom_payments,id',
-            'amount' => 'required|numeric|min:0.01',
+            'amount' => 'required|numeric|min:100',
             'status' => 'required|in:pending,processing,completed,failed,cancelled,refunded',
             'payment_method' => 'nullable|in:sslcommerz,bkash,nagad,city_bank,brac_bank,bank_transfer,cash,other',
             'transaction_id' => 'nullable|string|max:255|unique:payments,transaction_id',
@@ -141,6 +141,8 @@ class PaymentController extends Controller
             'payment_date' => 'nullable|date',
             'receipt_number' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
+        ], [
+            'amount.min' => __('messages.amount_minimum_required'),
         ]);
 
         // Ensure only one reference type is set

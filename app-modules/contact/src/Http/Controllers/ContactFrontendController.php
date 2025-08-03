@@ -10,7 +10,7 @@ class ContactFrontendController extends Controller
 {
     public function create()
     {
-        return view('contact::frontend.contact-form')->withErrors([]);
+        return view('contact::frontend.contact-form');
     }
 
     public function store(Request $request)
@@ -21,7 +21,7 @@ class ContactFrontendController extends Controller
         
         // Rate limiting: Check if more than 3 contacts from same IP within 2 minutes
         $recentContacts = Contact::where('ip_address', $ipAddress)
-            ->where('created_at', '>=', now()->subMinutes(2))
+            ->where('created_at', '>=', now()->subMinutes(5))
             ->count();
             
         if ($recentContacts >= 3) {
@@ -48,7 +48,12 @@ class ContactFrontendController extends Controller
             $validationRules['g-recaptcha-response'] = 'required|recaptcha';
         }
 
-        $validatedData = $request->validate($validationRules);
+        $validatedData = $request->validate($validationRules, [
+            'name.required' => __('messages.name_required'),
+            'mobile.required' => __('messages.mobile_required'),
+            'message.required' => __('messages.message_required'),
+            'email.email' => __('messages.email_invalid'),
+        ]);
 
         // Remove reCAPTCHA response from data before creating contact
         unset($validatedData['g-recaptcha-response']);

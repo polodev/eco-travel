@@ -1,4 +1,7 @@
 <x-customer-frontend-layout::layout>
+    @push('head')
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    @endpush
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Mobile Header -->
@@ -26,10 +29,10 @@
                                    name="amount" 
                                    id="amount" 
                                    step="0.01" 
-                                   min="1"
+                                   min="100"
                                    value="{{ old('amount') }}"
                                    class="block w-full pl-8 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('amount') border-red-500 @enderror"
-                                   placeholder="0.00"
+                                   placeholder="100.00"
                                    required>
                         </div>
                         @error('amount')
@@ -54,22 +57,6 @@
                         @enderror
                     </div>
 
-                    <!-- Email Field -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('messages.email_address') }}
-                        </label>
-                        <input type="email" 
-                               name="email" 
-                               id="email" 
-                               value="{{ old('email') }}"
-                               class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-500 @enderror"
-                               placeholder="{{ __('messages.enter_email') }}">
-                        @error('email')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                     <!-- Mobile Field -->
                     <div>
                         <label for="mobile" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -83,6 +70,22 @@
                                placeholder="{{ __('messages.enter_mobile') }}"
                                required>
                         @error('mobile')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Email Field -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {{ __('messages.email_address') }}
+                        </label>
+                        <input type="email" 
+                               name="email" 
+                               id="email" 
+                               value="{{ old('email') }}"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-500 @enderror"
+                               placeholder="{{ __('messages.enter_email') }}">
+                        @error('email')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
@@ -199,10 +202,73 @@
         </div>
     </div>
 
-    @if(env('RECAPTCHA_ENABLED', false))
     @push('scripts')
+    @if(env('RECAPTCHA_ENABLED', false))
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    @endpush
     @endif
+    
+    <!-- Amount Validation Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const amountInput = document.getElementById('amount');
+        const form = amountInput.closest('form');
+        
+        // Real-time validation
+        amountInput.addEventListener('input', function() {
+            const value = parseFloat(this.value);
+            const errorElement = this.parentElement.parentElement.querySelector('.text-red-600, .text-red-400');
+            
+            if (value < 100 && this.value !== '') {
+                this.classList.add('border-red-500');
+                this.classList.remove('border-gray-300', 'dark:border-gray-600');
+                
+                // Show error message if doesn't exist
+                if (!errorElement) {
+                    const errorMsg = document.createElement('p');
+                    errorMsg.className = 'mt-1 text-sm text-red-600 dark:text-red-400';
+                    errorMsg.textContent = '{{ __("messages.amount_minimum_required") }}';
+                    this.parentElement.parentElement.appendChild(errorMsg);
+                }
+            } else {
+                this.classList.remove('border-red-500');
+                this.classList.add('border-gray-300', 'dark:border-gray-600');
+                
+                // Remove error message if exists and was added by JS
+                if (errorElement && !errorElement.hasAttribute('data-server-error')) {
+                    errorElement.remove();
+                }
+            }
+        });
+        
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+            const value = parseFloat(amountInput.value);
+            
+            if (value < 100) {
+                e.preventDefault();
+                amountInput.focus();
+                
+                // Show error if not already shown
+                const errorElement = amountInput.parentElement.parentElement.querySelector('.text-red-600, .text-red-400');
+                if (!errorElement) {
+                    const errorMsg = document.createElement('p');
+                    errorMsg.className = 'mt-1 text-sm text-red-600 dark:text-red-400';
+                    errorMsg.textContent = '{{ __("messages.amount_minimum_required") }}';
+                    amountInput.parentElement.parentElement.appendChild(errorMsg);
+                }
+                
+                amountInput.classList.add('border-red-500');
+                return false;
+            }
+        });
+        
+        // Mark server errors so they don't get removed by JS
+        const existingError = amountInput.parentElement.parentElement.querySelector('.text-red-600, .text-red-400');
+        if (existingError) {
+            existingError.setAttribute('data-server-error', 'true');
+        }
+    });
+    </script>
+    @endpush
 </x-customer-frontend-layout::layout>

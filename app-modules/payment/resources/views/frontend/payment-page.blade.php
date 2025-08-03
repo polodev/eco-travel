@@ -164,11 +164,6 @@
                                     </form>
                                 </div>
                             @endif
-                            
-                            <a href="{{ route('payment::custom-payment.form') }}" 
-                               class="mt-4 w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                {{ __('messages.new_payment') }}
-                            </a>
                         </div>
                     @endif
 
@@ -187,7 +182,7 @@
             <div class="mt-8 text-center">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     {{ __('messages.payment_help_text') }} 
-                    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.contact_customer_care') }}</a>
+                    <a href="{{ LaravelLocalization::localizeUrl('/contact') }}" class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.contact_customer_care') }}</a>
                 </p>
             </div>
             @endif

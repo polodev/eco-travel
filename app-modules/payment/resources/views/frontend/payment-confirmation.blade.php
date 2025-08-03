@@ -133,13 +133,6 @@
                             </svg>
                             {{ __('messages.print_receipt') }}
                         </button>
-                        <a href="{{ route('payment::custom-payment.form') }}" 
-                           class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            {{ __('messages.new_payment') }}
-                        </a>
                     </div>
                 @elseif($payment->status === 'failed' || $payment->status === 'canceled')
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -150,19 +143,7 @@
                             </svg>
                             {{ __('messages.try_again') }}
                         </a>
-                        <a href="{{ route('payment::custom-payment.form') }}" 
-                           class="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            {{ __('messages.new_payment') }}
-                        </a>
                     </div>
-                @else
-                    <a href="{{ route('payment::custom-payment.form') }}" 
-                       class="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        {{ __('messages.back_to_payment_form') }}
-                    </a>
                 @endif
             </div>
 
@@ -173,7 +154,7 @@
                     <p class="text-sm text-blue-700 dark:text-blue-300 mb-4">
                         {{ __('messages.payment_help_text') }}
                     </p>
-                    <a href="#" class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                    <a href="{{ LaravelLocalization::localizeUrl('/contact') }}" class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>

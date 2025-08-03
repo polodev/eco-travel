@@ -419,9 +419,13 @@ return [
     'send_another_message' => 'Send Another Message',
     
     // Contact Form Validation
+    'please_fix_errors' => 'Please fix the following errors',
     'name_required' => 'Name is required',
     'mobile_required' => 'Mobile number is required',
     'message_required' => 'Message is required',
     'email_invalid' => 'Please enter a valid email address',
     'rate_limit_error' => 'Too many requests. Please wait a moment before submitting another message.',
+    
+    // Payment Form Validation
+    'amount_minimum_required' => 'Amount must be at least ৳100.00',
 ];

@@ -21,7 +21,7 @@ Route::prefix('admin-dashboard')->name('contact::admin.')->middleware(['web', 'a
 // Frontend Routes (Localized)
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
-    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+    'middleware' => ['web', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function() {
     
     // Contact Form Routes

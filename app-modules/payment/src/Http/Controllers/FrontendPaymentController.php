@@ -26,14 +26,16 @@ class FrontendPaymentController extends Controller
     {
         // Prepare validation rules
         $rules = [
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:100',
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'mobile' => 'required|string|max:20',
             'purpose' => 'nullable|string|max:500',
         ];
 
-        $messages = [];
+        $messages = [
+            'amount.min' => __('messages.amount_minimum_required'),
+        ];
 
         // Add reCAPTCHA validation if enabled
         if (env('RECAPTCHA_ENABLED', false)) {

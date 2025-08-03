@@ -406,9 +406,13 @@ return [
     'send_another_message' => 'আরেকটি বার্তা পাঠান',
     
     // Contact Form Validation
+    'please_fix_errors' => 'অনুগ্রহ করে নিম্নলিখিত ত্রুটিগুলি ঠিক করুন',
     'name_required' => 'নাম আবশ্যক',
     'mobile_required' => 'মোবাইল নম্বর আবশ্যক',
     'message_required' => 'বার্তা আবশ্যক',
     'email_invalid' => 'অনুগ্রহ করে একটি বৈধ ইমেইল ঠিকানা লিখুন',
     'rate_limit_error' => 'অনেক বেশি অনুরোধ। আরেকটি বার্তা জমা দেওয়ার আগে একটু অপেক্ষা করুন।',
+    
+    // Payment Form Validation
+    'amount_minimum_required' => 'পরিমাণ অন্তত ৳১০০.০০ হতে হবে',
 ];
