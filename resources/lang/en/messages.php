@@ -451,4 +451,13 @@ return [
     'terms_of_service' => 'Terms of Service',
     'privacy_policy' => 'Privacy Policy',
     'company_address' => 'House 3, Road 16, Sector 11, Uttara, Dhaka - 1230, Bangladesh',
+    'agreement_to_terms' => 'Agreement to Terms',
+    'agreement_to_terms_text' => 'By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.',
+    'contact_information' => 'Contact Information',
+    'terms_contact_text' => 'If you have any questions about these Terms of Service, please contact us at:',
+    'privacy_contact' => 'Privacy Contact',
+    'privacy_contact_text' => 'If you have questions about this Privacy Policy or our data practices, contact our Data Protection Officer:',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'address' => 'Address',
 ];

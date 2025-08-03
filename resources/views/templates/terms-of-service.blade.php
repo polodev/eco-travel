@@ -15,9 +15,9 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 border border-gray-200 dark:border-gray-700">
                 <!-- Agreement Introduction -->
                 <div class="mb-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-l-4 border-blue-500">
-                    <h2 class="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-2">Agreement to Terms</h2>
+                    <h2 class="text-xl font-semibold text-blue-900 dark:text-blue-100 mb-2">{{ __('messages.agreement_to_terms') }}</h2>
                     <p class="text-blue-800 dark:text-blue-200">
-                        By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.
+                        {{ __('messages.agreement_to_terms_text') }}
                     </p>
                 </div>
 
@@ -28,20 +28,20 @@
 
                 <!-- Contact Information -->
                 <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Contact Information</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.contact_information') }}</h3>
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                         <p class="text-gray-700 dark:text-gray-300">
-                            If you have any questions about these Terms of Service, please contact us at:
+                            {{ __('messages.terms_contact_text') }}
                         </p>
                         <div class="mt-4 space-y-2">
                             <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Email:</strong> info@ecotravelsonline.com.bd
+                                <strong>{{ __('messages.email') }}:</strong> info@ecotravelsonline.com.bd
                             </p>
                             <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Phone:</strong> +8809647668822
+                                <strong>{{ __('messages.phone') }}:</strong> +8809647668822
                             </p>
                             <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Address:</strong> House 3, Road 16, Sector 11, Uttara, Dhaka - 1230, Bangladesh
+                                <strong>{{ __('messages.address') }}:</strong> {{ __('messages.company_address') }}
                             </p>
                         </div>
                     </div>
