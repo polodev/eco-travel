@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46323406c42b0d8e331406b879e755b2",
+    "content-hash": "caaa22cfa19ddc8d30f0b295528a9764",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -4278,6 +4278,38 @@
                     "Modules\\Payment\\Tests\\": "tests/",
                     "Modules\\Payment\\Database\\Factories\\": "database/factories/",
                     "Modules\\Payment\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/static-site",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/static-site",
+                "reference": "c11a8d88fae8bd18bc395500f21597c27d4b9065"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\StaticSite\\Providers\\StaticSiteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\StaticSite\\": "src/",
+                    "Modules\\StaticSite\\Tests\\": "tests/",
+                    "Modules\\StaticSite\\Database\\Factories\\": "database/factories/",
+                    "Modules\\StaticSite\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [

@@ -38,6 +38,7 @@
         "modules/option": "*",
         "modules/page": "*",
         "modules/payment": "*",
+        "modules/static-site": "*",
         "modules/test": "*",
         "modules/tour": "*",
         "modules/user-data": "*",
