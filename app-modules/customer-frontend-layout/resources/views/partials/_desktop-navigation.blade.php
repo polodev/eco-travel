@@ -1,9 +1,9 @@
 <div class="hidden md:flex items-center space-x-6">
     <!-- Navigation Links -->
-    <a href="{{ LaravelLocalization::localizeUrl('/') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+    <a href="{{ route('static-site::homepage') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
         {{ __('messages.home') }}
     </a>
-    <a href="#" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+    <a href="{{ route('static-site::about') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
         {{ __('messages.about') }}
     </a>
     
@@ -17,10 +17,10 @@
         </button>
         <div x-show="open" @click.away="open = false" x-transition
              class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Web Development</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Mobile Apps</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Consulting</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Support</a>
+            <a href="{{ route('static-site::flight') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">{{ __('messages.flights') }}</a>
+            <a href="{{ route('static-site::hotel') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">{{ __('messages.hotels') }}</a>
+            <a href="{{ route('static-site::holiday-package') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">{{ __('messages.holiday_packages') }}</a>
+            <a href="{{ route('static-site::hajj-package') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">{{ __('messages.hajj_packages') }}</a>
         </div>
     </div>
     

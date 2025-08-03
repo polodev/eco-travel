@@ -4,8 +4,8 @@
         <div class="flex items-center justify-between h-16">
             <!-- Logo -->
             <div class="flex items-center">
-                <a href="{{ LaravelLocalization::localizeUrl('/') }}" class="font-semibold text-xl text-blue-600 dark:text-blue-400">
-                    {{ config('app.name') }}
+                <a href="{{ LaravelLocalization::localizeUrl('/') }}">
+                    <img src="{{ asset('images/logo/logo-transparent.png') }}" alt="{{ __('messages.eco_travel') }}" class="h-10 w-auto">
                 </a>
             </div>
 

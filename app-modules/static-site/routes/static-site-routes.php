@@ -1,11 +1,19 @@
 <?php
 
-// use Modules\StaticSite\Http\Controllers\StaticSiteController;
+use Modules\StaticSite\Http\Controllers\StaticSiteController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-// Route::get('/static-sites', [StaticSiteController::class, 'index'])->name('static-sites.index');
-// Route::get('/static-sites/create', [StaticSiteController::class, 'create'])->name('static-sites.create');
-// Route::post('/static-sites', [StaticSiteController::class, 'store'])->name('static-sites.store');
-// Route::get('/static-sites/{static-site}', [StaticSiteController::class, 'show'])->name('static-sites.show');
-// Route::get('/static-sites/{static-site}/edit', [StaticSiteController::class, 'edit'])->name('static-sites.edit');
-// Route::put('/static-sites/{static-site}', [StaticSiteController::class, 'update'])->name('static-sites.update');
-// Route::delete('/static-sites/{static-site}', [StaticSiteController::class, 'destroy'])->name('static-sites.destroy');
+// Frontend Routes (With localization support)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'web']
+], function() {
+    
+    Route::get('/home', [StaticSiteController::class, 'homepage'])->name('static-site::homepage');
+    Route::get('/about', [StaticSiteController::class, 'about'])->name('static-site::about');
+    Route::get('/flights', [StaticSiteController::class, 'flight'])->name('static-site::flight');
+    Route::get('/hotels', [StaticSiteController::class, 'hotel'])->name('static-site::hotel');
+    Route::get('/holiday-packages', [StaticSiteController::class, 'holidayPackage'])->name('static-site::holiday-package');
+    Route::get('/hajj-packages', [StaticSiteController::class, 'hajjPackage'])->name('static-site::hajj-package');
+    
+});

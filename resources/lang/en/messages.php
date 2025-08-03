@@ -428,4 +428,27 @@ return [
     
     // Payment Form Validation
     'amount_minimum_required' => 'Amount must be at least ৳100.00',
+    
+    // Navigation Items
+    'flights' => 'Flights',
+    'hotels' => 'Hotels',
+    'holiday_packages' => 'Holiday Packages',
+    'hajj_packages' => 'Hajj Packages',
+    
+    // Static Site Content
+    'eco_travel' => 'Eco Travel',
+    'better_service_experience' => 'Better Service Experience',
+    'flight_booking' => 'Flight Booking',
+    'about_us' => 'About Us',
+    'homepage_meta_description' => 'Eco Travel - Your trusted travel partner for flights, hotels, and holiday packages with better service experience.',
+    'about_meta_description' => 'Learn about Eco Travel - New Zealand-based multinational travel agency serving customers since 2007.',
+    'flight_meta_description' => 'Book cheap domestic and international flights with Eco Travel. 24/7 support and best deals from all airlines.',
+    'hotel_meta_description' => 'Book premium 5-star hotels in Cox-Bazar, Sylhet and more destinations. Best prices and instant confirmation guaranteed.',
+    'holiday_package_meta_description' => 'Explore amazing holiday packages to Thailand, Indonesia, India, Malaysia, Maldives and more. All-inclusive deals with flights, hotels and tours.',
+    'hajj_package_meta_description' => 'Complete Hajj & Umrah packages with spiritual journey experience. Expert guidance, comfortable accommodation, and all services included.',
+    
+    // Legal Pages
+    'terms_of_service' => 'Terms of Service',
+    'privacy_policy' => 'Privacy Policy',
+    'company_address' => 'House 3, Road 16, Sector 11, Uttara, Dhaka - 1230, Bangladesh',
 ];
