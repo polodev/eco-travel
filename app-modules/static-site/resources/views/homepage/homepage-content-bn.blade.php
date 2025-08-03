@@ -3,7 +3,7 @@
     <div class="absolute inset-0 bg-black/20"></div>
     <div class="relative container mx-auto px-4">
         <div class="text-center max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">উন্নত সেবার অভিজ্ঞতা</h1>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">উন্নত সার্ভিসের অভিজ্ঞতা</h1>
             <p class="text-xl md:text-2xl mb-8">আপনার ভ্রমণে সেরা অফার • আমাদের সাথে আপনার ছুটির দিন ডিজাইন করুন</p>
             <p class="text-lg mb-8">আমাদের সাথে সুন্দর বাংলাদেশ আবিষ্কার করুন • বিশ্বের অ্যাডভেঞ্চার আবিষ্কার করুন</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -22,8 +22,8 @@
 <section class="py-16 bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">আমাদের সেবাসমূহ</h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300">ইকো ট্রাভেলস বাংলাদেশ সকল এয়ারলাইন্স থেকে সাশ্রয়ী এয়ার টিকেট প্রদান এবং উন্নত সেবার অভিজ্ঞতা দিতে প্রতিশ্রুতিবদ্ধ।</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">আমাদের সার্ভিসসমূহ</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">ইকো ট্রাভেলস বাংলাদেশ সকল এয়ারলাইন্স থেকে সাশ্রয়ী এয়ার টিকেট প্রদান এবং উন্নত সার্ভিসের অভিজ্ঞতা দিতে প্রতিশ্রুতিবদ্ধ।</p>
         </div>
         
         @php
@@ -152,6 +152,26 @@
             "যেখানে পথ যেতে পারে সেই পথ অনুসরণ করো না। বরং যেখানে কোনো পথ নেই সেখানে গিয়ে একটি পথ রেখে এসো"
         </blockquote>
         <cite class="text-lg">– রালফ ওয়ালডো এমারসন</cite>
+    </div>
+</section>
+
+{{-- 24/7 Support Section --}}
+<section class="py-16 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+        <div class="text-center max-w-4xl mx-auto">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-800 dark:to-teal-800 text-white p-12 rounded-2xl shadow-xl">
+                <div class="text-6xl mb-6">🎧</div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">২৪/৭ সহায়তা</h2>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">আপনার সকল ভ্রমণ প্রয়োজনের জন্য ২৪ ঘন্টা গ্রাহক সহায়তা</p>
+                <a href="{{ LaravelLocalization::localizeUrl('/contact') }}" 
+                   class="inline-flex items-center bg-white text-emerald-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors text-lg">
+                    আরও জানুন
+                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 

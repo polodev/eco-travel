@@ -155,6 +155,26 @@
     </div>
 </section>
 
+{{-- 24/7 Support Section --}}
+<section class="py-16 bg-white dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+        <div class="text-center max-w-4xl mx-auto">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-800 dark:to-teal-800 text-white p-12 rounded-2xl shadow-xl">
+                <div class="text-6xl mb-6">🎧</div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">24/7 Support</h2>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">Round-the-clock customer support for all your travel needs</p>
+                <a href="{{ LaravelLocalization::localizeUrl('/contact') }}" 
+                   class="inline-flex items-center bg-white text-emerald-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors text-lg">
+                    Learn More
+                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- Contact Section --}}
 <section class="py-16 bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-4">
