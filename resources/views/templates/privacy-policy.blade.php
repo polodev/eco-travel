@@ -104,13 +104,13 @@
                         </p>
                         <div class="space-y-2">
                             <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Email:</strong> privacy@yourcompany.com
+                                <strong>Email:</strong> info@ecotravelsonline.com.bd
                             </p>
                             <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Phone:</strong> +1 (555) 123-4567
+                                <strong>Phone:</strong> +8809647668822
                             </p>
                             <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Address:</strong> 123 Privacy St, Data City, DC 12345
+                                <strong>Address:</strong> House 3, Road 16, Sector 11, Uttara, Dhaka - 1230, Bangladesh
                             </p>
                         </div>
                     </div>
