@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "caaa22cfa19ddc8d30f0b295528a9764",
+    "content-hash": "843dcb729d354aee14af3d441d77b76d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3785,6 +3785,38 @@
                     "Modules\\AdminDashboardLayout\\Tests\\": "tests/",
                     "Modules\\AdminDashboardLayout\\Database\\Factories\\": "database/factories/",
                     "Modules\\AdminDashboardLayout\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/api-service",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/api-service",
+                "reference": "d1cabd1ea8095e9e0225f68e1a1a8706490fbc54"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\ApiService\\Providers\\ApiServiceServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ApiService\\": "src/",
+                    "Modules\\ApiService\\Tests\\": "tests/",
+                    "Modules\\ApiService\\Database\\Factories\\": "database/factories/",
+                    "Modules\\ApiService\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [

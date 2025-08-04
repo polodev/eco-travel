@@ -3,6 +3,7 @@
 use Modules\Flight\Http\Controllers\AirlineController;
 use Modules\Flight\Http\Controllers\FlightController;
 use Modules\Flight\Http\Controllers\FlightScheduleController;
+use Modules\Flight\Http\Controllers\DynamicFlightController;
 
 
 Route::prefix('admin-dashboard')->name('flight::admin.')->middleware(['web', 'auth'])->group(function () {
@@ -45,4 +46,14 @@ Route::prefix('admin-dashboard')->name('flight::admin.')->middleware(['web', 'au
         Route::delete('/{flightSchedule}', [FlightScheduleController::class, 'destroy'])->name('destroy');
         Route::patch('/{flightSchedule}/status', [FlightScheduleController::class, 'updateStatus'])->name('update-status');
     });
+});
+
+// Dynamic Flight Routes (Customer Frontend - Localized)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function() {
+    Route::get('/dynamic-flight', [DynamicFlightController::class, 'index'])->name('flight::dynamic.index');
+    Route::post('/dynamic-flight/search', [DynamicFlightController::class, 'search'])->name('flight::dynamic.search');
+    Route::get('/dynamic-flight/{id}', [DynamicFlightController::class, 'show'])->name('flight::dynamic.show');
 });

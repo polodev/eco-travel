@@ -3,6 +3,7 @@
 use Modules\Hotel\Http\Controllers\HotelController;
 use Modules\Hotel\Http\Controllers\HotelRoomController;
 use Modules\Hotel\Http\Controllers\RoomInventoryController;
+use Modules\Hotel\Http\Controllers\DynamicHotelController;
 
 Route::prefix('admin-dashboard')->name('hotel::admin.')->middleware(['web', 'auth'])->group(function () {
     
@@ -41,4 +42,14 @@ Route::prefix('admin-dashboard')->name('hotel::admin.')->middleware(['web', 'aut
         Route::put('/{roomInventory}', [RoomInventoryController::class, 'update'])->name('update');
         Route::delete('/{roomInventory}', [RoomInventoryController::class, 'destroy'])->name('destroy');
     });
+});
+
+// Dynamic Hotel Routes (Customer Frontend - Localized)
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+], function() {
+    Route::get('/dynamic-hotel', [DynamicHotelController::class, 'index'])->name('hotel::dynamic.index');
+    Route::post('/dynamic-hotel/search', [DynamicHotelController::class, 'search'])->name('hotel::dynamic.search');
+    Route::get('/dynamic-hotel/{id}', [DynamicHotelController::class, 'show'])->name('hotel::dynamic.show');
 });
