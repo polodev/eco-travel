@@ -24,6 +24,21 @@ class FrontendPaymentController extends Controller
      */
     public function submitCustomPaymentForm(Request $request)
     {
+        // Get client IP address for rate limiting
+        $ipAddress = $request->ip();
+        
+        // Rate limiting: Check if more than 3 custom payments from same IP within 2 minutes
+        // future if statement  if (!auth()->check() || !auth()->user()->hasAnyRole(['admin', 'developer'])) 
+        $recentPayments = CustomPayment::where('ip_address', $ipAddress)
+            ->where('created_at', '>=', now()->subMinutes(5))
+            ->count();
+            
+        if ($recentPayments >= 3) {
+            return back()->withErrors([
+                'rate_limit' => __('messages.rate_limit_error')
+            ])->withInput();
+        }
+
         // Prepare validation rules
         $rules = [
             'amount' => 'required|numeric|min:100',

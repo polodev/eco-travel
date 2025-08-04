@@ -106,14 +106,6 @@ new class extends Component {
         $this->dispatch('paymentUpdated');
     }
 
-    public function deletePayment($paymentId)
-    {
-        $payment = Payment::findOrFail($paymentId);
-        $payment->delete();
-        $this->customPayment->refresh();
-        session()->flash('message', 'Payment deleted successfully.');
-        $this->dispatch('paymentUpdated');
-    }
 
     public function closeModal()
     {
@@ -177,44 +169,59 @@ new class extends Component {
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Amount</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Method</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Transaction ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($customPayment->payments as $payment)
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <!-- Actions Column (First) -->
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex space-x-3 justify-center">
+                                            <!-- Edit Button -->
+                                            <button wire:click="openEditModal({{ $payment->id }})" 
+                                                    title="Edit Payment"
+                                                    class="inline-flex items-center justify-center w-8 h-8 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            
+                                            <!-- View Button -->
+                                            <a href="{{ route('payment::admin.payments.show', $payment->id) }}" 
+                                               title="View Payment Details"
+                                               class="inline-flex items-center justify-center w-8 h-8 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-full transition-colors">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <!-- Amount Column -->
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                         ৳{{ number_format($payment->amount, 2) }}
                                     </td>
+                                    <!-- Method Column -->
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         {!! $payment->payment_method_badge !!}
                                     </td>
+                                    <!-- Status Column -->
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         {!! $payment->status_badge !!}
                                     </td>
+                                    <!-- Date Column -->
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
                                         {{ $payment->payment_date ? $payment->payment_date->format('M j, Y') : 'Pending' }}
                                     </td>
+                                    <!-- Transaction ID Column -->
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600 dark:text-gray-400">
                                         {{ $payment->transaction_id ?? 'N/A' }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex space-x-2">
-                                            <button wire:click="openEditModal({{ $payment->id }})" 
-                                                    class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                                                Edit
-                                            </button>
-                                            <button wire:click="deletePayment({{ $payment->id }})" 
-                                                    wire:confirm="Are you sure you want to delete this payment?"
-                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                                Delete
-                                            </button>
-                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

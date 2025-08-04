@@ -237,10 +237,79 @@
                                 View Custom Payment
                             </a>
                             @endif
+
+                            <!-- View Frontend Link -->
+                            <a href="{{ route('payment::payments.show', $payment->id) }}" 
+                               target="_blank"
+                               class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-purple-700 bg-purple-100 border border-purple-300 rounded-md hover:bg-purple-200">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                                View Frontend Page
+                            </a>
+                        </div>
+
+                        <!-- Payment Link Copy Section -->
+                        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Frontend Payment Link</h4>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" 
+                                       id="payment-link"
+                                       value="{{ route('payment::payments.show', $payment->id) }}" 
+                                       readonly
+                                       class="flex-1 px-2 py-1 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded text-xs text-gray-900 dark:text-gray-100 font-mono">
+                                <button type="button"
+                                        onclick="copyPaymentLink()"
+                                        class="inline-flex items-center p-1.5 border border-gray-300 dark:border-gray-500 rounded bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+    function copyPaymentLink() {
+        const linkInput = document.getElementById('payment-link');
+        const copyButton = document.querySelector('button[onclick="copyPaymentLink()"]');
+        
+        // Select and copy the text
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999); // For mobile devices
+        
+        try {
+            document.execCommand('copy');
+            
+            // Update button appearance temporarily
+            const originalHTML = copyButton.innerHTML;
+            copyButton.innerHTML = `
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            `;
+            copyButton.classList.add('text-green-600', 'border-green-300', 'bg-green-50');
+            copyButton.classList.remove('text-gray-700', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-500', 'bg-white', 'dark:bg-gray-600');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                copyButton.innerHTML = originalHTML;
+                copyButton.classList.remove('text-green-600', 'border-green-300', 'bg-green-50');
+                copyButton.classList.add('text-gray-700', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-500', 'bg-white', 'dark:bg-gray-600');
+            }, 2000);
+            
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+        
+        // Deselect the text
+        linkInput.blur();
+    }
+    </script>
+    @endpush
 </x-admin-dashboard-layout::layout>

@@ -16,6 +16,29 @@
                 <form action="{{ route('payment::custom-payment.submit') }}" method="POST" class="space-y-4">
                     @csrf
 
+                    @if($errors->any())
+                        <!-- Error Messages -->
+                        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">{{ __('messages.please_fix_errors') }}:</h3>
+                                    <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+                                        <ul class="list-disc list-inside space-y-1">
+                                            @foreach($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- Amount Field -->
                     <div>
                         <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">

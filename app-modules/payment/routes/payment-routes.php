@@ -42,8 +42,8 @@ Route::group([
 ], function() {
     
     // Custom Payment Form Routes
-    Route::get('/custom-payment', [FrontendPaymentController::class, 'showCustomPaymentForm'])->name('custom-payment.form');
-    Route::post('/custom-payment', [FrontendPaymentController::class, 'submitCustomPaymentForm'])->name('custom-payment.submit');
+    Route::get('/create-custom-payment', [FrontendPaymentController::class, 'showCustomPaymentForm'])->name('custom-payment.form');
+    Route::post('/create-custom-payment', [FrontendPaymentController::class, 'submitCustomPaymentForm'])->name('custom-payment.submit');
     
     // Payment Processing Routes
     Route::get('/payments/{payment}', [FrontendPaymentController::class, 'showPayment'])->name('payments.show');
