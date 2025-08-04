@@ -26,7 +26,8 @@
       "Bash(open http://rajib.test/)",
       "WebFetch(domain:www.ecotravelsonline.com.bd)",
       "WebFetch(domain:www.ecotravelsonline.com.bd)",
-      "WebFetch(domain:www.ecotravelsonline.com.bd)"
+      "WebFetch(domain:www.ecotravelsonline.com.bd)",
+      "WebFetch(domain:bimafy.com)"
     ],
     "deny": []
   }

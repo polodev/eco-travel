@@ -1,6 +1,6 @@
 <x-customer-frontend-layout::layout>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="text-center mb-12">
                 <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ __('messages.contact_us') }}</h1>
@@ -99,7 +99,8 @@
                                 </div>
                             </div>
                             
-                            <!-- Organization Information -->
+                            <!-- Organization Information - Temporarily commented out -->
+                            {{-- 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="organization" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -125,6 +126,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            --}}
                             
                             <!-- Subject/Topic -->
                             <div>
@@ -204,16 +206,22 @@
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">{{ __('messages.get_in_touch') }}</h3>
                         
                         <div class="space-y-6">
-                            <!-- Response Time -->
+                            <!-- Phone Numbers -->
                             <div class="flex items-start">
                                 <div class="flex-shrink-0">
                                     <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">Response Time</h4>
-                                    <p class="text-gray-600 dark:text-gray-400">We typically respond within 24 hours</p>
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.phone_numbers') }}</h4>
+                                    <div class="text-gray-600 dark:text-gray-400 space-y-1">
+                                        <p><a href="tel:+8809647668822" class="hover:text-blue-600 dark:hover:text-blue-400">+8809647668822</a> ({{ __('messages.main_office') }})</p>
+                                        <p><a href="tel:01600366415" class="hover:text-blue-600 dark:hover:text-blue-400">01600366415</a></p>
+                                        <p><a href="tel:01600366416" class="hover:text-blue-600 dark:hover:text-blue-400">01600366416</a></p>
+                                        <p><a href="tel:01600366417" class="hover:text-blue-600 dark:hover:text-blue-400">01600366417</a></p>
+                                        <p><a href="tel:01600366418" class="hover:text-blue-600 dark:hover:text-blue-400">01600366418</a></p>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -225,8 +233,10 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">Email Support</h4>
-                                    <p class="text-gray-600 dark:text-gray-400">support@example.com</p>
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.email_support') }}</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">
+                                        <a href="mailto:info@ecotravelsonline.com.bd" class="hover:text-blue-600 dark:hover:text-blue-400">info@ecotravelsonline.com.bd</a>
+                                    </p>
                                 </div>
                             </div>
                             
@@ -234,14 +244,84 @@
                             <div class="flex items-start">
                                 <div class="flex-shrink-0">
                                     <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">Business Hours</h4>
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.business_hours') }}</h4>
                                     <p class="text-gray-600 dark:text-gray-400">
-                                        Monday - Friday: 9:00 AM - 6:00 PM<br>
-                                        Saturday: 10:00 AM - 4:00 PM
+                                        {{ __('messages.open_24_7') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Branch Locations -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">{{ __('messages.our_locations') }}</h3>
+                        
+                        <div class="space-y-6">
+                            <!-- Bangladesh Office -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.bangladesh_office') }}</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">
+                                        {{ __('messages.bangladesh_address') }}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- New Zealand Office -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.new_zealand_office') }}</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">
+                                        {{ __('messages.new_zealand_address') }}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Australia Office -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.australia_office') }}</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">
+                                        {{ __('messages.australia_address') }}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- India Office -->
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('messages.india_office') }}</h4>
+                                    <p class="text-gray-600 dark:text-gray-400">
+                                        {{ __('messages.india_address') }}
                                     </p>
                                 </div>
                             </div>
