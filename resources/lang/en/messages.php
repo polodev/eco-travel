@@ -557,6 +557,8 @@ return [
     'business' => 'Business',
     'first_class' => 'First Class',
     'searching_flights' => 'Searching flights',
+    'search_for' => 'Search for',
+    'return_date' => 'Return Date',
     
     // Flight Results
     'flight_results' => 'Flight Search Results',

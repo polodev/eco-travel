@@ -52,4 +52,5 @@ Route::group([
     Route::get('/dynamic-hotel', [DynamicHotelController::class, 'index'])->name('hotel::dynamic.index');
     Route::post('/dynamic-hotel/search', [DynamicHotelController::class, 'search'])->name('hotel::dynamic.search');
     Route::get('/dynamic-hotel/{id}', [DynamicHotelController::class, 'show'])->name('hotel::dynamic.show');
+    Route::get('/api/cities/autocomplete', [DynamicHotelController::class, 'citiesAutocomplete'])->name('hotel::api.cities.autocomplete');
 });

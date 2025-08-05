@@ -56,4 +56,5 @@ Route::group([
     Route::get('/dynamic-flight', [DynamicFlightController::class, 'index'])->name('flight::dynamic.index');
     Route::post('/dynamic-flight/search', [DynamicFlightController::class, 'search'])->name('flight::dynamic.search');
     Route::get('/dynamic-flight/{id}', [DynamicFlightController::class, 'show'])->name('flight::dynamic.show');
+    Route::get('/api/airports/autocomplete', [DynamicFlightController::class, 'airportsAutocomplete'])->name('flight::api.airports.autocomplete');
 });

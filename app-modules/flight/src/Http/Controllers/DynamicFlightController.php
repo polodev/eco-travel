@@ -5,6 +5,7 @@ namespace Modules\Flight\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ApiService\Services\FlightApiService;
+use Modules\Location\Models\Airport;
 
 class DynamicFlightController extends Controller
 {
@@ -73,5 +74,38 @@ class DynamicFlightController extends Controller
         return view('flight::dynamic.show', [
             'flight' => $flight
         ]);
+    }
+
+    /**
+     * Airport autocomplete API endpoint
+     */
+    public function airportsAutocomplete(Request $request)
+    {
+        $query = $request->get('query', '');
+        
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $airports = Airport::with(['city', 'country'])
+            ->active()
+            ->search($query)
+            ->limit(10)
+            ->get()
+            ->map(function ($airport) {
+                return [
+                    'id' => $airport->id,
+                    'name' => $airport->name,
+                    'iata_code' => $airport->iata_code,
+                    'city' => $airport->city->name,
+                    'country' => $airport->country->name,
+                    'display_name' => $airport->name . ' (' . $airport->iata_code . ')',
+                    'full_name' => $airport->city->name . ', ' . $airport->country->name,
+                    'is_hub' => $airport->is_hub,
+                    'type' => $airport->type
+                ];
+            });
+
+        return response()->json($airports);
     }
 }

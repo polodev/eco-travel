@@ -55,7 +55,7 @@
                 </div>
             @endif
 
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="max-w-md mx-auto">
                 <!-- Email Verification Block -->
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
                     <div class="text-center mb-4">
@@ -117,8 +117,8 @@
                     @endif
                 </div>
 
-                <!-- Mobile Verification Block -->
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
+                {{-- Mobile Verification Block --}}
+                {{-- <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 border border-gray-200 dark:border-gray-600">
                     <div class="text-center mb-4">
                         <div class="mx-auto w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-3">
                             <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,7 +205,7 @@
                             </button>
                         </form>
                     @endif
-                </div>
+                </div> --}}
             </div>
 
             <!-- Logout Section -->

@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+// CSRF refresh endpoint (non-localized)
+Route::get('/refresh-csrf', function () {
+    return response()->json([
+        'token' => csrf_token()
+    ]);
+})->name('refresh-csrf');
+
 // Localized routes (Frontend - English and Bengali)
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),

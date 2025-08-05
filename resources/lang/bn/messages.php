@@ -544,6 +544,8 @@ return [
     'business' => 'বিজনেস',
     'first_class' => 'ফার্স্ট ক্লাস',
     'searching_flights' => 'ফ্লাইট খোঁজা হচ্ছে',
+    'search_for' => 'খুঁজুন',
+    'return_date' => 'ফেরার তারিখ',
     
     // Flight Results
     'flight_results' => 'ফ্লাইট অনুসন্ধানের ফলাফল',

@@ -84,6 +84,19 @@ class City extends Model
     }
 
     /**
+     * Scope for searching cities by name.
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where(function ($q) use ($term) {
+            $q->where('name', 'LIKE', "%{$term}%")
+              ->orWhereHas('country', function ($countryQuery) use ($term) {
+                  $countryQuery->where('name', 'LIKE', "%{$term}%");
+              });
+        });
+    }
+
+    /**
      * Get status badge color.
      */
     public function getStatusBadgeAttribute()

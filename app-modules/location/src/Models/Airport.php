@@ -90,6 +90,23 @@ class Airport extends Model
     }
 
     /**
+     * Scope for searching airports by name, IATA code, or city.
+     */
+    public function scopeSearch($query, $term)
+    {
+        return $query->where(function ($q) use ($term) {
+            $q->where('name', 'LIKE', "%{$term}%")
+              ->orWhere('iata_code', 'LIKE', "%{$term}%")
+              ->orWhereHas('city', function ($cityQuery) use ($term) {
+                  $cityQuery->where('name', 'LIKE', "%{$term}%");
+              })
+              ->orWhereHas('country', function ($countryQuery) use ($term) {
+                  $countryQuery->where('name', 'LIKE', "%{$term}%");
+              });
+        });
+    }
+
+    /**
      * Get available airport types.
      */
     public static function getAvailableTypes(): array

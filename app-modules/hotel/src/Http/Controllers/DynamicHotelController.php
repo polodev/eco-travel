@@ -5,6 +5,7 @@ namespace Modules\Hotel\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ApiService\Services\HotelApiService;
+use Modules\Location\Models\City;
 
 class DynamicHotelController extends Controller
 {
@@ -73,5 +74,34 @@ class DynamicHotelController extends Controller
         return view('hotel::dynamic.show', [
             'hotel' => $hotel
         ]);
+    }
+
+    /**
+     * City autocomplete API endpoint
+     */
+    public function citiesAutocomplete(Request $request)
+    {
+        $query = $request->get('query', '');
+        
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $cities = City::with('country')
+            ->active()
+            ->search($query)
+            ->limit(10)
+            ->get()
+            ->map(function ($city) {
+                return [
+                    'id' => $city->id,
+                    'name' => $city->name,
+                    'country' => $city->country->name,
+                    'display_name' => $city->name . ', ' . $city->country->name,
+                    'is_popular' => $city->is_popular
+                ];
+            });
+
+        return response()->json($cities);
     }
 }
