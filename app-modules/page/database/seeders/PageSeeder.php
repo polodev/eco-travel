@@ -13,16 +13,6 @@ class PageSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get first user or create one
-        $user = User::first();
-        if (!$user) {
-            $user = User::create([
-                'name' => 'Admin User',
-                'email' => 'admin@example.com',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]);
-        }
 
         // Create Terms of Service page (with template)
         Page::create([
@@ -49,7 +39,7 @@ class PageSeeder extends Seeder
             'status' => 'published',
             'published_at' => now(),
             'position' => 1,
-            'user_id' => $user->id,
+            'user_id' => 1,
         ]);
 
         // Create Privacy Policy page (with template)
@@ -107,39 +97,9 @@ class PageSeeder extends Seeder
             ],
             'status' => 'published',
             'published_at' => now(),
-            'position' => 3,
-            'user_id' => $user->id,
+            'position' => 2,
+            'user_id' => 2,
         ]);
 
-        // Create About page (no template - default content)
-        Page::create([
-            'english_title' => 'About Us',
-            'slug' => 'about',
-            'title' => [
-                'en' => 'About Us',
-                'bn' => 'আমাদের সম্পর্কে'
-            ],
-            'content' => [
-                'en' => "Welcome to our company! We are a passionate team of developers, designers, and digital strategists dedicated to helping businesses thrive in the digital world.\n\nOur Story:\nFounded in 2020, we started as a small team with a big vision: to make high-quality web development and digital solutions accessible to businesses of all sizes. Over the years, we've grown into a trusted partner for companies looking to establish or enhance their digital presence.\n\nWhat We Do:\n- Custom Web Development: We create bespoke websites tailored to your specific needs and goals\n- Mobile App Development: From concept to deployment, we build mobile applications for iOS and Android\n- E-commerce Solutions: We help businesses sell online with powerful e-commerce platforms\n- Digital Consulting: Strategic guidance to help you make informed decisions about your digital journey\n- Technical Support: Ongoing maintenance and support to keep your digital assets running smoothly\n\nOur Approach:\nWe believe in collaboration, transparency, and delivering results that exceed expectations. Every project begins with understanding your unique challenges and goals. We then craft solutions that not only meet your immediate needs but also position you for future growth.\n\nOur Values:\n- Quality: We never compromise on the quality of our work\n- Innovation: We stay current with the latest technologies and best practices\n- Communication: We keep you informed every step of the way\n- Results: We measure our success by your success\n- Integrity: We conduct business with honesty and transparency\n\nOur Team:\nOur diverse team brings together expertise in various technologies and industries. We're not just developers and designers – we're problem solvers who are passionate about creating digital solutions that make a real impact.\n\nWhy Choose Us:\n- Proven track record with 100+ successful projects\n- Experienced team with deep technical expertise\n- Agile development methodology for faster delivery\n- Ongoing support and maintenance services\n- Competitive pricing without compromising quality\n- Clear communication throughout the project lifecycle\n\nLet's Build Something Amazing Together:\nWhether you're a startup looking to establish your digital presence or an established business seeking to modernize your technology stack, we're here to help. Contact us today to discuss how we can bring your vision to life.",
-                'bn' => "আমাদের কোম্পানিতে স্বাগতম! আমরা ডেভেলপার, ডিজাইনার এবং ডিজিটাল কৌশলবিদদের একটি উৎসাহী দল যারা ব্যবসায়িক প্রতিষ্ঠানগুলোকে ডিজিটাল জগতে সফল হতে সাহায্য করার জন্য নিবেদিত।\n\nআমাদের গল্প:\n২০২০ সালে প্রতিষ্ঠিত, আমরা একটি বড় দৃষ্টিভঙ্গি নিয়ে একটি ছোট দল হিসেবে শুরু করেছিলাম: সকল আকারের ব্যবসার জন্য উচ্চ মানের ওয়েব ডেভেলপমেন্ট এবং ডিজিটাল সমাধান সহজলভ্য করা। বছরের পর বছর ধরে, আমরা একটি বিশ্বস্ত অংশীদার হিসেবে বৃদ্ধি পেয়েছি।\n\nআমরা যা করি:\n- কাস্টম ওয়েব ডেভেলপমেন্ট: আমরা আপনার নির্দিষ্ট প্রয়োজন এবং লক্ষ্য অনুযায়ী বিশেষভাবে তৈরি ওয়েবসাইট তৈরি করি\n- মোবাইল অ্যাপ ডেভেলপমেন্ট: ধারণা থেকে স্থাপনা পর্যন্ত, আমরা iOS এবং Android এর জন্য মোবাইল অ্যাপ্লিকেশন তৈরি করি\n- ই-কমার্স সমাধান: আমরা শক্তিশালী ই-কমার্স প্ল্যাটফর্মের সাথে ব্যবসায়িক প্রতিষ্ঠানগুলোকে অনলাইনে বিক্রয় করতে সাহায্য করি\n- ডিজিটাল পরামর্শ: আপনার ডিজিটাল যাত্রা সম্পর্কে সচেতন সিদ্ধান্ত নিতে কৌশলগত নির্দেশনা\n- প্রযুক্তিগত সহায়তা: আপনার ডিজিটাল সম্পদগুলো মসৃণভাবে চালু রাখতে চলমান রক্ষণাবেক্ষণ এবং সহায়তা\n\nআমাদের পদ্ধতি:\nআমরা সহযোগিতা, স্বচ্ছতা এবং প্রত্যাশা অতিক্রম করে ফলাফল প্রদানে বিশ্বাস করি। প্রতিটি প্রকল্প আপনার অনন্য চ্যালেঞ্জ এবং লক্ষ্য বোঝার মাধ্যমে শুরু হয়।\n\nআমাদের মূল্যবোধ:\n- গুণমান: আমরা আমাদের কাজের গুণমানে কখনো আপস করি না\n- উদ্ভাবন: আমরা সর্বশেষ প্রযুক্তি এবং সর্বোত্তম অনুশীলনের সাথে তাল মিলিয়ে চলি\n- যোগাযোগ: আমরা প্রতিটি পদক্ষেপে আপনাকে অবহিত রাখি\n- ফলাফল: আপনার সাফল্যের মাধ্যমে আমরা আমাদের সাফল্য পরিমাপ করি\n- সততা: আমরা সততা এবং স্বচ্ছতার সাথে ব্যবসা পরিচালনা করি\n\nআসুন একসাথে অসাধারণ কিছু তৈরি করি:\nআপনি যদি একটি স্টার্টআপ হন যা আপনার ডিজিটাল উপস্থিতি প্রতিষ্ঠা করতে চান বা একটি প্রতিষ্ঠিত ব্যবসা যা আপনার প্রযুক্তি স্ট্যাক আধুনিকীকরণ করতে চান, আমরা সাহায্য করতে এখানে আছি।"
-            ],
-            'template' => null, // No template - use default
-            'meta_title' => [
-                'en' => 'About Us - Learn About Our Company',
-                'bn' => 'আমাদের সম্পর্কে - আমাদের কোম্পানি সম্পর্কে জানুন'
-            ],
-            'meta_description' => [
-                'en' => 'Learn about our company, our team, and our mission to help businesses succeed in the digital world through innovative web development solutions.',
-                'bn' => 'আমাদের কোম্পানি, আমাদের দল এবং উদ্ভাবনী ওয়েব ডেভেলপমেন্ট সমাধানের মাধ্যমে ব্যবসায়িক প্রতিষ্ঠানগুলোকে ডিজিটাল জগতে সফল হতে সাহায্য করার আমাদের লক্ষ্য সম্পর্কে জানুন।'
-            ],
-            'keywords' => [
-                'en' => 'about us, company, team, web development, mission, values, services',
-                'bn' => 'আমাদের সম্পর্কে, কোম্পানি, দল, ওয়েব ডেভেলপমেন্ট, লক্ষ্য, মূল্যবোধ, সেবা'
-            ],
-            'status' => 'published',
-            'published_at' => now(),
-            'position' => 4,
-            'user_id' => $user->id,
-        ]);
     }
 }

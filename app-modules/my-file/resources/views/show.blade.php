@@ -83,7 +83,7 @@
                                         <dl class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
                                             <div>
                                                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">File Name</dt>
-                                                <dd class="text-sm text-gray-900 dark:text-gray-100">{{ $myFile->file_name }}</dd>
+                                                <dd class="text-sm text-gray-900 dark:text-gray-100 break-all">{{ $myFile->file_name }}</dd>
                                             </div>
                                             <div>
                                                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">File Size</dt>

@@ -8,9 +8,9 @@
                         {{ Auth::user()->initials() }}
                     </span>
                 </span>
-                <div class="ml-3">
-                    <p class="font-medium text-gray-900 dark:text-gray-100">{{ Auth::user()->name }}</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</p>
+                <div class="ml-3 min-w-0 flex-1">
+                    <p class="font-medium text-gray-900 dark:text-gray-100 truncate">{{ Auth::user()->name }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 break-all">{{ Auth::user()->email }}</p>
                 </div>
             </div>
             
