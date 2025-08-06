@@ -43,9 +43,67 @@
                             </a>
                         </div>
 
-                        <form class="max-w-md mb-10" action="{{ route('accounts.settings.profile.update') }}" method="POST">
+                        <form class="max-w-md mb-10" action="{{ route('accounts.settings.profile.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+                            
+                            <!-- Avatar Section -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                                    {{ __('messages.profile_photo') }}
+                                </label>
+                                
+                                <!-- Current Avatar Display -->
+                                <div class="flex items-center mb-4">
+                                    <div class="relative">
+                                        @if($user->getFirstMedia('avatar'))
+                                            <img src="{{ $user->avatar_url }}" 
+                                                 alt="{{ $user->name }}"
+                                                 class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
+                                                 id="avatar-preview">
+                                        @else
+                                            <div class="w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-xl border-2 border-gray-200 dark:border-gray-600"
+                                                 id="avatar-preview">
+                                                {{ $user->initials() }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            {{ __('messages.upload_new_photo') }}
+                                        </p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-500">
+                                            JPG, PNG or GIF (max 2MB)
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- File Input -->
+                                <div class="mb-4">
+                                    <input type="file" 
+                                           name="avatar" 
+                                           id="avatar"
+                                           accept="image/*"
+                                           class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300 dark:hover:file:bg-blue-800">
+                                    @error('avatar')
+                                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                
+                                <!-- Remove Avatar Option (only if avatar exists) -->
+                                @if($user->getFirstMedia('avatar'))
+                                    <div class="flex items-center">
+                                        <input type="checkbox" 
+                                               name="remove_avatar" 
+                                               id="remove_avatar"
+                                               class="rounded border-gray-300 text-red-600 shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50">
+                                        <label for="remove_avatar" class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                                            {{ __('messages.remove_current_photo') }}
+                                        </label>
+                                    </div>
+                                @endif
+                            </div>
+                            
                             <div class="mb-4">
                                 <x-forms.input :label="__('messages.name')" name="name" type="text"
                                     value="{{ old('name', $user->name) }}" />
@@ -80,4 +138,42 @@
             </div>
         </div>
     </div>
+    
+    @push('scripts')
+    <script>
+        document.getElementById('avatar').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('avatar-preview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Replace the current avatar with image
+                    preview.innerHTML = '';
+                    preview.className = 'w-20 h-20 rounded-full border-2 border-gray-200 dark:border-gray-600';
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Preview';
+                    img.className = 'w-20 h-20 rounded-full object-cover';
+                    preview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Reset preview if remove avatar is checked
+        document.getElementById('remove_avatar')?.addEventListener('change', function(e) {
+            const preview = document.getElementById('avatar-preview');
+            const fileInput = document.getElementById('avatar');
+            
+            if (e.target.checked) {
+                // Show initials preview
+                preview.innerHTML = '{{ Auth::user()->initials() }}';
+                preview.className = 'w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-xl border-2 border-gray-200 dark:border-gray-600';
+                fileInput.value = '';
+            }
+        });
+    </script>
+    @endpush
 </x-customer-account-layout::layout>

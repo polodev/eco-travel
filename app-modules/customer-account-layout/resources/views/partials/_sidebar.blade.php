@@ -4,9 +4,15 @@
             <!-- User Profile Section -->
             <div class="flex items-center mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <span class="relative flex h-12 w-12 shrink-0 overflow-hidden rounded-full">
-                    <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white font-medium">
-                        {{ Auth::user()->initials() }}
-                    </span>
+                    @if(Auth::user()->getFirstMedia('avatar'))
+                        <img src="{{ Auth::user()->avatar_url }}" 
+                             alt="{{ Auth::user()->name }}"
+                             class="h-full w-full rounded-full object-cover">
+                    @else
+                        <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white font-medium">
+                            {{ Auth::user()->initials() }}
+                        </span>
+                    @endif
                 </span>
                 <div class="ml-3 min-w-0 flex-1">
                     <p class="font-medium text-gray-900 dark:text-gray-100 truncate">{{ Auth::user()->name }}</p>

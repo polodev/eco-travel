@@ -32,27 +32,26 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id),
-            ],
-            'country' => ['nullable', 'string', 'max:255'],
-            'country_code' => ['nullable', 'string', 'max:5'],
-            'mobile' => ['nullable', 'string', 'max:15', 'regex:/^[0-9]+$/'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'remove_avatar' => ['nullable', 'boolean'],
         ]);
 
-        $user->fill($validated);
+        // Update name
+        $user->fill(['name' => $validated['name']]);
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Clear existing avatar
+            $user->clearMediaCollection('avatar');
+            
+            // Add new avatar
+            $user->addMediaFromRequest('avatar')
+                 ->toMediaCollection('avatar');
         }
 
-        if ($user->isDirty('mobile')) {
-            $user->mobile_verified_at = null;
+        // Handle avatar removal
+        if ($request->boolean('remove_avatar')) {
+            $user->clearMediaCollection('avatar');
         }
 
         $user->save();

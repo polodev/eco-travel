@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -73,8 +74,9 @@ class SocialLoginController extends Controller
         $user = User::where($providerIdField, $socialUser->id)->first();
         
         if ($user) {
-            // Update avatar if social provider has a newer one
-            if ($socialUser->avatar && $socialUser->avatar !== $user->avatar) {
+            // Only update avatar if user doesn't have an uploaded avatar
+            if ($socialUser->avatar && !$user->getFirstMedia('avatar') && $socialUser->avatar !== $user->avatar) {
+                $this->updateUserAvatar($user, $socialUser->avatar);
                 $user->update(['avatar' => $socialUser->avatar]);
             }
             return $user;
@@ -85,9 +87,14 @@ class SocialLoginController extends Controller
         
         if ($user) {
             // Link this social account to existing user
+            // Only set social avatar if user doesn't have an uploaded avatar
+            if ($socialUser->avatar && !$user->getFirstMedia('avatar')) {
+                $this->updateUserAvatar($user, $socialUser->avatar);
+            }
+            
             $user->update([
                 $providerIdField => $socialUser->id,
-                'avatar' => $socialUser->avatar ?: $user->avatar,
+                'avatar' => ($socialUser->avatar && !$user->getFirstMedia('avatar')) ? $socialUser->avatar : $user->avatar,
                 'email_verified_at' => $user->email_verified_at ?: now(),
             ]);
             return $user;
@@ -105,9 +112,55 @@ class SocialLoginController extends Controller
             'role' => 'customer', // Default role
         ]);
 
+        // Download and save avatar from social provider
+        if ($socialUser->avatar) {
+            $this->updateUserAvatar($user, $socialUser->avatar);
+        }
+
         event(new Registered($user));
 
         return $user;
+    }
+
+    /**
+     * Download and save user avatar from social provider URL
+     */
+    private function updateUserAvatar(User $user, string $avatarUrl): void
+    {
+        try {
+            // Download the image from the social provider
+            $response = Http::timeout(10)->get($avatarUrl);
+            
+            if ($response->successful() && $response->body()) {
+                // Clear existing avatar
+                $user->clearMediaCollection('avatar');
+                
+                // Get file extension from content type
+                $contentType = $response->header('content-type');
+                $extension = match($contentType) {
+                    'image/jpeg' => 'jpg',
+                    'image/png' => 'png',
+                    'image/gif' => 'gif',
+                    'image/webp' => 'webp',
+                    default => 'jpg'
+                };
+                
+                // Create a unique filename
+                $filename = 'social_avatar_' . $user->id . '_' . time() . '.' . $extension;
+                
+                // Save the image to media library
+                $user->addMediaFromString($response->body())
+                     ->usingName($filename)
+                     ->usingFileName($filename)
+                     ->toMediaCollection('avatar');
+            }
+        } catch (\Exception $e) {
+            // If avatar download fails, just log it and continue
+            \Log::warning('Failed to download social avatar: ' . $e->getMessage(), [
+                'user_id' => $user->id,
+                'avatar_url' => $avatarUrl
+            ]);
+        }
     }
 
     /**

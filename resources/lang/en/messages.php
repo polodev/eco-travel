@@ -81,6 +81,9 @@ return [
     'support_coming_soon' => 'Support Coming Soon',
     'support_feature_development' => 'The support feature is currently under development.',
     'settings' => 'Settings',
+    'profile_photo' => 'Profile Photo',
+    'upload_new_photo' => 'Upload a new profile photo',
+    'remove_current_photo' => 'Remove current photo',
     
     // Authentication
     'login' => 'Login',

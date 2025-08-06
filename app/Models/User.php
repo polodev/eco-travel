@@ -12,12 +12,15 @@ use Illuminate\Support\Str;
 use Modules\UserData\Models\UserAddress;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Notifications\VerifyEmailNotification;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, LogsActivity;
+    use HasFactory, Notifiable, LogsActivity, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -188,10 +191,25 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Register media collections
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')->singleFile();
+    }
+
+    /**
      * Get the user's avatar URL with fallback
      */
     public function getAvatarUrlAttribute(): string
     {
+        // Check for uploaded avatar first
+        $avatarMedia = $this->getFirstMedia('avatar');
+        if ($avatarMedia) {
+            return $avatarMedia->getUrl();
+        }
+        
+        // Check for social login avatar
         if ($this->avatar) {
             return $this->avatar;
         }
