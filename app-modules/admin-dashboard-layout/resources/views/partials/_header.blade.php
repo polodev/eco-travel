@@ -64,10 +64,16 @@
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open" class="flex items-center focus:outline-none">
                         <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                            <span
-                                class="flex h-full w-full items-center justify-center rounded-lg bg-gray-200 text-black dark:bg-gray-700 dark:text-white">
-                                {{ Auth::user()->initials() }}
-                            </span>
+                            @if(Auth::user()->getFirstMedia('avatar'))
+                                <img src="{{ Auth::user()->avatar_url }}" 
+                                     alt="{{ Auth::user()->name }}"
+                                     class="h-full w-full rounded-lg object-cover">
+                            @else
+                                <span
+                                    class="flex h-full w-full items-center justify-center rounded-lg bg-gray-200 text-black dark:bg-gray-700 dark:text-white">
+                                    {{ Auth::user()->initials() }}
+                                </span>
+                            @endif
                         </span>
                         <span class="ml-2 hidden md:block">{{ Auth::user()->name }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24"

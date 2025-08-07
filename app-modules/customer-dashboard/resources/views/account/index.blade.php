@@ -11,11 +11,15 @@
             <!-- User Profile Card -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
                 <div class="text-center">
-                    <div class="w-20 h-20 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                        </svg>
-                    </div>
+                    @if($user->getFirstMedia('avatar'))
+                        <img src="{{ $user->avatar_url }}" 
+                             alt="{{ $user->name }}"
+                             class="w-20 h-20 rounded-full object-cover mx-auto mb-4 border-2 border-gray-200 dark:border-gray-600">
+                    @else
+                        <div class="w-20 h-20 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl font-medium">{{ $user->initials() }}</span>
+                        </div>
+                    @endif
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-1">{{ $user->name }}</h3>
                     <p class="text-gray-600 dark:text-gray-400 mb-2">{{ $user->email }}</p>
                     <span class="text-sm text-gray-500 dark:text-gray-500">{{ __('messages.member_since') }} {{ $user->created_at->format('M Y') }}</span>

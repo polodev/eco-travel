@@ -84,9 +84,15 @@
         <div x-data="{ open: false }" class="relative">
             <button @click="open = !open" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
                 <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full mr-2">
-                    <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white text-sm font-medium">
-                        {{ Auth::user()->initials() }}
-                    </span>
+                    @if(Auth::user()->getFirstMedia('avatar'))
+                        <img src="{{ Auth::user()->avatar_url }}" 
+                             alt="{{ Auth::user()->name }}"
+                             class="h-full w-full rounded-full object-cover">
+                    @else
+                        <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white text-sm font-medium">
+                            {{ Auth::user()->initials() }}
+                        </span>
+                    @endif
                 </span>
                 <span class="font-medium">{{ Auth::user()->name }}</span>
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
