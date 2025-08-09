@@ -67,7 +67,7 @@ class PageSeeder extends Seeder
             'status' => 'published',
             'published_at' => now(),
             'position' => 2,
-            'user_id' => $user->id,
+            'user_id' => 1,
         ]);
 
         // Create FAQ page (no template - default content)
