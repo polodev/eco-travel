@@ -47,6 +47,10 @@ return new class extends Migration
             $table->index(['status', 'created_at']);
             $table->index(['user_id']);
             $table->index(['amount']);
+            
+            // Rate limiting indexes
+            $table->index(['ip_address', 'created_at']); // Composite index for rate limiting queries
+            $table->index(['ip_address']); // Standalone ip_address index for general IP tracking
         });
         DB::statement("ALTER TABLE custom_payments AUTO_INCREMENT = 100000;");
     }
