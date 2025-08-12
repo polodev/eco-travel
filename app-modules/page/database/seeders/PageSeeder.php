@@ -101,5 +101,33 @@ class PageSeeder extends Seeder
             'user_id' => 2,
         ]);
 
+        // Create Refund Policy page (with template)
+        Page::create([
+            'english_title' => 'Refund Policy',
+            'slug' => 'refund-policy',
+            'title' => [
+                'en' => 'Refund Policy',
+                'bn' => 'রিফান্ড নীতি'
+            ],
+            'content' => null, // Content is now managed in template files
+            'template' => 'legal.refund-policy.refund-policy',
+            'meta_title' => [
+                'en' => 'Refund Policy - Eco Travel',
+                'bn' => 'রিফান্ড নীতি - ইকো ট্রাভেল'
+            ],
+            'meta_description' => [
+                'en' => 'Understand Eco Travel\'s refund policy for flight bookings, hotel reservations, and holiday packages. Learn about refund procedures, timelines, and conditions.',
+                'bn' => 'ফ্লাইট বুকিং, হোটেল রিজার্ভেশন এবং হলিডে প্যাকেজের জন্য ইকো ট্রাভেলের রিফান্ড নীতি বুঝুন। রিফান্ড প্রক্রিয়া, সময়সীমা এবং শর্তাবলী সম্পর্কে জানুন।'
+            ],
+            'keywords' => [
+                'en' => 'eco travel refund policy, travel refund, flight cancellation refund, hotel booking refund, holiday package refund, refund process, refund timeline',
+                'bn' => 'ইকো ট্রাভেল রিফান্ড নীতি, ভ্রমণ রিফান্ড, ফ্লাইট বাতিল রিফান্ড, হোটেল বুকিং রিফান্ড, হলিডে প্যাকেজ রিফান্ড, রিফান্ড প্রক্রিয়া, রিফান্ড সময়সীমা'
+            ],
+            'status' => 'published',
+            'published_at' => now(),
+            'position' => 3,
+            'user_id' => 1,
+        ]);
+
     }
 }

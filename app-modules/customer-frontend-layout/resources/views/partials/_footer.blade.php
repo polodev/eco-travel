@@ -101,6 +101,11 @@
                     {{ __('messages.privacy_policy') }}
                 </a>
                 <span class="text-gray-400 dark:text-gray-600">•</span>
+                <a href="{{ LaravelLocalization::localizeUrl('/pages/refund-policy') }}" 
+                   class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition-colors">
+                    {{ __('messages.refund_policy') }}
+                </a>
+                <span class="text-gray-400 dark:text-gray-600">•</span>
                 <a href="{{ route('payment::custom-payment.form') }}" 
                    class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 text-sm transition-colors">
                     {{ __('messages.payment') }}

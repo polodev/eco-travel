@@ -142,19 +142,9 @@
         </div>
     </div>
 
-    <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">12. Refund Time Frame</h3>
-        <div class="text-gray-700 dark:text-gray-300 space-y-3">
-            <ul class="list-disc list-inside space-y-2">
-                <li>As we are working as an intermediary between the service provider and the customer, the airline processes the refund to the consolidator/wholesalers/customer's credit card, not directly to Eco Travels' account. Once Eco Travels receives a refund from the consolidator/wholesalers, we need 2 working weeks to process the refund to the customer's account.</li>
-                <li>In case a refund is given in credit by the consolidator/wholesalers, then Eco Travels is not liable to give a refund to the customer in their bank account/cash. Eco Travels will provide same form of payment which is provided by the airline or supplier.</li>
-                <li>In case the customer paid for the ticket through a credit card, then the customer has to pay the cancellation fee in advance to process the refund.</li>
-            </ul>
-        </div>
-    </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">13. Travel Starting from a Third Country (Outside Bangladesh)</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">12. Travel Starting from a Third Country (Outside Bangladesh)</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <ul class="list-disc list-inside space-y-2">
                 <li>When a ticket is purchased in Bangladesh for travel starting from a third country, in case of a refund, Eco Travels may process the refund based on the current exchange rate, not the exchange rate at the time of ticket purchase. The airline issues all fares in NUC (Equivalent USD), which is then converted to the local currency of the country of travel origin. If payment is made in a third country, the travel agency needs to convert the amount into the local currency using the current exchange rate. The airline will process the refund in the local currency of the country of departure only.</li>
@@ -163,7 +153,7 @@
     </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">14. Open Ticket</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">13. Open Ticket</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <ul class="list-disc list-inside space-y-2">
                 <li>Once the ticket is issued, if the customer wants to keep their reservation open (in some cases, customers don't have a confirmed new travel date), there will be a service fee of USD 15.00 per person to keep the reservation open. Once the customer has confirmed a new travel date, they need to pay the change fee plus the fare difference.</li>
@@ -176,7 +166,7 @@
     </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">15. Baggage Policy</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">14. Baggage Policy</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <ul class="list-disc list-inside space-y-2">
                 <li>Airline staff have full authority to ask passengers to check-in and check-out baggage at transit points. Eco travels can't give you a guarantee and always advise customers to check with airport staff.</li>
@@ -191,7 +181,7 @@
     </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">16. Collection/Any Failure of Payment</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">15. Collection/Any Failure of Payment</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <ul class="list-disc list-inside space-y-2">
                 <li>Full payment needs to be transferred to bank account/cash/terminal before the electronic ticket is issued.</li>
@@ -205,21 +195,21 @@
     </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">17. Dispute Resolution</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">16. Dispute Resolution</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <p>For any issues or disputes regarding payment, customers are encouraged to contact our support team first. We aim to resolve all issues fairly and promptly.</p>
         </div>
     </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">18. Data Privacy</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">17. Data Privacy</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <p>All personal and payment information shared with us is treated confidentially and is not shared with third parties except as required for booking and compliance.</p>
         </div>
     </div>
 
     <div class="mb-8">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">19. Verification Right</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">18. Verification Right</h3>
         <div class="text-gray-700 dark:text-gray-300 space-y-3">
             <p>Eco Travels reserves the right to decline or refund payments if there is any concern regarding fraud, misuse, or suspicious activity, without liability.</p>
         </div>
