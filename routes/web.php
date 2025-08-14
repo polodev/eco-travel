@@ -16,7 +16,7 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
     Route::get('/', function () {
-        return redirect()->route('static-site::homepage');
+        return view('static-site::homepage.homepage');
     })->name('home');
     
     // Auth routes are now handled by Auth module
