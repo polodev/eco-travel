@@ -1,7 +1,7 @@
 <!-- Mobile Navigation Menu -->
 <div x-show="mobileMenuOpen" x-transition class="md:hidden border-t border-gray-200 dark:border-gray-700 py-4">
     <div class="space-y-2">
-        <a href="{{ route('static-site::homepage') }}" class="block px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+        <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
             {{ __('messages.home') }}
         </a>
         <a href="{{ route('static-site::about') }}" class="block px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">

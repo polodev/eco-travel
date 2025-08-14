@@ -1,6 +1,6 @@
 <div class="hidden md:flex items-center space-x-6">
     <!-- Navigation Links -->
-    <a href="{{ route('static-site::homepage') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+    <a href="{{ route('home') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
         {{ __('messages.home') }}
     </a>
     <a href="{{ route('static-site::about') }}" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
