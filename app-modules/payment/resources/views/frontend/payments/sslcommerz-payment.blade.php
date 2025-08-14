@@ -116,11 +116,12 @@
                                         <div class="flex items-center h-5">
                                             <input id="payment-consent" 
                                                    type="checkbox" 
+                                                   checked
                                                    class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 dark:border-gray-500 rounded">
                                         </div>
                                         <div class="text-sm">
                                             <label for="payment-consent" class="text-gray-700 dark:text-gray-300 font-medium">
-                                                {{ __('messages.payment_consent_text') }} 
+                                                By clicking the payment button below, you agree to our 
                                                 <a href="{{ route('page::pages.show', 'privacy-policy') }}" 
                                                    target="_blank" 
                                                    class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.privacy_policy') }}</a>, 
@@ -143,8 +144,7 @@
                                     @csrf
                                     <button type="submit" 
                                             id="payment-submit-btn"
-                                            disabled
-                                            class="w-full flex justify-center items-center py-3 px-4 border border-green-300 dark:border-green-600 rounded-md shadow-sm text-sm font-medium text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/30 cursor-not-allowed transition-colors">
+                                            class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 cursor-pointer transition-colors">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                         </svg>
@@ -251,11 +251,12 @@
                                             <div class="flex items-center h-5">
                                                 <input id="retry-payment-consent" 
                                                        type="checkbox" 
+                                                       checked
                                                        class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 dark:border-gray-500 rounded">
                                             </div>
                                             <div class="text-sm">
                                                 <label for="retry-payment-consent" class="text-gray-700 dark:text-gray-300 font-medium">
-                                                    {{ __('messages.payment_retry_consent_text') }} 
+                                                    By clicking the retry button below, you agree to our 
                                                     <a href="{{ route('page::pages.show', 'privacy-policy') }}" 
                                                        target="_blank" 
                                                        class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('messages.privacy_policy') }}</a>, 
@@ -278,8 +279,7 @@
                                         @csrf
                                         <button type="submit" 
                                                 id="retry-payment-btn"
-                                                disabled
-                                                class="w-full inline-flex justify-center items-center px-4 py-2 border border-green-300 dark:border-green-600 rounded-md shadow-sm text-sm font-medium text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/30 cursor-not-allowed transition-colors">
+                                                class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 cursor-pointer transition-colors">
                                             {{ __('messages.try_again') }}
                                         </button>
                                     </form>
