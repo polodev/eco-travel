@@ -93,8 +93,9 @@ class SslCommerzController extends Controller
         }
 
         $payment_data = [
-            'payment_reference' => json_encode($request->all()),
-            'gateway_transaction_id' => $request->input('val_id'),
+            'gateway_response' => json_encode($request->all()),
+            'gateway_payment_id' => $request->input('val_id'),
+            'gateway_reference' => $request->input('bank_tran_id'),
         ];
 
         // Initialize SSL Commerz with the specific store
@@ -141,9 +142,11 @@ class SslCommerzController extends Controller
         }
 
         $payment_data = [
-            'payment_reference' => json_encode($request->all()),
-            'gateway_transaction_id' => $request->input('val_id'),
+            'gateway_response' => json_encode($request->all()),
+            'gateway_payment_id' => $request->input('val_id'),
+            'gateway_reference' => $request->input('bank_tran_id'),
             'status' => 'failed',
+            'failed_at' => now(),
         ];
 
         if (in_array($payment->status, ['pending', 'failed', 'canceled'])) {
@@ -175,8 +178,9 @@ class SslCommerzController extends Controller
         }
 
         $payment_data = [
-            'payment_reference' => json_encode($request->all()),
-            'gateway_transaction_id' => $request->input('val_id'),
+            'gateway_response' => json_encode($request->all()),
+            'gateway_payment_id' => $request->input('val_id'),
+            'gateway_reference' => $request->input('bank_tran_id'),
             'status' => 'canceled',
         ];
 
@@ -210,8 +214,9 @@ class SslCommerzController extends Controller
             }
 
             $payment_data = [
-                'gateway_transaction_id' => $request->input('val_id'),
-                'payment_reference' => json_encode($request->all()),
+                'gateway_response' => json_encode($request->all()),
+                'gateway_payment_id' => $request->input('val_id'),
+                'gateway_reference' => $request->input('bank_tran_id'),
             ];
 
             if (in_array($payment->status, ['pending', 'failed', 'canceled'])) {
@@ -227,13 +232,11 @@ class SslCommerzController extends Controller
 
                     if (is_array($validated_payment_data) && $tran_id == $validated_payment_data['tran_id']) {
                         $payment_references = [];
-                        $payment_reference = json_decode($payment_data['payment_reference'], true);
+                        $payment_reference = json_decode($payment_data['gateway_response'], true);
                         array_push($payment_references, $payment_reference);
                         array_push($payment_references, $validated_payment_data);
 
-                        $payment_data['gateway_amount'] = $validated_payment_data['amount'] - $validated_payment_data['discount_amount'];
-                        $payment_data['gateway_discount'] = $validated_payment_data['discount_amount'];
-                        $payment_data['payment_reference'] = json_encode($payment_references);
+                        $payment_data['gateway_response'] = json_encode($payment_references);
                     }
 
                     $payment_data['status'] = 'completed';

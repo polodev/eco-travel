@@ -113,41 +113,51 @@
                         <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Transaction Details</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                             <div>
-                                <span class="text-gray-600 dark:text-gray-400">Transaction ID:</span>
-                                <div class="font-mono text-gray-900 dark:text-gray-100">{{ $payment->transaction_id ?? 'N/A' }}</div>
+                                <span class="text-gray-600 dark:text-gray-400">Receipt Number:</span>
+                                <div class="font-mono text-gray-900 dark:text-gray-100">{{ $payment->receipt_number ?? 'N/A' }}</div>
+                            </div>
+                            <div>
+                                <span class="text-gray-600 dark:text-gray-400">Bank Name:</span>
+                                <div class="font-mono text-gray-900 dark:text-gray-100">{{ $payment->bank_name ?? 'N/A' }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    @if($payment->notes)
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Notes</h3>
+                        <div class="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{{ $payment->notes }}</div>
+                    </div>
+                    @endif
+
+                    <!-- Gateway Information -->
+                    @if($payment->gateway_response || $payment->gateway_payment_id || $payment->gateway_reference)
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Gateway Information</h3>
+                        
+                        <!-- Gateway IDs -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
+                            <div>
+                                <span class="text-gray-600 dark:text-gray-400">Payment ID:</span>
+                                <div class="font-mono text-gray-900 dark:text-gray-100">#{{ $payment->id }}</div>
                             </div>
                             <div>
                                 <span class="text-gray-600 dark:text-gray-400">Gateway Payment ID:</span>
                                 <div class="font-mono text-gray-900 dark:text-gray-100">{{ $payment->gateway_payment_id ?? 'N/A' }}</div>
                             </div>
-                            <div>
+                            <div class="md:col-span-2">
                                 <span class="text-gray-600 dark:text-gray-400">Gateway Reference:</span>
                                 <div class="font-mono text-gray-900 dark:text-gray-100">{{ $payment->gateway_reference ?? 'N/A' }}</div>
                             </div>
-                            <div>
-                                <span class="text-gray-600 dark:text-gray-400">Receipt Number:</span>
-                                <div class="font-mono text-gray-900 dark:text-gray-100">{{ $payment->receipt_number ?? 'N/A' }}</div>
-                            </div>
                         </div>
-                    </div>
 
-                    <!-- Additional Information -->
-                    @if($payment->notes || $payment->gateway_response)
-                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Additional Information</h3>
-                        
-                        @if($payment->notes)
-                        <div class="mb-4">
-                            <span class="text-sm text-gray-600 dark:text-gray-400">Notes:</span>
-                            <div class="mt-1 text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{{ $payment->notes }}</div>
-                        </div>
-                        @endif
-
+                        <!-- Gateway Response -->
                         @if($payment->gateway_response)
                         <div>
                             <span class="text-sm text-gray-600 dark:text-gray-400">Gateway Response:</span>
-                            <div class="mt-1 bg-gray-900 text-green-400 p-3 rounded text-xs font-mono overflow-auto">
-                                <pre>{{ json_encode($payment->gateway_response, JSON_PRETTY_PRINT) }}</pre>
+                            <div class="mt-2 bg-gray-900 text-green-400 p-4 rounded text-xs font-mono min-h-24 max-h-48 overflow-y-auto border border-gray-700">
+                                <pre class="whitespace-pre-wrap break-words">{{ json_encode(is_string($payment->gateway_response) ? json_decode($payment->gateway_response, true) : $payment->gateway_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
                             </div>
                         </div>
                         @endif
