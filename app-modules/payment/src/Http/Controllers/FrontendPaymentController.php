@@ -17,7 +17,8 @@ class FrontendPaymentController extends Controller
     public function showCustomPaymentForm()
     {
         $gatewayCharges = [
-            'sslcommerz' => config('global.sslcommerz_payment_gateway_charge', 2.10),
+            'sslcommerz_regular' => config('global.sslcommerz_payment_gateway_charge', 2.00),
+            'sslcommerz_premium' => config('global.sslcommerz_payment_gateway_charge_for_premium_card', 3.00),
             'bkash' => config('global.bkash_payment_gateway_charge', 1.5)
         ];
 
@@ -46,6 +47,7 @@ class FrontendPaymentController extends Controller
 
         // Prepare validation rules
         $rules = [
+            'payment_method' => 'required|in:sslcommerz,manual_payment',
             'amount' => 'required|numeric|min:100',
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
@@ -100,18 +102,19 @@ class FrontendPaymentController extends Controller
                 'mobile' => $request->mobile,
                 'amount' => $request->amount,
                 'purpose' => $request->purpose,
+                'payment_method' => $request->payment_method,
                 'status' => 'pending',
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'reference_number' => 'CP-' . strtoupper(uniqid()),
             ]);
 
-            // Create initial payment record with SSL Commerz
+            // Create initial payment record with selected payment method
             $payment = Payment::create([
                 'custom_payment_id' => $customPayment->id,
                 'amount' => $request->amount,
                 'email_address' => $request->email, // Store email directly in payment
-                'payment_method' => 'sslcommerz',
+                'payment_method' => $request->payment_method,
                 'store_name' => config('sslcommerz.default_store', 'main-store'),
                 'status' => 'pending',
                 'payment_date' => now(),
@@ -147,7 +150,18 @@ class FrontendPaymentController extends Controller
         // Temporarily commented out until bKash integration
         // $bkashCalculation = \App\Helpers\Helpers::calculateBkashTotal($payment->amount);
 
-        return view('payment::frontend.payment-page', compact('payment', 'gatewayCharges', 'sslcommerzCalculation' /*, 'bkashCalculation'*/));
+        // Render different views based on payment method
+        switch ($payment->payment_method) {
+            case 'sslcommerz':
+                return view('payment::frontend.payments.sslcommerz-payment', compact('payment', 'gatewayCharges', 'sslcommerzCalculation'));
+            
+            case 'manual_payment':
+                return view('payment::frontend.payments.manual-payment', compact('payment', 'gatewayCharges', 'sslcommerzCalculation'));
+            
+            default:
+                // Fallback to SSLCommerz for backward compatibility
+                return view('payment::frontend.payments.sslcommerz-payment', compact('payment', 'gatewayCharges', 'sslcommerzCalculation'));
+        }
     }
 
     /**
@@ -167,6 +181,55 @@ class FrontendPaymentController extends Controller
     }
 
     /**
+     * Submit manual payment with proof
+     */
+    public function submitManualPayment(Request $request, Payment $payment)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'bank_name' => 'required|string|max:255',
+            'notes' => 'nullable|string|max:1000',
+            'payment_attachment' => 'required|file|mimes:jpeg,png,jpg,gif,webp,pdf|max:5120', // 5MB max
+        ], [
+            'bank_name.required' => __('messages.bank_name_required'),
+            'notes.max' => __('messages.notes_too_long'),
+            'payment_attachment.required' => __('messages.payment_attachment_required'),
+            'payment_attachment.mimes' => __('messages.payment_attachment_invalid_format'),
+            'payment_attachment.max' => __('messages.payment_attachment_too_large'),
+        ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            // Update payment with bank information
+            $payment->update([
+                'bank_name' => $request->bank_name,
+                'status' => 'processing', // Change status to processing for manual verification
+                'notes' => $request->notes ?: 'Manual payment submitted for verification'
+            ]);
+
+            // Handle file upload using Spatie Media Library
+            if ($request->hasFile('payment_attachment')) {
+                $payment->addMediaFromRequest('payment_attachment')
+                    ->toMediaCollection('payment_attachment');
+            }
+
+            // Redirect with success message
+            return redirect()->route('payment::payments.confirmation', $payment->id)
+                ->with('success', __('messages.manual_payment_submitted_successfully'));
+
+        } catch (\Exception $e) {
+            return back()
+                ->withErrors(['error' => __('messages.manual_payment_submission_failed')])
+                ->withInput();
+        }
+    }
+
+    /**
      * Show payment confirmation page
      */
     public function showPaymentConfirmation(Payment $payment)
@@ -174,6 +237,15 @@ class FrontendPaymentController extends Controller
         // Load related data
         $payment->load(['customPayment', 'booking']);
 
-        return view('payment::frontend.payment-confirmation', compact('payment'));
+        // Render different confirmation views based on payment method
+        switch ($payment->payment_method) {
+            case 'manual_payment':
+                return view('payment::frontend.manual-payment-confirmation', compact('payment'));
+            
+            case 'sslcommerz':
+            default:
+                // Fallback to regular payment confirmation for SSLCommerz and others
+                return view('payment::frontend.payment-confirmation', compact('payment'));
+        }
     }
 }

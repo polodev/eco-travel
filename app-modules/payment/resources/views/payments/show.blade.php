@@ -123,6 +123,78 @@
                         </div>
                     </div>
 
+                    <!-- Payment Attachment Section -->
+                    @if($payment->getFirstMedia('payment_attachment'))
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Payment Attachment</h3>
+                        
+                        @php
+                            $attachment = $payment->getFirstMedia('payment_attachment');
+                            $isImage = in_array($attachment->mime_type, ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp']);
+                        @endphp
+
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
+                            @if($isImage)
+                                <!-- Image Preview -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $attachment->name }}</span>
+                                        </div>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $attachment->human_readable_size }}</span>
+                                    </div>
+                                    
+                                    <!-- Image Display -->
+                                    <div class="mt-3">
+                                        <img src="{{ $attachment->getUrl() }}" 
+                                             alt="{{ $attachment->name }}"
+                                             class="max-w-full h-auto max-h-96 mx-auto rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm cursor-pointer"
+                                             onclick="openImageModal('{{ $attachment->getUrl() }}', '{{ $attachment->name }}')">
+                                    </div>
+                                    
+                                    <!-- Download Link -->
+                                    <div class="flex justify-center mt-3">
+                                        <a href="{{ $attachment->getUrl() }}" 
+                                           download="{{ $attachment->name }}"
+                                           class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                            Download Attachment
+                                        </a>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Document/PDF Download -->
+                                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-600">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
+                                            <svg class="w-8 h-8 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $attachment->name }}</h4>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ strtoupper(pathinfo($attachment->name, PATHINFO_EXTENSION)) }} • {{ $attachment->human_readable_size }}</p>
+                                        </div>
+                                    </div>
+                                    <a href="{{ $attachment->getUrl() }}" 
+                                       download="{{ $attachment->name }}"
+                                       class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        Download
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
                     <!-- Notes -->
                     @if($payment->notes)
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -283,6 +355,18 @@
         </div>
     </div>
 
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden flex items-center justify-center p-4">
+        <div class="relative max-w-4xl max-h-full">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <img id="modalImage" src="" alt="" class="max-w-full max-h-full object-contain">
+        </div>
+    </div>
+
     @push('scripts')
     <script>
     function copyPaymentLink() {
@@ -320,6 +404,36 @@
         // Deselect the text
         linkInput.blur();
     }
+
+    function openImageModal(imageUrl, imageName) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        
+        modalImage.src = imageUrl;
+        modalImage.alt = imageName;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside the image
+    document.getElementById('imageModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeImageModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeImageModal();
+        }
+    });
     </script>
     @endpush
 </x-admin-dashboard-layout::layout>

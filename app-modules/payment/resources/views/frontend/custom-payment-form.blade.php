@@ -16,6 +16,59 @@
                 <form action="{{ route('payment::custom-payment.submit') }}" method="POST" class="space-y-4">
                     @csrf
 
+                    <!-- Payment Method Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                            {{ __('messages.payment_method') }} <span class="text-red-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-1 gap-2">
+                            <!-- Online Payment (SSLCommerz) -->
+                            <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 @error('payment_method') border-red-500 @enderror">
+                                <input type="radio" 
+                                       name="payment_method" 
+                                       value="sslcommerz" 
+                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2" 
+                                       {{ old('payment_method', 'sslcommerz') === 'sslcommerz' ? 'checked' : '' }}
+                                       onchange="updatePaymentMethod()">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('messages.online_payment_sslcommerz') }}</div>
+                                        <div class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                            {{ __('messages.online') }}
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        {{ __('messages.cards_mobile_banking') }}
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- Manual Payment -->
+                            <label class="relative flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <input type="radio" 
+                                       name="payment_method" 
+                                       value="manual_payment" 
+                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2"
+                                       {{ old('payment_method') === 'manual_payment' ? 'checked' : '' }}
+                                       onchange="updatePaymentMethod()">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('messages.manual_payment') }}</div>
+                                        <div class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                            {{ __('messages.manual') }}
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        {{ __('messages.bank_transfer_deposit_bkash') }}
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        @error('payment_method')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     @if($errors->any())
                         <!-- Error Messages -->
                         <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
@@ -64,13 +117,28 @@
                         
                         <!-- Payment Gateway Fees Display -->
                         <div id="gateway-fees" class="mt-2 space-y-1 text-xs" style="display: none;">
-                            <!-- SSLCommerz Fee -->
-                            <div id="sslcommerz-fee" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded px-2 py-1">
+                            <!-- SSLCommerz Regular Card Fee -->
+                            <div id="sslcommerz-regular-fee" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded px-2 py-1">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-blue-700 dark:text-blue-300">SSLCommerz (<span id="sslcommerz-rate">{{ $gatewayCharges['sslcommerz'] ?? 2.10 }}</span>%)</span>
-                                    <span class="font-medium text-blue-800 dark:text-blue-200">৳<span id="sslcommerz-total">0.00</span></span>
+                                    <span class="text-blue-700 dark:text-blue-300">SSLCommerz Regular ({{ $gatewayCharges['sslcommerz_regular'] ?? 2.00 }}%)</span>
+                                    <span class="font-medium text-blue-800 dark:text-blue-200">৳<span id="sslcommerz-regular-total">0.00</span></span>
                                 </div>
-                                <div class="text-blue-600 dark:text-blue-400">Fee: ৳<span id="sslcommerz-fee-amount">0.00</span></div>
+                                <div class="text-blue-600 dark:text-blue-400">Fee: ৳<span id="sslcommerz-regular-fee-amount">0.00</span></div>
+                            </div>
+                            
+                            <!-- SSLCommerz Premium Card Fee -->
+                            <div id="sslcommerz-premium-fee" class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded px-2 py-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-purple-700 dark:text-purple-300">SSLCommerz Premium Cards ({{ $gatewayCharges['sslcommerz_premium'] ?? 3.00 }}%)</span>
+                                    <span class="font-medium text-purple-800 dark:text-purple-200">৳<span id="sslcommerz-premium-total">0.00</span></span>
+                                </div>
+                                <div class="text-purple-600 dark:text-purple-400">Fee: ৳<span id="sslcommerz-premium-fee-amount">0.00</span></div>
+                                @php
+                                    $premiumCards = ['American Express', 'City Visa Platinum'];
+                                @endphp
+                                <div class="text-xs text-purple-500 dark:text-purple-400 mt-1 leading-tight">
+                                    {{ implode(', ', $premiumCards) }}
+                                </div>
                             </div>
                             
                             <!-- bKash Fee - Temporarily commented out until bKash integration -->
@@ -259,12 +327,12 @@
         const form = amountInput.closest('form');
         const gatewayFeesContainer = document.getElementById('gateway-fees');
         
-        // Gateway fee settings (can be toggled)
-        let showSSLCommerz = true;
+        // Gateway fee settings (controlled by payment method selection)
+        let showSSLCommerz = false; // Will be enabled based on payment method selection
         let showBkash = false; // Temporarily disabled until bKash integration
         
         // Gateway charges from controller
-        const gatewayCharges = @json($gatewayCharges ?? ['sslcommerz' => 2.10, 'bkash' => 1.5]);
+        const gatewayCharges = @json($gatewayCharges ?? ['sslcommerz_regular' => 2.00, 'sslcommerz_premium' => 3.00, 'bkash' => 1.5]);
         
         // Number formatting function
         function formatNumber(num) {
@@ -275,8 +343,17 @@
         }
         
         // Payment gateway calculation functions
-        function calculateSSLCommerzFee(amount) {
-            const feePercentage = gatewayCharges.sslcommerz;
+        function calculateSSLCommerzRegularFee(amount) {
+            const feePercentage = gatewayCharges.sslcommerz_regular;
+            const fee = (amount * feePercentage) / 100;
+            return {
+                fee: Math.round(fee * 100) / 100,
+                total: Math.round((amount + fee) * 100) / 100
+            };
+        }
+        
+        function calculateSSLCommerzPremiumFee(amount) {
+            const feePercentage = gatewayCharges.sslcommerz_premium;
             const fee = (amount * feePercentage) / 100;
             return {
                 fee: Math.round(fee * 100) / 100,
@@ -303,24 +380,38 @@
             }
             
             // Show/hide gateway fee cards based on settings
-            const sslcommerzElement = document.getElementById('sslcommerz-fee');
+            const sslcommerzRegularElement = document.getElementById('sslcommerz-regular-fee');
+            const sslcommerzPremiumElement = document.getElementById('sslcommerz-premium-fee');
             const bkashElement = document.getElementById('bkash-fee');
             
-            if (sslcommerzElement) {
-                sslcommerzElement.style.display = showSSLCommerz ? 'block' : 'none';
+            if (sslcommerzRegularElement) {
+                sslcommerzRegularElement.style.display = showSSLCommerz ? 'block' : 'none';
+            }
+            if (sslcommerzPremiumElement) {
+                sslcommerzPremiumElement.style.display = showSSLCommerz ? 'block' : 'none';
             }
             if (bkashElement) {
                 bkashElement.style.display = showBkash ? 'block' : 'none';
             }
             
-            // Calculate and display SSLCommerz fee
-            if (showSSLCommerz && sslcommerzElement) {
-                const sslData = calculateSSLCommerzFee(amount);
-                const feeAmountElement = document.getElementById('sslcommerz-fee-amount');
-                const totalElement = document.getElementById('sslcommerz-total');
+            // Calculate and display SSLCommerz Regular fee
+            if (showSSLCommerz && sslcommerzRegularElement) {
+                const sslRegularData = calculateSSLCommerzRegularFee(amount);
+                const feeAmountElement = document.getElementById('sslcommerz-regular-fee-amount');
+                const totalElement = document.getElementById('sslcommerz-regular-total');
                 
-                if (feeAmountElement) feeAmountElement.textContent = formatNumber(sslData.fee);
-                if (totalElement) totalElement.textContent = formatNumber(sslData.total);
+                if (feeAmountElement) feeAmountElement.textContent = formatNumber(sslRegularData.fee);
+                if (totalElement) totalElement.textContent = formatNumber(sslRegularData.total);
+            }
+            
+            // Calculate and display SSLCommerz Premium fee
+            if (showSSLCommerz && sslcommerzPremiumElement) {
+                const sslPremiumData = calculateSSLCommerzPremiumFee(amount);
+                const feeAmountElement = document.getElementById('sslcommerz-premium-fee-amount');
+                const totalElement = document.getElementById('sslcommerz-premium-total');
+                
+                if (feeAmountElement) feeAmountElement.textContent = formatNumber(sslPremiumData.fee);
+                if (totalElement) totalElement.textContent = formatNumber(sslPremiumData.total);
             }
             
             // Calculate and display bKash fee - Temporarily commented out until bKash integration
@@ -396,6 +487,18 @@
             existingError.setAttribute('data-server-error', 'true');
         }
         
+        // Payment method change handler
+        window.updatePaymentMethod = function() {
+            const selectedMethod = document.querySelector('input[name="payment_method"]:checked')?.value;
+            
+            // Show SSLCommerz fees only when SSLCommerz is selected
+            showSSLCommerz = (selectedMethod === 'sslcommerz');
+            showBkash = false; // Keep disabled for now
+            
+            // Update gateway fees display
+            updateGatewayFees();
+        };
+        
         // Expose toggle functions globally for easy control
         window.toggleSSLCommerz = function(show) {
             showSSLCommerz = show;
@@ -406,6 +509,9 @@
             showBkash = show;
             updateGatewayFees();
         };
+        
+        // Initialize payment method on page load
+        updatePaymentMethod();
         
         // Initial calculation if amount is already filled
         if (amountInput.value) {

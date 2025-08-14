@@ -8,10 +8,13 @@ use Modules\Booking\Models\Booking;
 use App\Models\User;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Payment extends Model
+class Payment extends Model implements HasMedia
 {
-    use LogsActivity;
+    use LogsActivity, InteractsWithMedia;
     protected $fillable = [
         'booking_id',
         'custom_payment_id',
@@ -115,13 +118,14 @@ class Payment extends Model
     {
         return [
             'sslcommerz' => 'SSLCommerz',
+            'manual_payment' => 'Manual Payment (Bank transfers, Deposit, MFS transfer)',
             'bkash' => 'bKash',
             'nagad' => 'Nagad',
             'city_bank' => 'City Bank Gateway',
             'brac_bank' => 'BRAC Bank Gateway',
             'bank_transfer' => 'Bank Transfer',
+            'bank_deposit' => 'Bank Deposit',
             'cash' => 'Cash Payment',
-            'other' => 'Other'
         ];
     }
 
@@ -304,5 +308,13 @@ class Payment extends Model
             'deleted' => "Payment #{$this->id} deleted{$relatedInfo}",
             default => "Payment {$eventName}{$relatedInfo}"
         };
+    }
+
+    /**
+     * Define media collections.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('payment_attachment')->singleFile();
     }
 }

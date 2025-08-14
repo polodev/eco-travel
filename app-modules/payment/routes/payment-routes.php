@@ -48,9 +48,10 @@ Route::group([
     // Payment Processing Routes
     Route::get('/payments/{payment}', [FrontendPaymentController::class, 'showPayment'])->name('payments.show');
     Route::post('/payments/{payment}/process', [FrontendPaymentController::class, 'processPayment'])->name('payments.process');
+    Route::post('/payments/{payment}/submit-manual', [FrontendPaymentController::class, 'submitManualPayment'])->name('payments.submit-manual');
     
     // Payment Confirmation Route
-    Route::get('/payment-confirmation/{payment}', [FrontendPaymentController::class, 'showPaymentConfirmation'])->name('payment-confirmation');
+    Route::get('/payment-confirmation/{payment}', [FrontendPaymentController::class, 'showPaymentConfirmation'])->name('payments.confirmation');
 });
 
 // SSL Commerz Callback Routes (No localization - these are called by SSL Commerz gateway)

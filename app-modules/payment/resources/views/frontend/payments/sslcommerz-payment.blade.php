@@ -155,13 +155,28 @@
 
                             <!-- Gateway Fee Display Cards -->
                             <div class="mb-6 space-y-2">
-                                <!-- SSLCommerz Fee -->
+                                <!-- SSLCommerz Regular Fee -->
                                 <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded px-3 py-2">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-xs text-blue-700 dark:text-blue-300">SSLCommerz ({{ $gatewayCharges['sslcommerz'] ?? 2.10 }}%)</span>
-                                        <span class="text-sm font-medium text-blue-800 dark:text-blue-200">৳{{ number_format($sslcommerzCalculation['total'], 2) }}</span>
+                                        <span class="text-xs text-blue-700 dark:text-blue-300">SSLCommerz Regular ({{ config('global.sslcommerz_payment_gateway_charge', 2.00) }}%)</span>
+                                        <span class="text-sm font-medium text-blue-800 dark:text-blue-200">৳{{ number_format($sslcommerzCalculation['regular_total'], 2) }}</span>
                                     </div>
-                                    <div class="text-xs text-blue-600 dark:text-blue-400">Fee: ৳{{ number_format($sslcommerzCalculation['fee'], 2) }}</div>
+                                    <div class="text-xs text-blue-600 dark:text-blue-400">Fee: ৳{{ number_format($sslcommerzCalculation['regular_fee'], 2) }}</div>
+                                </div>
+                                
+                                <!-- SSLCommerz Premium Fee -->
+                                <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded px-3 py-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-purple-700 dark:text-purple-300">SSLCommerz Premium Cards ({{ config('global.sslcommerz_payment_gateway_charge_for_premium_card', 3.00) }}%)</span>
+                                        <span class="text-sm font-medium text-purple-800 dark:text-purple-200">৳{{ number_format($sslcommerzCalculation['premium_total'], 2) }}</span>
+                                    </div>
+                                    <div class="text-xs text-purple-600 dark:text-purple-400">Fee: ৳{{ number_format($sslcommerzCalculation['premium_fee'], 2) }}</div>
+                                    @php
+                                        $premiumCards = ['American Express', 'City Visa Platinum'];
+                                    @endphp
+                                    <div class="text-xs text-purple-500 dark:text-purple-400 mt-1 leading-tight">
+                                        {{ implode(', ', $premiumCards) }}
+                                    </div>
                                 </div>
                                 
                                 <!-- bKash Fee - Temporarily commented out until bKash integration -->
