@@ -7,53 +7,8 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div class="lg:col-span-2 order-2 lg:order-1">
-                    <div class="sticky top-8 space-y-6">
-                        <!-- Instructions -->
-                        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                                {{ __('messages.payment_instructions') }}
-                            </h3>
-                            <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">1</div>
-                                    <p>{{ __('messages.manual_payment_step_1') }}</p>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">2</div>
-                                    <p>{{ __('messages.manual_payment_step_2') }}</p>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">3</div>
-                                    <p>{{ __('messages.manual_payment_step_3') }}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Contact Information -->
-                        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                            <h4 class="text-sm font-medium text-green-900 dark:text-green-100 mb-2">
-                                {{ __('messages.need_help') }}
-                            </h4>
-                            <p class="text-sm text-green-700 dark:text-green-300">
-                                {{ __('messages.contact_support') }}
-                            </p>
-                        </div>
-
-                        <!-- Security Note -->
-                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-                            <h4 class="text-sm font-medium text-yellow-900 dark:text-yellow-100 mb-2">
-                                {{ __('messages.verification_notice') }}
-                            </h4>
-                            <p class="text-sm text-yellow-700 dark:text-yellow-300">
-                                {{ __('messages.manual_verification_message') }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Payment Form -->
-                <div class="lg:col-span-3 order-1 lg:order-2 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <div class="lg:col-span-3 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ __('messages.payment_details') }}</h2>
                     
                     <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
@@ -209,48 +164,46 @@
                 </div>
 
                 <!-- Information Sidebar -->
-                <div class="lg:col-span-2">
-                    <div class="sticky top-8 space-y-6">
-                        <!-- Instructions -->
-                        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                                {{ __('messages.payment_instructions') }}
-                            </h3>
-                            <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">1</div>
-                                    <p>{{ __('messages.manual_payment_step_1') }}</p>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">2</div>
-                                    <p>{{ __('messages.manual_payment_step_2') }}</p>
-                                </div>
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">3</div>
-                                    <p>{{ __('messages.manual_payment_step_3') }}</p>
-                                </div>
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-gray-700 h-fit">
+                    <!-- Instructions -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                            {{ __('messages.payment_instructions') }}
+                        </h3>
+                        <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">1</div>
+                                <p>{{ __('messages.manual_payment_step_1') }}</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">2</div>
+                                <p>{{ __('messages.manual_payment_step_2') }}</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-6 h-6 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xs font-semibold mr-3 mt-0.5">3</div>
+                                <p>{{ __('messages.manual_payment_step_3') }}</p>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Contact Information -->
-                        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                            <h4 class="text-sm font-medium text-green-900 dark:text-green-100 mb-2">
-                                {{ __('messages.need_help') }}
-                            </h4>
-                            <p class="text-sm text-green-700 dark:text-green-300">
-                                {{ __('messages.contact_support') }}
-                            </p>
-                        </div>
+                    <!-- Contact Information -->
+                    <div class="mt-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-green-900 dark:text-green-100 mb-2">
+                            {{ __('messages.need_help') }}
+                        </h4>
+                        <p class="text-sm text-green-700 dark:text-green-300">
+                            {{ __('messages.contact_support') }}
+                        </p>
+                    </div>
 
-                        <!-- Security Note -->
-                        <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-                            <h4 class="text-sm font-medium text-yellow-900 dark:text-yellow-100 mb-2">
-                                {{ __('messages.verification_notice') }}
-                            </h4>
-                            <p class="text-sm text-yellow-700 dark:text-yellow-300">
-                                {{ __('messages.manual_verification_message') }}
-                            </p>
-                        </div>
+                    <!-- Security Note -->
+                    <div class="mt-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                        <h4 class="text-sm font-medium text-yellow-900 dark:text-yellow-100 mb-2">
+                            {{ __('messages.verification_notice') }}
+                        </h4>
+                        <p class="text-sm text-yellow-700 dark:text-yellow-300">
+                            {{ __('messages.manual_verification_message') }}
+                        </p>
                     </div>
                 </div>
             </div>
