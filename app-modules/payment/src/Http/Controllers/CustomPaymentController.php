@@ -113,6 +113,7 @@ class CustomPaymentController extends Controller
             'purpose' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'reference_number' => 'nullable|string|max:255',
+            'payment_method' => 'nullable|string|in:' . implode(',', array_keys(\Modules\Payment\Models\Payment::getAvailablePaymentMethods())),
             'status' => 'required|in:submitted,processing,completed,cancelled',
             'admin_notes' => 'nullable|string',
         ], [
@@ -157,6 +158,7 @@ class CustomPaymentController extends Controller
             'purpose' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'reference_number' => 'nullable|string|max:255',
+            'payment_method' => 'nullable|string|in:' . implode(',', array_keys(\Modules\Payment\Models\Payment::getAvailablePaymentMethods())),
             'status' => 'required|in:submitted,processing,completed,cancelled',
             'admin_notes' => 'nullable|string',
         ], [
@@ -196,10 +198,13 @@ class CustomPaymentController extends Controller
         try {
             $defaults = config('payment.auto_payment_defaults');
             
+            // Use custom payment's payment_method if set, otherwise fall back to default
+            $paymentMethod = $customPayment->payment_method ?? $defaults['payment_method'] ?? 'sslcommerz';
+            
             Payment::create([
                 'custom_payment_id' => $customPayment->id,
                 'amount' => $customPayment->amount,
-                'payment_method' => $defaults['payment_method'] ?? 'sslcommerz',
+                'payment_method' => $paymentMethod,
                 'status' => $defaults['status'] ?? 'pending',
                 'payment_date' => now(),
                 'notes' => $defaults['notes'] ?? 'Auto-created payment record for custom payment processing'
@@ -209,6 +214,7 @@ class CustomPaymentController extends Controller
             \Log::info('Auto-payment created for CustomPayment', [
                 'custom_payment_id' => $customPayment->id,
                 'amount' => $customPayment->amount,
+                'payment_method' => $paymentMethod,
                 'created_by' => auth()->user()->name ?? 'System'
             ]);
 

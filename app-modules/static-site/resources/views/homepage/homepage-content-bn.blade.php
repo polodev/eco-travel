@@ -1,5 +1,5 @@
 {{-- Hero Section --}}
-<section class="relative bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 text-white py-20">
+<section class="relative text-white py-20 hero-gradient">
     <div class="absolute inset-0 bg-black/20"></div>
     <div class="relative container mx-auto px-4">
         <div class="text-center max-w-4xl mx-auto">
@@ -10,7 +10,7 @@
                 <a href="{{ route('static-site::flight') }}" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-lg font-semibold transition-colors">
                     ফ্লাইট বুক করুন
                 </a>
-                <a href="{{ route('static-site::holiday-package') }}" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-800 px-8 py-3 rounded-lg font-semibold transition-colors">
+                <a href="{{ route('static-site::holiday-package') }}" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-colors">
                     হলিডে প্যাকেজ
                 </a>
             </div>
@@ -73,7 +73,7 @@
                 <div class="text-4xl mb-4">{{ $service['icon'] }}</div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-3">{{ $service['title'] }}</h3>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $service['description'] }}</p>
-                <a href="{{ $service['link'] }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
+                <a href="{{ $service['link'] }}" class="text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                     আরও জানুন →
                 </a>
             </div>
@@ -109,7 +109,7 @@
                         <span class="text-lg">🛫</span>
                         <span class="font-medium text-gray-800 dark:text-white">{{ $route['from'] }} → {{ $route['to'] }}</span>
                     </div>
-                    <span class="text-lg font-bold text-blue-600 dark:text-blue-400">৳{{ $route['price'] }}</span>
+                    <span class="text-lg font-bold text-eco-green dark:text-eco-green">৳{{ $route['price'] }}</span>
                 </div>
                 @endforeach
             </div>
@@ -135,7 +135,7 @@
                             <span class="text-sm text-gray-500 dark:text-gray-400">{{ $route['region'] }}</span>
                         </div>
                     </div>
-                    <a href="{{ route('static-site::flight') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">
+                    <a href="{{ route('static-site::flight') }}" class="text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                         এখনই বুক করুন
                     </a>
                 </div>
@@ -187,13 +187,13 @@
             <div class="p-6">
                 <div class="text-4xl mb-4">📞</div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">হেল্পলাইন</h3>
-                <p class="text-blue-600 dark:text-blue-400 text-lg font-medium">+৮৮০৯৬৪৭৬৬৮৮২২</p>
+                <p class="text-eco-green dark:text-eco-green text-lg font-medium">+৮৮০৯৬৪৭৬৬৮৮২২</p>
             </div>
             
             <div class="p-6">
                 <div class="text-4xl mb-4">✉️</div>
                 <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">ইমেইল</h3>
-                <p class="text-blue-600 dark:text-blue-400">info@ecotravelsonline.com.bd</p>
+                <p class="text-eco-green dark:text-eco-green">info@ecotravelsonline.com.bd</p>
             </div>
             
             <div class="p-6">

@@ -481,6 +481,36 @@
     border-color: #00A550;
 }
 
+/* Additional green shades for gradients */
+.from-eco-green {
+    --tw-gradient-from: #00A550 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(0 165 80 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-eco-green-dark {
+    --tw-gradient-to: #008A43 var(--tw-gradient-to-position);
+}
+
+.dark\:from-eco-green-dark:is(.dark *) {
+    --tw-gradient-from: #008A43 var(--tw-gradient-from-position);
+    --tw-gradient-to: rgb(0 138 67 / 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.dark\:to-green-900:is(.dark *) {
+    --tw-gradient-to: rgb(20 83 45) var(--tw-gradient-to-position);
+}
+
+/* Hero section gradient */
+.hero-gradient {
+    background: linear-gradient(to right, #00A550, #008A43);
+}
+
+.dark .hero-gradient {
+    background: linear-gradient(to right, #008A43, #14532d);
+}
+
 /* Global color overrides for eco travel branding */
 .bg-blue-500 {
     background-color: #00A550 !important;
