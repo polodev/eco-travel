@@ -243,8 +243,10 @@ class FrontendPaymentController extends Controller
                 return view('payment::frontend.manual-payment-confirmation', compact('payment'));
             
             case 'sslcommerz':
+                return view('payment::frontend.sslcommerz-payment-confirmation', compact('payment'));
+            
             default:
-                // Fallback to regular payment confirmation for SSLCommerz and others
+                // Fallback to regular payment confirmation for other methods
                 return view('payment::frontend.payment-confirmation', compact('payment'));
         }
     }

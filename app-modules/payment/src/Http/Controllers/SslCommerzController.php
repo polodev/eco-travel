@@ -115,17 +115,17 @@ class SslCommerzController extends Controller
                     $payment->customPayment->update(['status' => 'completed']);
                 }
                 
-                return redirect()->route('payment::payment-confirmation', $payment);
+                return redirect()->route('payment::payments.confirmation', $payment);
             } else {
                 $payment_data['status'] = 'failed';
                 $payment->update($payment_data);
                 
-                return redirect()->route('payment::payment-confirmation', $payment);
+                return redirect()->route('payment::payments.confirmation', $payment);
             }
         } else if ($payment->status == 'completed') {
             return view('payment::frontend.payment-success', compact('payment'));
         } else {
-            return redirect()->route('payment::payment-confirmation', $payment);
+            return redirect()->route('payment::payments.confirmation', $payment);
         }
     }
 
@@ -157,11 +157,11 @@ class SslCommerzController extends Controller
                 $payment->customPayment->update(['status' => 'failed']);
             }
             
-            return redirect()->route('payment::payment-confirmation', $payment);
+            return redirect()->route('payment::payments.confirmation', $payment);
         } else if ($payment->status == 'completed') {
             return view('payment::frontend.payment-success', compact('payment'));
         } else {
-            return redirect()->route('payment::payment-confirmation', $payment);
+            return redirect()->route('payment::payments.confirmation', $payment);
         }
     }
 
@@ -192,11 +192,11 @@ class SslCommerzController extends Controller
                 $payment->customPayment->update(['status' => 'canceled']);
             }
             
-            return redirect()->route('payment::payment-confirmation', $payment);
+            return redirect()->route('payment::payments.confirmation', $payment);
         } else if ($payment->status == 'completed') {
             return view('payment::frontend.payment-success', compact('payment'));
         } else {
-            return redirect()->route('payment::payment-confirmation', $payment);
+            return redirect()->route('payment::payments.confirmation', $payment);
         }
     }
 
