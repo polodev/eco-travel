@@ -40,6 +40,47 @@
     .hover\:text-sidebar-accent-foreground:hover {
         color: hsl(var(--sidebar-accent-foreground));
     }
+
+    /* Eco Travel brand colors */
+    .bg-eco-green {
+        background-color: #00A550;
+    }
+
+    .bg-eco-green-dark {
+        background-color: #008A43;
+    }
+
+    .text-eco-green {
+        color: #00A550;
+    }
+
+    .text-eco-green-dark {
+        color: #008A43;
+    }
+
+    .hover\:bg-eco-green-dark:hover {
+        background-color: #008A43;
+    }
+
+    .hover\:text-eco-green-dark:hover {
+        color: #008A43;
+    }
+
+    .border-eco-green {
+        border-color: #00A550;
+    }
+
+    .ring-eco-green {
+        --tw-ring-color: #00A550;
+    }
+
+    .focus\:ring-eco-green:focus {
+        --tw-ring-color: #00A550;
+    }
+
+    .focus\:border-eco-green:focus {
+        border-color: #00A550;
+    }
 }
 
 @layer base {

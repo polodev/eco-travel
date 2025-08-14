@@ -11,7 +11,7 @@
              class="absolute right-0 mt-2 w-20 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                 <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" 
-                   class="block px-3 py-2 text-xs {{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' }} transition-colors">
+                   class="block px-3 py-2 text-xs {{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'text-eco-green font-medium' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' }} transition-colors">
                     {{ $localeCode == 'en' ? 'English' : 'বাংলা' }}
                 </a>
             @endforeach
@@ -35,14 +35,14 @@
 
     <!-- Mobile Auth -->
     @guest
-        <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors text-xs">
+        <a href="{{ route('login') }}" class="text-eco-green hover:text-eco-green-dark font-medium transition-colors text-xs">
             Login
         </a>
     @else
         <div x-data="{ open: false }" class="relative">
             <button @click="open = !open" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
                 <span class="relative flex h-7 w-7 shrink-0 overflow-hidden rounded-full">
-                    <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white text-xs font-medium">
+                    <span class="flex h-full w-full items-center justify-center rounded-full bg-eco-green text-white text-xs font-medium">
                         {{ Auth::user()->initials() }}
                     </span>
                 </span>

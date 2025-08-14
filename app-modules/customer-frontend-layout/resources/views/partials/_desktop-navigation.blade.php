@@ -36,7 +36,7 @@
     <div class="flex items-center space-x-2 border-l border-gray-300 dark:border-gray-600 pl-6">
         @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
             <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" 
-               class="px-2 py-1 rounded text-xs font-medium transition-colors {{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'bg-blue-500 text-white' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' }}">
+               class="px-2 py-1 rounded text-xs font-medium transition-colors {{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'bg-eco-green text-white' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200' }}">
                 {{ $properties['native'] }}
             </a>
         @endforeach
@@ -74,10 +74,10 @@
 
     <!-- Auth Links -->
     @guest
-        <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">
+        <a href="{{ route('login') }}" class="text-eco-green hover:text-eco-green-dark font-medium transition-colors">
             {{ __('messages.login') }}
         </a>
-        <a href="{{ route('register') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium">
+        <a href="{{ route('register') }}" class="bg-eco-green hover:bg-eco-green-dark text-white px-4 py-2 rounded-md transition-colors text-sm font-medium">
             {{ __('messages.register') }}
         </a>
     @else
@@ -89,7 +89,7 @@
                              alt="{{ Auth::user()->name }}"
                              class="h-full w-full rounded-full object-cover">
                     @else
-                        <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white text-sm font-medium">
+                        <span class="flex h-full w-full items-center justify-center rounded-full bg-eco-green text-white text-sm font-medium">
                             {{ Auth::user()->initials() }}
                         </span>
                     @endif

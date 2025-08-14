@@ -103,8 +103,8 @@
 .customer-form-input:focus {
     outline: none;
     ring: 2px;
-    ring-color: rgb(59 130 246);
-    border-color: rgb(59 130 246);
+    ring-color: #00A550;
+    border-color: #00A550;
 }
 
 .dark .customer-form-input {
@@ -168,15 +168,15 @@
 .customer-btn-primary {
     border-color: transparent;
     color: white;
-    background-color: rgb(37 99 235);
+    background-color: #00A550;
 }
 
 .customer-btn-primary:hover {
-    background-color: rgb(29 78 216);
+    background-color: #008A43;
 }
 
 .customer-btn-primary:focus {
-    ring-color: rgb(59 130 246);
+    ring-color: #00A550;
 }
 
 .customer-btn-secondary {
@@ -257,13 +257,13 @@
 }
 
 .customer-nav-link-active {
-    background-color: rgb(219 234 254);
-    color: rgb(29 78 216);
+    background-color: rgba(0, 165, 80, 0.1);
+    color: #00A550;
 }
 
 .dark .customer-nav-link-active {
-    background-color: rgb(30 58 138);
-    color: rgb(191 219 254);
+    background-color: rgba(0, 165, 80, 0.2);
+    color: #7dd3fc;
 }
 
 .customer-nav-link-inactive {
@@ -315,13 +315,13 @@
 }
 
 .customer-badge-pending {
-    background-color: rgb(219 234 254);
-    color: rgb(30 64 175);
+    background-color: rgba(0, 165, 80, 0.1);
+    color: #00A550;
 }
 
 .dark .customer-badge-pending {
-    background-color: rgb(30 64 175);
-    color: rgb(219 234 254);
+    background-color: #00A550;
+    color: white;
 }
 
 /* Customer profile components */
@@ -438,4 +438,86 @@
 .dark .livewire-success-notice {
     background-color: rgb(22 101 52 / 0.2);
     border-color: rgb(34 197 94);
+}
+
+/* Eco Travel brand colors */
+.bg-eco-green {
+    background-color: #00A550;
+}
+
+.bg-eco-green-dark {
+    background-color: #008A43;
+}
+
+.text-eco-green {
+    color: #00A550;
+}
+
+.text-eco-green-dark {
+    color: #008A43;
+}
+
+.hover\:bg-eco-green-dark:hover {
+    background-color: #008A43;
+}
+
+.hover\:text-eco-green-dark:hover {
+    color: #008A43;
+}
+
+.border-eco-green {
+    border-color: #00A550;
+}
+
+.ring-eco-green {
+    --tw-ring-color: #00A550;
+}
+
+.focus\:ring-eco-green:focus {
+    --tw-ring-color: #00A550;
+}
+
+.focus\:border-eco-green:focus {
+    border-color: #00A550;
+}
+
+/* Global color overrides for eco travel branding */
+.bg-blue-500 {
+    background-color: #00A550 !important;
+}
+
+.bg-blue-600 {
+    background-color: #00A550 !important;
+}
+
+.hover\:bg-blue-700:hover {
+    background-color: #008A43 !important;
+}
+
+.text-blue-600 {
+    color: #00A550 !important;
+}
+
+.hover\:text-blue-700:hover {
+    color: #008A43 !important;
+}
+
+.dark .text-blue-400 {
+    color: #00A550 !important;
+}
+
+.dark .hover\:text-blue-300:hover {
+    color: #7dd3fc !important;
+}
+
+.focus\:ring-blue-500:focus {
+    --tw-ring-color: #00A550 !important;
+}
+
+.border-blue-500 {
+    border-color: #00A550 !important;
+}
+
+.ring-blue-500 {
+    --tw-ring-color: #00A550 !important;
 }

@@ -9,7 +9,7 @@
                              alt="{{ Auth::user()->name }}"
                              class="h-full w-full rounded-full object-cover">
                     @else
-                        <span class="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white font-medium">
+                        <span class="flex h-full w-full items-center justify-center rounded-full bg-eco-green text-white font-medium">
                             {{ Auth::user()->initials() }}
                         </span>
                     @endif
