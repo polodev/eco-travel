@@ -16,7 +16,12 @@ class FrontendPaymentController extends Controller
      */
     public function showCustomPaymentForm()
     {
-        return view('payment::frontend.custom-payment-form');
+        $gatewayCharges = [
+            'sslcommerz' => config('global.sslcommerz_payment_gateway_charge', 2.10),
+            'bkash' => config('global.bkash_payment_gateway_charge', 1.5)
+        ];
+
+        return view('payment::frontend.custom-payment-form', compact('gatewayCharges'));
     }
 
     /**
@@ -131,7 +136,18 @@ class FrontendPaymentController extends Controller
         // Load related data
         $payment->load(['customPayment', 'booking']);
 
-        return view('payment::frontend.payment-page', compact('payment'));
+        // Get gateway charges
+        $gatewayCharges = [
+            'sslcommerz' => config('global.sslcommerz_payment_gateway_charge', 2.10),
+            'bkash' => config('global.bkash_payment_gateway_charge', 1.5)
+        ];
+
+        // Calculate gateway fees using trait methods
+        $sslcommerzCalculation = \App\Helpers\Helpers::calculateSSLCommerzTotal($payment->amount);
+        // Temporarily commented out until bKash integration
+        // $bkashCalculation = \App\Helpers\Helpers::calculateBkashTotal($payment->amount);
+
+        return view('payment::frontend.payment-page', compact('payment', 'gatewayCharges', 'sslcommerzCalculation' /*, 'bkashCalculation'*/));
     }
 
     /**

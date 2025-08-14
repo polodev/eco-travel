@@ -61,6 +61,27 @@
                         @error('amount')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
+                        
+                        <!-- Payment Gateway Fees Display -->
+                        <div id="gateway-fees" class="mt-2 space-y-1 text-xs" style="display: none;">
+                            <!-- SSLCommerz Fee -->
+                            <div id="sslcommerz-fee" class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded px-2 py-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-blue-700 dark:text-blue-300">SSLCommerz (<span id="sslcommerz-rate">{{ $gatewayCharges['sslcommerz'] ?? 2.10 }}</span>%)</span>
+                                    <span class="font-medium text-blue-800 dark:text-blue-200">৳<span id="sslcommerz-total">0.00</span></span>
+                                </div>
+                                <div class="text-blue-600 dark:text-blue-400">Fee: ৳<span id="sslcommerz-fee-amount">0.00</span></div>
+                            </div>
+                            
+                            <!-- bKash Fee - Temporarily commented out until bKash integration -->
+                            {{-- <div id="bkash-fee" class="bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded px-2 py-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-pink-700 dark:text-pink-300">bKash (<span id="bkash-rate">{{ $gatewayCharges['bkash'] ?? 1.5 }}</span>%)</span>
+                                    <span class="font-medium text-pink-800 dark:text-pink-200">৳<span id="bkash-total">0.00</span></span>
+                                </div>
+                                <div class="text-pink-600 dark:text-pink-400">Fee: ৳<span id="bkash-fee-amount">0.00</span></div>
+                            </div> --}}
+                        </div>
                     </div>
 
                     <!-- Name Field -->
@@ -231,22 +252,104 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @endif
     
-    <!-- Amount Validation Script -->
+    <!-- Amount Validation and Gateway Fee Calculation Script -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const amountInput = document.getElementById('amount');
         const form = amountInput.closest('form');
+        const gatewayFeesContainer = document.getElementById('gateway-fees');
         
-        // Real-time validation
+        // Gateway fee settings (can be toggled)
+        let showSSLCommerz = true;
+        let showBkash = false; // Temporarily disabled until bKash integration
+        
+        // Gateway charges from controller
+        const gatewayCharges = @json($gatewayCharges ?? ['sslcommerz' => 2.10, 'bkash' => 1.5]);
+        
+        // Number formatting function
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+        
+        // Payment gateway calculation functions
+        function calculateSSLCommerzFee(amount) {
+            const feePercentage = gatewayCharges.sslcommerz;
+            const fee = (amount * feePercentage) / 100;
+            return {
+                fee: Math.round(fee * 100) / 100,
+                total: Math.round((amount + fee) * 100) / 100
+            };
+        }
+        
+        function calculateBkashFee(amount) {
+            const feePercentage = gatewayCharges.bkash;
+            const fee = (amount * feePercentage) / 100;
+            return {
+                fee: Math.round(fee * 100) / 100,
+                total: Math.round((amount + fee) * 100) / 100
+            };
+        }
+        
+        // Update gateway fees display
+        function updateGatewayFees() {
+            const amount = parseFloat(amountInput.value);
+            
+            if (!amount || amount < 100) {
+                gatewayFeesContainer.style.display = 'none';
+                return;
+            }
+            
+            // Show/hide gateway fee cards based on settings
+            const sslcommerzElement = document.getElementById('sslcommerz-fee');
+            const bkashElement = document.getElementById('bkash-fee');
+            
+            if (sslcommerzElement) {
+                sslcommerzElement.style.display = showSSLCommerz ? 'block' : 'none';
+            }
+            if (bkashElement) {
+                bkashElement.style.display = showBkash ? 'block' : 'none';
+            }
+            
+            // Calculate and display SSLCommerz fee
+            if (showSSLCommerz && sslcommerzElement) {
+                const sslData = calculateSSLCommerzFee(amount);
+                const feeAmountElement = document.getElementById('sslcommerz-fee-amount');
+                const totalElement = document.getElementById('sslcommerz-total');
+                
+                if (feeAmountElement) feeAmountElement.textContent = formatNumber(sslData.fee);
+                if (totalElement) totalElement.textContent = formatNumber(sslData.total);
+            }
+            
+            // Calculate and display bKash fee - Temporarily commented out until bKash integration
+            /*
+            if (showBkash) {
+                const bkashData = calculateBkashFee(amount);
+                document.getElementById('bkash-fee-amount').textContent = formatNumber(bkashData.fee);
+                document.getElementById('bkash-total').textContent = formatNumber(bkashData.total);
+            }
+            */
+            
+            // Show the container if any gateway is enabled
+            if (showSSLCommerz || showBkash) {
+                gatewayFeesContainer.style.display = 'block';
+            } else {
+                gatewayFeesContainer.style.display = 'none';
+            }
+        }
+        
+        // Real-time validation and fee calculation
         amountInput.addEventListener('input', function() {
             const value = parseFloat(this.value);
             const errorElement = this.parentElement.parentElement.querySelector('.text-red-600, .text-red-400');
             
+            // Validation logic
             if (value < 100 && this.value !== '') {
                 this.classList.add('border-red-500');
                 this.classList.remove('border-gray-300', 'dark:border-gray-600');
                 
-                // Show error message if doesn't exist
                 if (!errorElement) {
                     const errorMsg = document.createElement('p');
                     errorMsg.className = 'mt-1 text-sm text-red-600 dark:text-red-400';
@@ -257,11 +360,13 @@
                 this.classList.remove('border-red-500');
                 this.classList.add('border-gray-300', 'dark:border-gray-600');
                 
-                // Remove error message if exists and was added by JS
                 if (errorElement && !errorElement.hasAttribute('data-server-error')) {
                     errorElement.remove();
                 }
             }
+            
+            // Update gateway fees
+            updateGatewayFees();
         });
         
         // Form submission validation
@@ -272,7 +377,6 @@
                 e.preventDefault();
                 amountInput.focus();
                 
-                // Show error if not already shown
                 const errorElement = amountInput.parentElement.parentElement.querySelector('.text-red-600, .text-red-400');
                 if (!errorElement) {
                     const errorMsg = document.createElement('p');
@@ -290,6 +394,22 @@
         const existingError = amountInput.parentElement.parentElement.querySelector('.text-red-600, .text-red-400');
         if (existingError) {
             existingError.setAttribute('data-server-error', 'true');
+        }
+        
+        // Expose toggle functions globally for easy control
+        window.toggleSSLCommerz = function(show) {
+            showSSLCommerz = show;
+            updateGatewayFees();
+        };
+        
+        window.toggleBkash = function(show) {
+            showBkash = show;
+            updateGatewayFees();
+        };
+        
+        // Initial calculation if amount is already filled
+        if (amountInput.value) {
+            updateGatewayFees();
         }
     });
     </script>

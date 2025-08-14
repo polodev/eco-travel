@@ -153,6 +153,27 @@
                                 </form>
                             </div>
 
+                            <!-- Gateway Fee Display Cards -->
+                            <div class="mb-6 space-y-2">
+                                <!-- SSLCommerz Fee -->
+                                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded px-3 py-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-blue-700 dark:text-blue-300">SSLCommerz ({{ $gatewayCharges['sslcommerz'] ?? 2.10 }}%)</span>
+                                        <span class="text-sm font-medium text-blue-800 dark:text-blue-200">৳{{ number_format($sslcommerzCalculation['total'], 2) }}</span>
+                                    </div>
+                                    <div class="text-xs text-blue-600 dark:text-blue-400">Fee: ৳{{ number_format($sslcommerzCalculation['fee'], 2) }}</div>
+                                </div>
+                                
+                                <!-- bKash Fee - Temporarily commented out until bKash integration -->
+                                {{-- <div class="bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800 rounded px-3 py-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-pink-700 dark:text-pink-300">bKash ({{ $gatewayCharges['bkash'] ?? 1.5 }}%)</span>
+                                        <span class="text-sm font-medium text-pink-800 dark:text-pink-200">৳{{ number_format($bkashCalculation['total'], 2) }}</span>
+                                    </div>
+                                    <div class="text-xs text-pink-600 dark:text-pink-400">Fee: ৳{{ number_format($bkashCalculation['fee'], 2) }}</div>
+                                </div> --}}
+                            </div>
+
                             <!-- SSLCommerz Info (Hidden on Mobile) -->
                             <div class="hidden md:block mb-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
                                 <div class="flex items-center justify-center mb-2">
