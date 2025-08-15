@@ -461,6 +461,10 @@
     background-color: #008A43;
 }
 
+.hover\:text-eco-green:hover {
+    color: #00A550;
+}
+
 .hover\:text-eco-green-dark:hover {
     color: #008A43;
 }
@@ -500,6 +504,15 @@
 
 .dark\:to-green-900:is(.dark *) {
     --tw-gradient-to: rgb(20 83 45) var(--tw-gradient-to-position);
+}
+
+/* Dark mode hover classes */
+.dark\:hover\:text-eco-green:is(.dark *):hover {
+    color: #00A550;
+}
+
+.dark\:hover\:text-eco-green-dark:is(.dark *):hover {
+    color: #008A43;
 }
 
 /* Hero section gradient */

@@ -4,17 +4,17 @@
 
     <div class="min-h-screen bg-white dark:bg-gray-900">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div class="hero-gradient text-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <!-- Breadcrumb -->
                 <nav class="mb-8">
-                    <ol class="flex items-center space-x-2 text-sm text-blue-200">
+                    <ol class="flex items-center space-x-2 text-sm text-white/80">
                         <li>
                             <a href="{{ route('blog::blog.index') }}" class="hover:text-white transition-colors">
                                 {{ __('messages.blog') }}
                             </a>
                         </li>
-                        <li class="text-blue-300">/</li>
+                        <li class="text-white/60">/</li>
                         <li class="text-white">{{ $blog->getTranslation('title', app()->getLocale()) }}</li>
                     </ol>
                 </nav>
@@ -26,13 +26,13 @@
                     </h1>
                     
                     @if($blog->getTranslation('excerpt', app()->getLocale()))
-                        <p class="text-xl text-blue-100 leading-relaxed max-w-3xl">
+                        <p class="text-xl text-white/90 leading-relaxed max-w-3xl">
                             {{ $blog->getTranslation('excerpt', app()->getLocale()) }}
                         </p>
                     @endif
 
                     <!-- Meta Information -->
-                    <div class="flex items-center space-x-6 text-blue-200">
+                    <div class="flex items-center space-x-6 text-white/80">
                         <div class="flex items-center space-x-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 10h6a2 2 0 002-2V7H6v8a2 2 0 002 2z"></path>
@@ -47,13 +47,13 @@
                                 </svg>
                                 <div class="flex flex-wrap gap-1">
                                     @foreach($blog->tags->take(3) as $tag)
-                                        <a href="{{ route('blog.tags.show', $tag->slug) }}" 
-                                           class="text-blue-200 hover:text-white transition-colors">
+                                        <a href="{{ route('blog::blog.tags.show', $tag->slug) }}" 
+                                           class="text-white/80 hover:text-white transition-colors">
                                             {{ $tag->name }}{{ !$loop->last ? ',' : '' }}
                                         </a>
                                     @endforeach
                                     @if($blog->tags->count() > 3)
-                                        <span class="text-blue-300">+{{ $blog->tags->count() - 3 }} more</span>
+                                        <span class="text-white/60">+{{ $blog->tags->count() - 3 }} more</span>
                                     @endif
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                     @endif
 
                     <!-- Article Body -->
-                    <article class="prose prose-base sm:prose-lg max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-red-600 dark:prose-code:text-red-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-900/20 prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:rounded-r prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg" id="blog-content">
+                    <article class="prose prose-base sm:prose-lg max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-red-600 dark:prose-code:text-red-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-pre:bg-gray-50 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-blockquote:border-l-4 prose-blockquote:border-eco-green prose-blockquote:bg-eco-green/5 dark:prose-blockquote:bg-eco-green/10 prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:rounded-r prose-a:text-eco-green dark:prose-a:text-eco-green prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-lg" id="blog-content">
                         {!! Str::markdown($blog->getTranslation('content', app()->getLocale())) !!}
                     </article>
 
@@ -88,8 +88,8 @@
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.tags') }}</h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($blog->tags as $tag)
-                                    <a href="{{ route('blog.tags.show', $tag->slug) }}" 
-                                       class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 hover:bg-blue-200 dark:hover:bg-blue-700 transition-colors">
+                                    <a href="{{ route('blog::blog.tags.show', $tag->slug) }}" 
+                                       class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-eco-green/10 text-eco-green dark:bg-eco-green/20 dark:text-eco-green hover:bg-eco-green/20 dark:hover:bg-eco-green/30 transition-colors">
                                         {{ $tag->name }}
                                     </a>
                                 @endforeach
@@ -103,7 +103,7 @@
                         <div class="flex space-x-4">
                             <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($blog->getTranslation('title', app()->getLocale())) }}" 
                                target="_blank"
-                               class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                               class="inline-flex items-center px-4 py-2 bg-eco-green text-white rounded-lg hover:bg-eco-green-dark transition-colors">
                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
                                 </svg>
@@ -111,7 +111,7 @@
                             </a>
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" 
                                target="_blank"
-                               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                               class="inline-flex items-center px-4 py-2 bg-eco-green text-white rounded-lg hover:bg-eco-green-dark transition-colors">
                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                 </svg>
@@ -144,7 +144,7 @@
                                                          alt="{{ $relatedBlog->getTranslation('title', app()->getLocale()) }}"
                                                          class="w-full h-32 object-cover rounded-lg mb-3 group-hover:opacity-90 transition-opacity">
                                                 @endif
-                                                <h4 class="font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                                                <h4 class="font-medium text-gray-900 dark:text-gray-100 group-hover:text-eco-green dark:group-hover:text-eco-green transition-colors line-clamp-2">
                                                     {{ $relatedBlog->getTranslation('title', app()->getLocale()) }}
                                                 </h4>
                                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -158,10 +158,10 @@
                         @endif
 
                         <!-- Back to Blog -->
-                        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+                        <div class="bg-eco-green/5 dark:bg-eco-green/10 rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ __('messages.explore_more') }}</h3>
                             <a href="{{ route('blog::blog.index') }}" 
-                               class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                               class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                                 </svg>

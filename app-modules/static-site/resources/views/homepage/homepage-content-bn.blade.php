@@ -146,7 +146,7 @@
 </section>
 
 {{-- Quote Section --}}
-<section class="py-16 bg-gradient-to-r from-green-600 to-blue-600 dark:from-green-800 dark:to-blue-800 text-white">
+<section class="py-16 bg-gradient-to-r from-eco-green to-eco-green-dark dark:from-eco-green-dark dark:to-eco-green text-white">
     <div class="container mx-auto px-4 text-center">
         <blockquote class="text-2xl md:text-3xl font-light italic mb-6">
             "যেখানে পথ যেতে পারে সেই পথ অনুসরণ করো না। বরং যেখানে কোনো পথ নেই সেখানে গিয়ে একটি পথ রেখে এসো"
@@ -159,7 +159,7 @@
 <section class="py-16 bg-white dark:bg-gray-800">
     <div class="container mx-auto px-4">
         <div class="text-center max-w-4xl mx-auto">
-            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-800 dark:to-teal-800 text-white p-12 rounded-2xl shadow-xl">
+            <div class="bg-gradient-to-r from-eco-green to-eco-green-dark dark:from-eco-green-dark dark:to-eco-green text-white p-12 rounded-2xl shadow-xl">
                 <div class="text-6xl mb-6">🎧</div>
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">২৪/৭ সহায়তা</h2>
                 <p class="text-xl md:text-2xl mb-8 opacity-90">আপনার সকল ভ্রমণ প্রয়োজনের জন্য ২৪ ঘন্টা গ্রাহক সহায়তা</p>

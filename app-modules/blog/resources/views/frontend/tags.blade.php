@@ -4,11 +4,11 @@
 
     <div class="min-h-screen bg-white dark:bg-gray-900">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div class="hero-gradient text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div class="text-center">
                     <h1 class="text-4xl md:text-6xl font-bold mb-4">{{ __('messages.blog_tags') }}</h1>
-                    <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                    <p class="text-xl text-white/90 max-w-2xl mx-auto">
                         {{ __('messages.explore_topics_description') }}
                     </p>
                 </div>
@@ -21,14 +21,14 @@
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     @foreach($tags as $tag)
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-                            <a href="{{ route('blog.tags.show', $tag->slug) }}" class="block">
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                            <a href="{{ route('blog::blog.tags.show', $tag->slug) }}" class="block">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2 hover:text-eco-green dark:hover:text-eco-green transition-colors">
                                     {{ $tag->getTranslation('name', app()->getLocale()) }}
                                 </h3>
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
                                     {{ $tag->blogs_count }} {{ $tag->blogs_count === 1 ? __('messages.post') : __('messages.posts') }}
                                 </p>
-                                <div class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm">
+                                <div class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium text-sm">
                                     {{ __('messages.view_posts') }}
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -52,7 +52,7 @@
             <!-- Back to Blog -->
             <div class="mt-12 text-center">
                 <a href="{{ route('blog::blog.index') }}" 
-                   class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                   class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>

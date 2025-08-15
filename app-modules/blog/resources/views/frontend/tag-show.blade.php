@@ -4,30 +4,30 @@
 
     <div class="min-h-screen bg-white dark:bg-gray-900">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div class="hero-gradient text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <!-- Breadcrumb -->
                 <nav class="mb-8">
-                    <ol class="flex items-center space-x-2 text-sm text-blue-200">
+                    <ol class="flex items-center space-x-2 text-sm text-white/80">
                         <li>
                             <a href="{{ route('blog::blog.index') }}" class="hover:text-white transition-colors">
                                 {{ __('messages.blog') }}
                             </a>
                         </li>
-                        <li class="text-blue-300">/</li>
+                        <li class="text-white/60">/</li>
                         <li>
                             <a href="{{ route('blog::blog.tags') }}" class="hover:text-white transition-colors">
                                 {{ __('messages.tags') }}
                             </a>
                         </li>
-                        <li class="text-blue-300">/</li>
+                        <li class="text-white/60">/</li>
                         <li class="text-white">{{ $tag->getTranslation('name', app()->getLocale()) }}</li>
                     </ol>
                 </nav>
 
                 <div class="text-center">
                     <h1 class="text-4xl md:text-6xl font-bold mb-4">{{ $tag->getTranslation('name', app()->getLocale()) }}</h1>
-                    <p class="text-xl text-blue-100">
+                    <p class="text-xl text-white/90">
                         {{ $blogs->total() }} {{ $blogs->total() === 1 ? __('messages.post') : __('messages.posts') }} {{ __('messages.tagged_with') }} "{{ $tag->getTranslation('name', app()->getLocale()) }}"
                     </p>
                 </div>
@@ -57,8 +57,8 @@
                                             <span>•</span>
                                             <div class="flex space-x-1">
                                                 @foreach($blog->tags->take(3) as $blogTag)
-                                                    <a href="{{ route('blog.tags.show', $blogTag->slug) }}" 
-                                                       class="text-blue-600 dark:text-blue-400 hover:underline {{ $blogTag->id === $tag->id ? 'font-semibold' : '' }}">
+                                                    <a href="{{ route('blog::blog.tags.show', $blogTag->slug) }}" 
+                                                       class="text-eco-green dark:text-eco-green hover:underline {{ $blogTag->id === $tag->id ? 'font-semibold' : '' }}">
                                                         {{ $blogTag->getTranslation('name', app()->getLocale()) }}{{ !$loop->last ? ',' : '' }}
                                                     </a>
                                                 @endforeach
@@ -72,7 +72,7 @@
                                     <!-- Title -->
                                     <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
                                         <a href="{{ route('blog::blog.show', $blog->slug) }}" 
-                                           class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                           class="hover:text-eco-green dark:hover:text-eco-green transition-colors">
                                             {{ $blog->getTranslation('title', app()->getLocale()) }}
                                         </a>
                                     </h2>
@@ -90,7 +90,7 @@
 
                                     <!-- Read More -->
                                     <a href="{{ route('blog::blog.show', $blog->slug) }}" 
-                                       class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                                       class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                                         {{ __('messages.read_more') }}
                                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -115,7 +115,7 @@
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">{{ __('messages.no_posts_for_tag') }}</h3>
                     <p class="text-gray-500 dark:text-gray-400 mb-6">{{ __('messages.no_posts_for_tag_description', ['tag' => $tag->getTranslation('name', app()->getLocale())]) }}</p>
                     <a href="{{ route('blog::blog.index') }}" 
-                       class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                       class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                         {{ __('messages.explore_all_posts') }}
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -127,7 +127,7 @@
             <!-- Navigation -->
             <div class="mt-12 flex justify-center space-x-6">
                 <a href="{{ route('blog::blog.tags') }}" 
-                   class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                   class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -135,7 +135,7 @@
                 </a>
                 <span class="text-gray-300 dark:text-gray-600">|</span>
                 <a href="{{ route('blog::blog.index') }}" 
-                   class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
+                   class="inline-flex items-center text-eco-green dark:text-eco-green hover:text-eco-green-dark dark:hover:text-eco-green-dark font-medium">
                     {{ __('messages.all_posts') }}
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

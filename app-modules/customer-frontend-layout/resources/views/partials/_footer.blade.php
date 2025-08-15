@@ -31,6 +31,7 @@
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('home') }}" class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{{ __('messages.home') }}</a></li>
                     <li><a href="{{ route('static-site::about') }}" class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{{ __('messages.about') }}</a></li>
+                    <li><a href="{{ route('blog::blog.index') }}" class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{{ __('messages.blog') }}</a></li>
                     <li><a href="{{ route('static-site::flight') }}" class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{{ __('messages.flights') }}</a></li>
                     <li><a href="{{ route('static-site::hotel') }}" class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{{ __('messages.hotels') }}</a></li>
                     <li><a href="{{ LaravelLocalization::localizeUrl('/contact') }}" class="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{{ __('messages.contact_us') }}</a></li>
