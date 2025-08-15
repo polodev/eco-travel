@@ -47,14 +47,12 @@ class CustomPaymentSeeder extends Seeder
                         'amount' => $amount,
                         'purpose' => $this->getPaymentPurpose(),
                         'description' => $this->getPaymentDescription(),
-                        'reference_number' => 'REF-' . strtoupper(uniqid()),
-                        'payment_method' => $this->getRandomPaymentMethod(),
                         'status' => $status,
                         'form_data' => $this->getFormData($user, $amount),
                         'ip_address' => $this->generateIPAddress(),
                         'user_agent' => $this->generateUserAgent(),
                         'admin_notes' => $this->getAdminNotes($status),
-                        'user_id' => $user->id, // Added user_id field
+                        'user_id' => $user->id,
                         'processed_by' => in_array($status, ['processing', 'completed']) ? $users->random()->id : null,
                         'created_at' => $submittedAt,
                         'updated_at' => $submittedAt,
@@ -84,12 +82,14 @@ class CustomPaymentSeeder extends Seeder
             $paymentStatus = $this->getPaymentStatus($customPayment->status, $i, $paymentCount);
             $paymentDate = $customPayment->created_at->copy()->addDays(rand(0, 5));
             
+            $paymentMethod = $this->getRandomPaymentMethod();
+            
             Payment::create([
                 'custom_payment_id' => $customPayment->id,
                 'created_by' => $users->random()->id, // Admin who created the payment record
                 'amount' => $paymentAmount,
                 'status' => $paymentStatus,
-                'payment_method' => $customPayment->payment_method,
+                'payment_method' => $paymentMethod,
                 'transaction_id' => $paymentStatus === 'completed' ? 'TXN-' . strtoupper(uniqid()) : null,
                 'gateway_payment_id' => $paymentStatus === 'completed' ? 'GPW-' . rand(100000, 999999) : null,
                 'gateway_response' => $paymentStatus === 'completed' ? $this->getGatewayResponse() : null,
@@ -99,7 +99,7 @@ class CustomPaymentSeeder extends Seeder
                 'failed_at' => $paymentStatus === 'failed' ? $paymentDate->copy()->addMinutes(rand(5, 30)) : null,
                 'notes' => $this->getPaymentNotes($paymentStatus),
                 'receipt_number' => $paymentStatus === 'completed' ? 'RCP-' . date('Ymd') . '-' . rand(1000, 9999) : null,
-                'payment_details' => $this->getPaymentDetails($customPayment->payment_method),
+                'payment_details' => $this->getPaymentDetails($paymentMethod),
             ]);
         }
     }
@@ -140,7 +140,7 @@ class CustomPaymentSeeder extends Seeder
     
     private function getRandomPaymentMethod(): string
     {
-        $methods = ['sslcommerz', 'bkash', 'nagad', 'city_bank', 'brac_bank', 'bank_transfer', 'cash'];
+        $methods = array_keys(Payment::getAvailablePaymentMethods());
         return $methods[array_rand($methods)];
     }
     

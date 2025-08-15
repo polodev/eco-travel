@@ -35,6 +35,66 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Main Information -->
                 <div class="lg:col-span-2 space-y-6">
+                    <!-- Payment Records Summary -->
+                    @if($customPayment->payments->count() > 0)
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">Payment Records</h3>
+                        <div class="space-y-2">
+                            @foreach($customPayment->payments as $payment)
+                            <div class="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
+                                <!-- Row 1: Payment info + View icon -->
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2 text-sm">
+                                        <span class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->formatted_amount }}</span>
+                                        <span class="text-gray-500 dark:text-gray-400">•</span>
+                                        {!! $payment->payment_method_badge !!}
+                                        <span class="text-gray-500 dark:text-gray-400">•</span>
+                                        {!! $payment->status_badge !!}
+                                    </div>
+                                    <div class="flex items-center space-x-1">
+                                        <!-- Edit Payment Link -->
+                                        <a href="{{ route('payment::admin.payments.edit', $payment->id) }}" 
+                                           class="inline-flex items-center p-1 text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300"
+                                           title="Edit payment">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                            </svg>
+                                        </a>
+                                        <!-- View Payment Link -->
+                                        <a href="{{ route('payment::admin.payments.show', $payment->id) }}" 
+                                           class="inline-flex items-center p-1 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                                           title="View payment details">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <!-- Row 2: Copy payment link -->
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" 
+                                           id="payment-link-{{ $payment->id }}"
+                                           value="{{ route('payment::payments.show', $payment->id) }}" 
+                                           readonly
+                                           class="flex-1 px-2 py-1 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded text-xs text-gray-900 dark:text-gray-100 font-mono">
+                                    <button type="button"
+                                            onclick="copyPaymentLink({{ $payment->id }})"
+                                            class="inline-flex items-center px-2 py-1 border border-gray-300 dark:border-gray-500 rounded bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors"
+                                            title="Copy payment link">
+                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <!-- Customer Information -->
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Customer Information</h3>
@@ -68,11 +128,7 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Reference Number</label>
-                                <p class="mt-1 text-sm font-medium text-gray-900 dark:text-gray-100 font-mono">{{ $customPayment->reference_number ?? 'Not provided' }}</p>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Payment Method</label>
-                                <p class="mt-1 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $customPayment->payment_method ? \Modules\Payment\Models\Payment::getAvailablePaymentMethods()[$customPayment->payment_method] ?? $customPayment->payment_method : 'Not specified' }}</p>
+                                <p class="mt-1 text-sm font-medium text-gray-900 dark:text-gray-100 font-mono">CP-{{ $customPayment->id }}</p>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</label>
@@ -294,6 +350,42 @@
 
     @push('scripts')
     <script>
+    function copyPaymentLink(paymentId) {
+        const linkInput = document.getElementById('payment-link-' + paymentId);
+        const copyButton = document.querySelector('button[onclick="copyPaymentLink(' + paymentId + ')"]');
+        
+        // Select and copy the text
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999); // For mobile devices
+        
+        try {
+            document.execCommand('copy');
+            
+            // Update button appearance temporarily
+            const originalHTML = copyButton.innerHTML;
+            copyButton.innerHTML = `
+                <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            `;
+            copyButton.classList.add('text-green-600', 'border-green-300', 'bg-green-50');
+            copyButton.classList.remove('text-gray-700', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-500', 'bg-white', 'dark:bg-gray-600');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                copyButton.innerHTML = originalHTML;
+                copyButton.classList.remove('text-green-600', 'border-green-300', 'bg-green-50');
+                copyButton.classList.add('text-gray-700', 'dark:text-gray-300', 'border-gray-300', 'dark:border-gray-500', 'bg-white', 'dark:bg-gray-600');
+            }, 2000);
+            
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+        
+        // Deselect the text
+        linkInput.blur();
+    }
+
     function openImageModal(imageUrl, imageName) {
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');

@@ -118,14 +118,14 @@ class Payment extends Model implements HasMedia
     {
         return [
             'sslcommerz' => 'SSLCommerz',
-            'manual_payment' => 'Manual Payment (Bank transfers, Deposit, MFS transfer)',
-            'bkash' => 'bKash',
-            'nagad' => 'Nagad',
-            'city_bank' => 'City Bank Gateway',
-            'brac_bank' => 'BRAC Bank Gateway',
-            'bank_transfer' => 'Bank Transfer',
-            'bank_deposit' => 'Bank Deposit',
-            'cash' => 'Cash Payment',
+            'manual_payment' => 'Manual Payment (Bank transfers, Deposit, MFS transfer, Cash)',
+            // 'bkash' => 'bKash',
+            // 'nagad' => 'Nagad',
+            // 'city_bank' => 'City Bank Gateway',
+            // 'brac_bank' => 'BRAC Bank Gateway',
+            // 'bank_transfer' => 'Bank Transfer',
+            // 'bank_deposit' => 'Bank Deposit',
+            // 'cash' => 'Cash Payment',
         ];
     }
 

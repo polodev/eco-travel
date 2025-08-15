@@ -201,8 +201,8 @@
                             </svg>
                         </button>
                         <div x-show="paymentOpen" x-transition class="ml-8 space-y-1" x-cloak>
-                            <a href="{{ route('payment::admin.payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('payment::admin.payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Payments</a>
                             <a href="{{ route('payment::admin.custom-payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('payment::admin.custom-payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Custom Payments</a>
+                            <a href="{{ route('payment::admin.payments.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('payment::admin.payments.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Payments</a>
                         </div>
                     </div>
                 </div>

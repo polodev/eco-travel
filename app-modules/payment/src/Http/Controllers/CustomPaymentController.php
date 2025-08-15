@@ -112,8 +112,6 @@ class CustomPaymentController extends Controller
             'amount' => 'required|numeric|min:100',
             'purpose' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'reference_number' => 'nullable|string|max:255',
-            'payment_method' => 'nullable|string|in:' . implode(',', array_keys(\Modules\Payment\Models\Payment::getAvailablePaymentMethods())),
             'status' => 'required|in:submitted,processing,completed,cancelled',
             'admin_notes' => 'nullable|string',
         ], [
@@ -122,6 +120,7 @@ class CustomPaymentController extends Controller
 
         // Set user who processed this payment
         $validatedData['processed_by'] = auth()->id();
+
 
         // Get IP and user agent from request
         $validatedData['ip_address'] = $request->ip();
@@ -157,8 +156,6 @@ class CustomPaymentController extends Controller
             'amount' => 'required|numeric|min:100',
             'purpose' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'reference_number' => 'nullable|string|max:255',
-            'payment_method' => 'nullable|string|in:' . implode(',', array_keys(\Modules\Payment\Models\Payment::getAvailablePaymentMethods())),
             'status' => 'required|in:submitted,processing,completed,cancelled',
             'admin_notes' => 'nullable|string',
         ], [
@@ -198,8 +195,8 @@ class CustomPaymentController extends Controller
         try {
             $defaults = config('payment.auto_payment_defaults');
             
-            // Use custom payment's payment_method if set, otherwise fall back to default
-            $paymentMethod = $customPayment->payment_method ?? $defaults['payment_method'] ?? 'sslcommerz';
+            // Use config default payment method since custom payments no longer specify payment methods
+            $paymentMethod = $defaults['payment_method'] ?? 'sslcommerz';
             
             Payment::create([
                 'custom_payment_id' => $customPayment->id,

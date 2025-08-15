@@ -19,8 +19,6 @@ class CustomPayment extends Model
         'amount',
         'purpose',
         'description',
-        'reference_number',
-        'payment_method',
         'status',
         'form_data',
         'ip_address',
@@ -235,8 +233,7 @@ class CustomPayment extends Model
                 'amount',
                 'purpose',
                 'description',
-                'reference_number',
-                'status',
+                        'status',
                 'admin_notes'
             ])
             ->logOnlyDirty()

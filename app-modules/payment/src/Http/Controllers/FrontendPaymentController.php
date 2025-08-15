@@ -95,18 +95,16 @@ class FrontendPaymentController extends Controller
         }
 
         try {
-            // Create custom payment record
+            // Create custom payment record (payment_method removed - stored in payment record)
             $customPayment = CustomPayment::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'amount' => $request->amount,
                 'purpose' => $request->purpose,
-                'payment_method' => $request->payment_method,
                 'status' => 'pending',
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
-                'reference_number' => 'CP-' . strtoupper(uniqid()),
             ]);
 
             // Create initial payment record with selected payment method

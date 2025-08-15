@@ -286,6 +286,26 @@
                         </div>
                     </div>
 
+                    <!-- Payment Link -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Payment Link</h3>
+                        <div class="flex items-center space-x-2">
+                            <input type="text" 
+                                   id="payment-link"
+                                   value="{{ route('payment::payments.show', $payment->id) }}" 
+                                   readonly
+                                   class="flex-1 px-3 py-2 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded text-sm text-gray-900 dark:text-gray-100 font-mono">
+                            <button type="button"
+                                    onclick="copyPaymentLink()"
+                                    class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-500 rounded bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Quick Actions -->
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
@@ -331,24 +351,6 @@
                             </a>
                         </div>
 
-                        <!-- Payment Link Copy Section -->
-                        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Frontend Payment Link</h4>
-                            <div class="flex items-center space-x-2">
-                                <input type="text" 
-                                       id="payment-link"
-                                       value="{{ route('payment::payments.show', $payment->id) }}" 
-                                       readonly
-                                       class="flex-1 px-2 py-1 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded text-xs text-gray-900 dark:text-gray-100 font-mono">
-                                <button type="button"
-                                        onclick="copyPaymentLink()"
-                                        class="inline-flex items-center p-1.5 border border-gray-300 dark:border-gray-500 rounded bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-500 transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
