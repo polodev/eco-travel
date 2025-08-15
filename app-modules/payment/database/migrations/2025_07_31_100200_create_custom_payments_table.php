@@ -23,8 +23,6 @@ return new class extends Migration
             // Additional form fields
             $table->string('purpose')->nullable(); // Purpose of payment
             $table->text('description')->nullable(); // Payment description
-            $table->string('reference_number')->nullable(); // Customer reference
-            $table->string('payment_method')->nullable(); // 'sslcommerz', 'bkash', 'nagad', 'city_bank', 'brac_bank', 'bank_transfer', 'cash', 'other'
             
             // Form submission details
             $table->string('status')->default('submitted'); // 'submitted', 'processing', 'completed', 'cancelled'
