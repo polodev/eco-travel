@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Payment\Http\Controllers\PaymentController;
-use Modules\Payment\Http\Controllers\CustomPaymentController;
 use Modules\Payment\Http\Controllers\FrontendPaymentController;
 use Modules\Payment\Http\Controllers\SslCommerzController;
 
@@ -13,25 +12,14 @@ Route::prefix('admin-dashboard')->name('payment::admin.')->middleware(['web', 'a
     Route::prefix('payments')->name('payments.')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
         Route::post('/json', [PaymentController::class, 'indexJson'])->name('json');
-        Route::get('/create', [PaymentController::class, 'create'])->name('create');
-        Route::post('/', [PaymentController::class, 'store'])->name('store');
+        Route::get('/create-custom-payment', [PaymentController::class, 'create'])->name('create_custom_payment');
+        Route::post('/create-custom-payment', [PaymentController::class, 'store'])->name('store_custom_payment');
         Route::get('/{payment}', [PaymentController::class, 'show'])->name('show');
         Route::get('/{payment}/edit', [PaymentController::class, 'edit'])->name('edit');
         Route::put('/{payment}', [PaymentController::class, 'update'])->name('update');
         Route::delete('/{payment}', [PaymentController::class, 'destroy'])->name('destroy');
     });
 
-    // Custom Payment Management Routes
-    Route::prefix('custom-payments')->name('custom-payments.')->group(function () {
-        Route::get('/', [CustomPaymentController::class, 'index'])->name('index');
-        Route::post('/json', [CustomPaymentController::class, 'indexJson'])->name('json');
-        Route::get('/create', [CustomPaymentController::class, 'create'])->name('create');
-        Route::post('/', [CustomPaymentController::class, 'store'])->name('store');
-        Route::get('/{customPayment}', [CustomPaymentController::class, 'show'])->name('show');
-        Route::get('/{customPayment}/edit', [CustomPaymentController::class, 'edit'])->name('edit');
-        Route::put('/{customPayment}', [CustomPaymentController::class, 'update'])->name('update');
-        Route::delete('/{customPayment}', [CustomPaymentController::class, 'destroy'])->name('destroy');
-    });
 });
 
 // Frontend Routes (With localization support)

@@ -629,4 +629,14 @@ return [
     'search_other_flights' => 'অন্যান্য ফ্লাইট খুঁজুন',
     'flight_not_found' => 'ফ্লাইট পাওয়া যায়নি',
     'flight_not_available' => 'অনুরোধকৃত ফ্লাইট উপলব্ধ নেই বা বিদ্যমান নেই',
+    
+    // Payment Status Messages
+    'payment_under_review' => 'পেমেন্ট পর্যালোচনাধীন',
+    'payment_completed' => 'পেমেন্ট সম্পন্ন',
+    'submitted_payment_details' => 'জমাদানকৃত পেমেন্ট বিবরণ',
+    'additional_details' => 'অতিরিক্ত বিবরণ',
+    'submitted_attachment' => 'জমাদানকৃত সংযুক্তি',
+    'payment_under_review_message' => 'আপনার পেমেন্ট আমাদের দল দ্বারা পর্যালোচনা করা হচ্ছে। যাচাইকরণ সম্পূর্ণ হলে আমরা স্ট্যাটাস আপডেট করব।',
+    'processed_at' => 'প্রক্রিয়াকরণের সময়',
+    'receipt_number' => 'রসিদ নম্বর',
 ];

@@ -150,10 +150,11 @@
                 },
                 columns: [
                     {
-                        data: 'id',
+                        data: 'id_formatted',
                         name: 'id',
                         title: 'ID',
                         searchable: true,
+                        orderable: true,
                         className: 'text-center w-20'
                     },
                     {

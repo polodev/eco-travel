@@ -60,6 +60,9 @@ class UserController extends Controller
                     });
                 }
             }, true)
+            ->addColumn('id_formatted', function (User $user) {
+                return '<a href="' . route('admin-dashboard.users.show', $user->id) . '" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">#' . $user->id . '</a>';
+            })
             ->addColumn('role_badge', function (User $user) {
                 if (!$user->role) {
                     return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">No Role</span>';
@@ -147,7 +150,7 @@ class UserController extends Controller
                 }
                 return $classes;
             })
-            ->rawColumns(['action', 'created_at_formatted', 'last_login_formatted', 'role_badge', 'email_verified_badge'])
+            ->rawColumns(['id_formatted', 'action', 'created_at_formatted', 'last_login_formatted', 'role_badge', 'email_verified_badge'])
             ->toJson();
     }
 

@@ -16,13 +16,21 @@ class Payment extends Model implements HasMedia
 {
     use LogsActivity, InteractsWithMedia;
     protected $fillable = [
+        'payment_type',
         'booking_id',
-        'custom_payment_id',
+        'created_by',
         'amount',
         'email_address',
         'store_name',
         'status',
         'payment_method',
+        'name',
+        'mobile',
+        'purpose',
+        'description',
+        'form_data',
+        'ip_address',
+        'user_agent',
         'transaction_id',
         'gateway_payment_id',
         'gateway_response',
@@ -33,12 +41,15 @@ class Payment extends Model implements HasMedia
         'refunded_at',
         'bank_name',
         'notes',
+        'admin_notes',
         'receipt_number',
-        'payment_details'
+        'payment_details',
+        'processed_by'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'form_data' => 'array',
         'gateway_response' => 'array',
         'payment_details' => 'array',
         'payment_date' => 'datetime',
@@ -55,13 +66,6 @@ class Payment extends Model implements HasMedia
         return $this->belongsTo(Booking::class);
     }
 
-    /**
-     * Get the custom payment that owns this payment.
-     */
-    public function customPayment(): BelongsTo
-    {
-        return $this->belongsTo(CustomPayment::class);
-    }
 
     /**
      * Scope for payments by status.
@@ -108,7 +112,7 @@ class Payment extends Model implements HasMedia
      */
     public function scopeForCustomPayments($query)
     {
-        return $query->whereNotNull('custom_payment_id');
+        return $query->where('payment_type', 'custom_payment');
     }
 
     /**
@@ -296,10 +300,10 @@ class Payment extends Model implements HasMedia
     {
         $relatedInfo = '';
         
-        if ($this->booking_id) {
+        if ($this->payment_type === 'booking' && $this->booking_id) {
             $relatedInfo = " for Booking #{$this->booking_id}";
-        } elseif ($this->custom_payment_id) {
-            $relatedInfo = " for Custom Payment #{$this->custom_payment_id}";
+        } elseif ($this->payment_type === 'custom_payment') {
+            $relatedInfo = " for Custom Payment: {$this->name}";
         }
 
         return match($eventName) {

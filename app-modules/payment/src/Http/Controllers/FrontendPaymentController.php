@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
-use Modules\Payment\Models\CustomPayment;
 use Modules\Payment\Models\Payment;
 
 class FrontendPaymentController extends Controller
@@ -33,9 +32,10 @@ class FrontendPaymentController extends Controller
         // Get client IP address for rate limiting
         $ipAddress = $request->ip();
         
-        // Rate limiting: Check if more than 3 custom payments from same IP within 2 minutes
+        // Rate limiting: Check if more than 3 custom payments from same IP within 5 minutes
         // future if statement  if (!auth()->check() || !auth()->user()->hasAnyRole(['admin', 'developer'])) 
-        $recentPayments = CustomPayment::where('ip_address', $ipAddress)
+        $recentPayments = Payment::where('payment_type', 'custom_payment')
+            ->where('ip_address', $ipAddress)
             ->where('created_at', '>=', now()->subMinutes(5))
             ->count();
             
@@ -95,26 +95,29 @@ class FrontendPaymentController extends Controller
         }
 
         try {
-            // Create custom payment record (payment_method removed - stored in payment record)
-            $customPayment = CustomPayment::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'mobile' => $request->mobile,
-                'amount' => $request->amount,
-                'purpose' => $request->purpose,
-                'status' => 'pending',
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
-            ]);
-
-            // Create initial payment record with selected payment method
+            // Create payment record directly with payment_type = 'custom_payment'
             $payment = Payment::create([
-                'custom_payment_id' => $customPayment->id,
+                'payment_type' => 'custom_payment',
+                'booking_id' => null,
                 'amount' => $request->amount,
-                'email_address' => $request->email, // Store email directly in payment
+                'email_address' => $request->email,
+                'name' => $request->name,
+                'mobile' => $request->mobile,
+                'purpose' => $request->purpose,
                 'payment_method' => $request->payment_method,
                 'store_name' => config('sslcommerz.default_store', 'main-store'),
                 'status' => 'pending',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'form_data' => [
+                    'name' => $request->name,
+                    'email_address' => $request->email,
+                    'mobile' => $request->mobile,
+                    'amount' => $request->amount,
+                    'purpose' => $request->purpose,
+                    'currency' => 'BDT',
+                    'form_type' => 'custom_payment'
+                ],
                 'payment_date' => now(),
             ]);
 
@@ -135,7 +138,7 @@ class FrontendPaymentController extends Controller
     public function showPayment(Payment $payment)
     {
         // Load related data
-        $payment->load(['customPayment', 'booking']);
+        $payment->load(['booking']);
 
         // Get gateway charges
         $gatewayCharges = [
@@ -233,7 +236,7 @@ class FrontendPaymentController extends Controller
     public function showPaymentConfirmation(Payment $payment)
     {
         // Load related data
-        $payment->load(['customPayment', 'booking']);
+        $payment->load(['booking']);
 
         // Render different confirmation views based on payment method
         switch ($payment->payment_method) {

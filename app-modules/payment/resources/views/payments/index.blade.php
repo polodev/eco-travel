@@ -20,11 +20,11 @@
                         </svg>
                         Clear Filters
                     </button>
-                    <a href="{{ route('payment::admin.payments.create') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                    <a href="{{ route('payment::admin.payments.create_custom_payment') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        Add Payment
+                        Create Custom Payment
                     </a>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <select class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" name="payment_type" id="payment_type">
                             <option value="">All Types</option>
                             <option value="booking">Booking Payments</option>
-                            <option value="custom">Custom Payments</option>
+                            <option value="custom_payment">Custom Payments</option>
                         </select>
                     </div>
                     <div>
@@ -117,10 +117,11 @@
                 },
                 columns: [
                     {
-                        data: 'id',
+                        data: 'id_formatted',
                         name: 'id',
                         title: 'ID',
                         searchable: false,
+                        orderable: true,
                         className: 'text-center w-16'
                     },
                     {

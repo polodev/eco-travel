@@ -20,13 +20,14 @@ class SslCommerzController extends Controller
         }
 
         try {
+            \Log::info('SSLCommerz processPayment started', ['payment_id' => $payment->id, 'payment_method' => $payment->payment_method]);
+            
             // Determine which customer data to use
-            $customerData = $payment->customPayment;
             $bookingData = $payment->booking;
             
-            $customerName = $customerData ? $customerData->name : ($bookingData ? $bookingData->customer_name : 'Unknown Customer');
-            $customerEmail = $payment->email_for_payment; // Use the accessor function
-            $customerMobile = $customerData ? $customerData->mobile : ($bookingData ? $bookingData->customer_mobile : '01XXXXXXXXX');
+            $customerName = $payment->payment_type === 'custom_payment' ? $payment->name : ($bookingData ? $bookingData->customer_name : 'Unknown Customer');
+            $customerEmail = $payment->payment_type === 'custom_payment' ? ($payment->email_address ?: config('sslcommerz.fallback_email', 'noreply@example.com')) : ($bookingData ? $bookingData->customer_email : config('sslcommerz.fallback_email', 'noreply@example.com'));
+            $customerMobile = $payment->payment_type === 'custom_payment' ? $payment->mobile : ($bookingData ? $bookingData->customer_mobile : '01XXXXXXXXX');
             
             // Prepare SSL Commerz payment data
             $post_data = array();
@@ -57,25 +58,32 @@ class SslCommerzController extends Controller
             $post_data['ship_country'] = 'Bangladesh';
 
             $post_data['shipping_method'] = 'NO';
-            $post_data['product_name'] = $customerData ? ($customerData->purpose ?: 'Custom Payment') : 'Service Payment';
+            $post_data['product_name'] = $payment->payment_type === 'custom_payment' ? ($payment->purpose ?: 'Custom Payment') : 'Service Payment';
             $post_data['product_category'] = 'Services';
             $post_data['product_profile'] = 'general';
 
             // Initialize SSL Commerz with store
             $storeName = $payment->store_name ?: config('sslcommerz.default_store', 'main-store');
+            \Log::info('SSLCommerz initialization', ['store_name' => $storeName, 'post_data' => $post_data]);
+            
             $sslc = new SslCommerzNotification($storeName);
             
             // Initiate payment (redirect to SSL Commerz gateway)
             $payment_options = $sslc->makePayment($post_data, 'hosted');
+            
+            \Log::info('SSLCommerz makePayment result', ['payment_options' => $payment_options, 'is_array' => is_array($payment_options)]);
 
             if (!is_array($payment_options)) {
                 // Redirect to SSL Commerz gateway
+                \Log::info('Redirecting to SSLCommerz gateway', ['redirect_url' => $payment_options]);
                 return redirect($payment_options);
             } else {
+                \Log::error('SSLCommerz payment initialization failed', ['payment_options' => $payment_options]);
                 return back()->withErrors(['error' => 'Failed to initialize payment gateway. Please try again.']);
             }
 
         } catch (\Exception $e) {
+            \Log::error('SSLCommerz payment processing failed', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return back()->withErrors(['error' => 'Payment processing failed: ' . $e->getMessage()]);
         }
     }
@@ -110,10 +118,7 @@ class SslCommerzController extends Controller
                 $payment_data['status'] = 'completed';
                 $payment->update($payment_data);
                 
-                // Update custom payment status if exists
-                if ($payment->customPayment) {
-                    $payment->customPayment->update(['status' => 'completed']);
-                }
+                // Custom payment status is already updated in the payment record above
                 
                 return redirect()->route('payment::payments.confirmation', $payment);
             } else {
@@ -152,10 +157,7 @@ class SslCommerzController extends Controller
         if (in_array($payment->status, ['pending', 'failed', 'canceled'])) {
             $payment->update($payment_data);
             
-            // Update custom payment status if exists
-            if ($payment->customPayment) {
-                $payment->customPayment->update(['status' => 'failed']);
-            }
+            // Custom payment status is already updated in the payment record above
             
             return redirect()->route('payment::payments.confirmation', $payment);
         } else if ($payment->status == 'completed') {
@@ -187,10 +189,7 @@ class SslCommerzController extends Controller
         if (in_array($payment->status, ['pending', 'failed', 'canceled'])) {
             $payment->update($payment_data);
             
-            // Update custom payment status if exists
-            if ($payment->customPayment) {
-                $payment->customPayment->update(['status' => 'canceled']);
-            }
+            // Custom payment status is already updated in the payment record above
             
             return redirect()->route('payment::payments.confirmation', $payment);
         } else if ($payment->status == 'completed') {
@@ -243,10 +242,7 @@ class SslCommerzController extends Controller
                     $payment_data['payment_date'] = now();
                     $payment->update($payment_data);
 
-                    // Update custom payment status if exists
-                    if ($payment->customPayment) {
-                        $payment->customPayment->update(['status' => 'completed']);
-                    }
+                    // Custom payment status is already updated in the payment record above
 
                     return response('SUCCESS', 200);
                 } else {

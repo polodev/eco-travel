@@ -14,19 +14,32 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             
-            // Reference to either booking or custom payment
+            // Payment type - determines if this is for a booking or custom payment
+            $table->string('payment_type')->default('booking'); // 'booking' or 'custom_payment'
+            
+            // Reference to booking (only used when payment_type = 'booking')
             $table->foreignId('booking_id')->nullable();
-            $table->foreignId('custom_payment_id')->nullable();
             
             // Who created this payment record
             $table->foreignId('created_by')->nullable(); // User ID of creator (admin/employee or auto-generated)
             
             // Payment details
             $table->decimal('amount', 10, 2);
-            $table->string('email_address')->nullable(); // Email address for payment
+            $table->string('email_address')->nullable(); // Email address for payment (used for both types)
             $table->string('store_name')->default('default_store'); // SSL Commerz store name
             $table->string('status')->default('pending'); // 'pending', 'processing', 'completed', 'failed', 'cancelled', 'refunded'
             $table->string('payment_method')->nullable(); // 'sslcommerz', 'bkash', 'nagad', 'city_bank', 'brac_bank', 'bank_transfer', 'cash', 'other'
+            
+            // Customer details (used when payment_type = 'custom_payment')
+            $table->string('name')->nullable(); // Customer name for custom payments
+            $table->string('mobile', 20)->nullable(); // Customer mobile for custom payments
+            $table->string('purpose')->nullable(); // Purpose of payment (custom payments)
+            $table->text('description')->nullable(); // Payment description (custom payments)
+            
+            // Form submission details (from custom_payments)
+            $table->json('form_data')->nullable(); // Complete form submission data
+            $table->string('ip_address')->nullable(); // Submitter's IP
+            $table->string('user_agent')->nullable(); // Submitter's browser info
             
             // Payment gateway information
             $table->string('transaction_id')->nullable(); // Gateway transaction ID
@@ -42,23 +55,29 @@ return new class extends Migration
             $table->datetime('refunded_at')->nullable(); // When payment was refunded
             
             // Additional information
-            $table->text('notes')->nullable(); // Internal notes
+            $table->text('notes')->nullable(); // Customer notes
+            $table->text('admin_notes')->nullable(); // Internal admin notes
             $table->string('receipt_number')->nullable(); // Receipt/invoice number
             $table->json('payment_details')->nullable(); // Additional payment information
+            $table->foreignId('processed_by')->nullable(); // Admin who processed the payment
             
             $table->timestamps();
             
             // Indexes
             $table->index(['booking_id', 'status']);
-            $table->index(['custom_payment_id', 'status']);
+            $table->index(['payment_type', 'status']);
             $table->index(['status', 'payment_method']);
             $table->index(['transaction_id']);
             $table->index(['gateway_payment_id']);
             $table->index(['payment_date']);
             $table->index(['created_by']);
+            $table->index(['email_address', 'status']); // For payment lookups
+            $table->index(['mobile', 'status']); // For payment lookups
+            $table->index(['ip_address', 'created_at']); // For rate limiting
             
-            // Note: Check constraint for ensuring only one reference type is set
-            // Application-level validation will ensure (booking_id IS NOT NULL AND custom_payment_id IS NULL) OR (booking_id IS NULL AND custom_payment_id IS NOT NULL)
+            // Note: Application-level validation will ensure proper payment_type handling:
+            // - When payment_type = 'booking': booking_id should be NOT NULL, customer fields should be NULL
+            // - When payment_type = 'custom_payment': booking_id should be NULL, customer fields should be filled
             
             // Note: Foreign key constraints removed - validation handled at application level
         });

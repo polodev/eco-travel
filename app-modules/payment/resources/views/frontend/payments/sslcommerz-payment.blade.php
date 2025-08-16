@@ -40,31 +40,31 @@
                             {{ __('messages.customer_information') }}
                         </h3>
                         
-                        @if($payment->customPayment)
+                        @if($payment->payment_type === 'custom_payment')
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.full_name') }}</label>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->customPayment->name }}</p>
+                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->name }}</p>
                                 </div>
-                                @if($payment->customPayment->email)
+                                @if($payment->email_address)
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.email_address') }}</label>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->customPayment->email }}</p>
+                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->email_address }}</p>
                                 </div>
                                 @endif
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.mobile_number') }}</label>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->customPayment->mobile }}</p>
+                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->mobile }}</p>
                                 </div>
-                                @if($payment->customPayment->purpose)
+                                @if($payment->purpose)
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.purpose') }}</label>
-                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->customPayment->purpose }}</p>
+                                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-100">{{ $payment->purpose }}</p>
                                 </div>
                                 @endif
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('messages.reference') }}</label>
-                                    <p class="mt-1 text-sm font-mono text-gray-900 dark:text-gray-100">{{ $payment->customPayment->reference_number }}</p>
+                                    <p class="mt-1 text-sm font-mono text-gray-900 dark:text-gray-100">PAY-{{ $payment->id }}</p>
                                 </div>
                             </div>
                         @endif

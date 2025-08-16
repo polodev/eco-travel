@@ -645,4 +645,14 @@ return [
     'search_other_flights' => 'Search Other Flights',
     'flight_not_found' => 'Flight Not Found',
     'flight_not_available' => 'The requested flight is not available or does not exist',
+    
+    // Payment Status Messages
+    'payment_under_review' => 'Payment Under Review',
+    'payment_completed' => 'Payment Completed',
+    'submitted_payment_details' => 'Submitted Payment Details',
+    'additional_details' => 'Additional Details',
+    'submitted_attachment' => 'Submitted Attachment',
+    'payment_under_review_message' => 'Your payment is being reviewed by our team. We will update the status once verification is complete.',
+    'processed_at' => 'Processed At',
+    'receipt_number' => 'Receipt Number',
 ];

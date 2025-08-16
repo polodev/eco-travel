@@ -4,7 +4,6 @@ namespace Modules\Payment\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Payment\Models\Payment;
-use Modules\Payment\Models\CustomPayment;
 use Modules\Booking\Models\Booking;
 use App\Models\User;
 use Carbon\Carbon;
@@ -29,7 +28,7 @@ class CustomPaymentSeeder extends Seeder
     {
         $users = User::limit(20)->get();
         
-        // Create custom payments (frontend form submissions)
+        // Create custom payments (frontend form submissions) directly as payments with payment_type = 'custom_payment'
         foreach ($users as $user) {
             // 30% chance of having custom payments
             if (rand(1, 100) <= 30) {
@@ -37,70 +36,41 @@ class CustomPaymentSeeder extends Seeder
                 
                 for ($i = 0; $i < $numPayments; $i++) {
                     $amount = rand(1000, 25000);
-                    $status = ['submitted', 'processing', 'completed', 'cancelled'][array_rand(['submitted', 'processing', 'completed', 'cancelled'])];
+                    $status = ['pending', 'processing', 'completed', 'cancelled'][array_rand(['pending', 'processing', 'completed', 'cancelled'])];
                     $submittedAt = Carbon::now()->subDays(rand(1, 60));
+                    $paymentMethod = $this->getRandomPaymentMethod();
                     
-                    $customPayment = CustomPayment::create([
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'mobile' => $this->generatePhoneNumber(),
+                    Payment::create([
+                        'payment_type' => 'custom_payment',
+                        'booking_id' => null,
+                        'created_by' => $users->random()->id, // Admin who created the payment record
                         'amount' => $amount,
+                        'status' => $status,
+                        'payment_method' => $paymentMethod,
+                        'name' => $user->name,
+                        'email_address' => $user->email,
+                        'mobile' => $this->generatePhoneNumber(),
                         'purpose' => $this->getPaymentPurpose(),
                         'description' => $this->getPaymentDescription(),
-                        'status' => $status,
                         'form_data' => $this->getFormData($user, $amount),
                         'ip_address' => $this->generateIPAddress(),
                         'user_agent' => $this->generateUserAgent(),
-                        'admin_notes' => $this->getAdminNotes($status),
-                        'user_id' => $user->id,
+                        'transaction_id' => $status === 'completed' ? 'CUP-' . strtoupper(uniqid()) : null,
+                        'gateway_payment_id' => $status === 'completed' ? 'GPW-' . rand(100000, 999999) : null,
+                        'gateway_response' => $status === 'completed' ? $this->getGatewayResponse() : null,
+                        'gateway_reference' => $status === 'completed' ? 'REF-' . rand(100000, 999999) : null,
+                        'payment_date' => $status === 'completed' ? $submittedAt : null,
+                        'processed_at' => in_array($status, ['completed', 'failed']) ? $submittedAt->copy()->addMinutes(rand(5, 120)) : null,
+                        'failed_at' => $status === 'failed' ? $submittedAt->copy()->addMinutes(rand(5, 30)) : null,
+                        'notes' => $this->getAdminNotes($status),
+                        'receipt_number' => $status === 'completed' ? 'CUP-' . date('Ymd') . '-' . rand(1000, 9999) : null,
+                        'payment_details' => $this->getPaymentDetails($paymentMethod),
                         'processed_by' => in_array($status, ['processing', 'completed']) ? $users->random()->id : null,
                         'created_at' => $submittedAt,
                         'updated_at' => $submittedAt,
                     ]);
-                    
-                    // Create payment records for this custom payment
-                    $this->createCustomPaymentRecords($customPayment, $users);
                 }
             }
-        }
-    }
-    
-    private function createCustomPaymentRecords(CustomPayment $customPayment, $users)
-    {
-        // Determine how many payment attempts/records to create
-        $paymentCount = rand(1, 3);
-        $totalPaid = 0;
-        
-        for ($i = 0; $i < $paymentCount; $i++) {
-            $remainingAmount = $customPayment->amount - $totalPaid;
-            if ($remainingAmount <= 0) break;
-            
-            // Payment amount (could be partial)
-            $paymentAmount = $i === $paymentCount - 1 ? $remainingAmount : rand(500, min($remainingAmount, $customPayment->amount * 0.7));
-            $totalPaid += $paymentAmount;
-            
-            $paymentStatus = $this->getPaymentStatus($customPayment->status, $i, $paymentCount);
-            $paymentDate = $customPayment->created_at->copy()->addDays(rand(0, 5));
-            
-            $paymentMethod = $this->getRandomPaymentMethod();
-            
-            Payment::create([
-                'custom_payment_id' => $customPayment->id,
-                'created_by' => $users->random()->id, // Admin who created the payment record
-                'amount' => $paymentAmount,
-                'status' => $paymentStatus,
-                'payment_method' => $paymentMethod,
-                'transaction_id' => $paymentStatus === 'completed' ? 'TXN-' . strtoupper(uniqid()) : null,
-                'gateway_payment_id' => $paymentStatus === 'completed' ? 'GPW-' . rand(100000, 999999) : null,
-                'gateway_response' => $paymentStatus === 'completed' ? $this->getGatewayResponse() : null,
-                'gateway_reference' => $paymentStatus === 'completed' ? 'REF-' . rand(100000, 999999) : null,
-                'payment_date' => $paymentStatus === 'completed' ? $paymentDate : null,
-                'processed_at' => in_array($paymentStatus, ['completed', 'failed']) ? $paymentDate->copy()->addMinutes(rand(5, 120)) : null,
-                'failed_at' => $paymentStatus === 'failed' ? $paymentDate->copy()->addMinutes(rand(5, 30)) : null,
-                'notes' => $this->getPaymentNotes($paymentStatus),
-                'receipt_number' => $paymentStatus === 'completed' ? 'RCP-' . date('Ymd') . '-' . rand(1000, 9999) : null,
-                'payment_details' => $this->getPaymentDetails($paymentMethod),
-            ]);
         }
     }
     
@@ -140,15 +110,15 @@ class CustomPaymentSeeder extends Seeder
     
     private function getRandomPaymentMethod(): string
     {
-        $methods = array_keys(Payment::getAvailablePaymentMethods());
+        $methods = ['sslcommerz', 'bkash', 'nagad', 'city_bank', 'brac_bank', 'bank_transfer', 'cash', 'other'];
         return $methods[array_rand($methods)];
     }
     
     private function getFormData($user, $amount): array
     {
         return [
-            'customer_name' => $user->name,
-            'customer_email' => $user->email,
+            'name' => $user->name,
+            'email_address' => $user->email,
             'amount' => $amount,
             'currency' => 'BDT',
             'form_type' => 'custom_payment',
@@ -190,46 +160,17 @@ class CustomPaymentSeeder extends Seeder
         }
     }
     
-    private function getPaymentStatus(string $customPaymentStatus, int $index, int $total): string
-    {
-        if ($customPaymentStatus === 'cancelled') {
-            return 'cancelled';
-        }
-        
-        if ($customPaymentStatus === 'completed') {
-            return 'completed';
-        }
-        
-        // For processing and submitted, mix payment statuses
-        $statuses = ['pending', 'processing', 'completed', 'failed'];
-        return $statuses[array_rand($statuses)];
-    }
-    
     private function getGatewayResponse(): array
     {
         return [
             'status' => 'success',
-            'transaction_id' => 'TXN-' . strtoupper(uniqid()),
+            'transaction_id' => 'CUP-' . strtoupper(uniqid()),
             'amount' => rand(1000, 25000),
             'currency' => 'BDT',
             'gateway_fee' => rand(50, 200),
             'response_code' => '00',
             'response_message' => 'Transaction successful'
         ];
-    }
-    
-    private function getPaymentNotes(string $status): ?string
-    {
-        switch ($status) {
-            case 'completed':
-                return 'Payment processed successfully through gateway';
-            case 'failed':
-                return 'Payment failed due to insufficient balance';
-            case 'pending':
-                return 'Payment awaiting processing';
-            default:
-                return null;
-        }
     }
     
     private function getPaymentDetails(string $method): ?array
@@ -291,6 +232,7 @@ class BookingPaymentSeeder extends Seeder
             $paymentDate = $booking->booking_date->copy()->addDays(rand(0, 10));
             
             Payment::create([
+                'payment_type' => 'booking',
                 'booking_id' => $booking->id,
                 'created_by' => $this->getPaymentCreator($users, $booking),
                 'amount' => $paymentAmount,
@@ -419,7 +361,7 @@ class BookingPaymentSeeder extends Seeder
         return [
             'booking_reference' => $booking->booking_reference,
             'booking_type' => $booking->booking_type,
-            'customer_name' => $booking->customer_details['name'] ?? 'Unknown',
+            'name' => $booking->customer_details['name'] ?? 'Unknown',
             'payment_for' => ucfirst($booking->booking_type) . ' booking',
             'travel_date' => $booking->travel_date ? $booking->travel_date->toDateString() : null
         ];

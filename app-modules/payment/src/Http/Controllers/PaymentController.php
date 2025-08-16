@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Payment\Models\Payment;
 use Modules\Booking\Models\Booking;
-use Modules\Payment\Models\CustomPayment;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -19,7 +18,7 @@ class PaymentController extends Controller
 
     public function indexJson(Request $request)
     {
-        $model = Payment::with(['booking.user', 'customPayment']);
+        $model = Payment::with(['booking.user']);
 
         return DataTables::eloquent($model)
             ->filter(function ($query) use ($request) {
@@ -36,11 +35,9 @@ class PaymentController extends Controller
                                                        ->orWhere('email', 'like', "%{$searchText}%");
                                           });
                           })
-                          ->orWhereHas('customPayment', function ($customQuery) use ($searchText) {
-                              $customQuery->where('name', 'like', "%{$searchText}%")
-                                         ->orWhere('email', 'like', "%{$searchText}%")
-                                         ->orWhere('mobile', 'like', "%{$searchText}%");
-                          });
+                          ->orWhere('name', 'like', "%{$searchText}%")
+                          ->orWhere('email_address', 'like', "%{$searchText}%")
+                          ->orWhere('mobile', 'like', "%{$searchText}%");
                     });
                 }
                 if ($request->has('status') && !empty($request->get('status'))) {
@@ -51,12 +48,15 @@ class PaymentController extends Controller
                 }
                 if ($request->has('payment_type') && !empty($request->get('payment_type'))) {
                     if ($request->get('payment_type') === 'booking') {
-                        $query->whereNotNull('booking_id');
-                    } elseif ($request->get('payment_type') === 'custom') {
-                        $query->whereNotNull('custom_payment_id');
+                        $query->where('payment_type', 'booking');
+                    } elseif ($request->get('payment_type') === 'custom_payment') {
+                        $query->where('payment_type', 'custom_payment');
                     }
                 }
             }, true)
+            ->addColumn('id_formatted', function (Payment $payment) {
+                return '<a href="' . route('payment::admin.payments.show', $payment->id) . '" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">#' . $payment->id . '</a>';
+            })
             ->addColumn('payment_info', function (Payment $payment) {
                 $html = '<div>';
                 $html .= '<div class="font-medium text-gray-900 dark:text-gray-100">' . htmlspecialchars($payment->formatted_amount) . '</div>';
@@ -76,19 +76,19 @@ class PaymentController extends Controller
                     $html .= '<div class="text-xs text-gray-500 dark:text-gray-400">Booking: ' . htmlspecialchars($payment->booking->booking_reference) . '</div>';
                     $html .= '</div>';
                     return $html;
-                } elseif ($payment->customPayment) {
+                } elseif ($payment->payment_type === 'custom_payment') {
                     $html = '<div>';
-                    $html .= '<div class="font-medium text-gray-900 dark:text-gray-100">' . htmlspecialchars($payment->customPayment->name) . '</div>';
-                    $html .= '<div class="text-xs text-gray-500 dark:text-gray-400">' . htmlspecialchars($payment->customPayment->email ?? $payment->customPayment->mobile) . '</div>';
+                    $html .= '<div class="font-medium text-gray-900 dark:text-gray-100">' . htmlspecialchars($payment->name) . '</div>';
+                    $html .= '<div class="text-xs text-gray-500 dark:text-gray-400">' . htmlspecialchars($payment->email_address ?? $payment->mobile) . '</div>';
                     $html .= '</div>';
                     return $html;
                 }
                 return '<span class="text-gray-400">No customer info</span>';
             })
             ->addColumn('payment_type', function (Payment $payment) {
-                if ($payment->booking_id) {
+                if ($payment->payment_type === 'booking') {
                     return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100">Booking</span>';
-                } elseif ($payment->custom_payment_id) {
+                } elseif ($payment->payment_type === 'custom_payment') {
                     return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100">Custom</span>';
                 }
                 return '<span class="text-gray-400">Unknown</span>';
@@ -116,67 +116,67 @@ class PaymentController extends Controller
                 $actions .= '</div>';
                 return $actions;
             })
-            ->rawColumns(['payment_info', 'customer_info', 'payment_type', 'payment_method_badge', 'status_badge', 'actions'])
+            ->rawColumns(['id_formatted', 'payment_info', 'customer_info', 'payment_type', 'payment_method_badge', 'status_badge', 'actions'])
             ->make(true);
     }
 
     public function create()
     {
-        $bookings = Booking::with('user')->orderBy('created_at', 'desc')->limit(100)->get();
-        $customPayments = CustomPayment::orderBy('created_at', 'desc')->limit(100)->get();
-        return view('payment::payments.create', compact('bookings', 'customPayments'));
+        return view('payment::payments.create');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'booking_id' => 'nullable|exists:bookings,id',
-            'custom_payment_id' => 'nullable|exists:custom_payments,id',
+            // Required fields
+            'payment_type' => 'required|in:custom_payment',
+            'name' => 'required|string|max:255',
+            'mobile' => 'required|string|max:20',
             'amount' => 'required|numeric|min:100',
-            'status' => 'required|in:pending,processing,completed,failed,cancelled,refunded',
-            'payment_method' => 'nullable|in:sslcommerz,bkash,nagad,city_bank,brac_bank,bank_transfer,cash,other',
-            'transaction_id' => 'nullable|string|max:255|unique:payments,transaction_id',
-            'gateway_payment_id' => 'nullable|string|max:255',
-            'gateway_reference' => 'nullable|string|max:255',
-            'payment_date' => 'nullable|date',
-            'receipt_number' => 'nullable|string|max:255',
+            'payment_method' => 'required|in:sslcommerz,manual_payment',
+            // Optional fields
+            'email_address' => 'nullable|email|max:255',
+            'purpose' => 'nullable|string|max:255',
+            'status' => 'nullable|in:pending,processing,completed,failed,cancelled,refunded',
+            'description' => 'nullable|string',
             'notes' => 'nullable|string',
+            'admin_notes' => 'nullable|string',
         ], [
             'amount.min' => __('messages.amount_minimum_required'),
+            'name.required' => 'Customer name is required for custom payments.',
+            'mobile.required' => 'Customer mobile number is required for custom payments.',
+            'payment_method.required' => 'Payment method is required for custom payments.',
         ]);
 
-        // Ensure only one reference type is set
-        if ($validatedData['booking_id'] && $validatedData['custom_payment_id']) {
-            return back()->withErrors(['general' => 'Payment can only be associated with either booking or custom payment, not both.']);
-        }
-
-        if (!$validatedData['booking_id'] && !$validatedData['custom_payment_id']) {
-            return back()->withErrors(['general' => 'Payment must be associated with either a booking or custom payment.']);
-        }
+        // Ensure booking_id is null for custom payments
+        $validatedData['booking_id'] = null;
 
         // Set created_by to current admin user
         $validatedData['created_by'] = auth()->id();
+
+        // Set default status if not provided
+        if (empty($validatedData['status'])) {
+            $validatedData['status'] = 'pending';
+        }
 
         // Set processed_at if status is completed
         if ($validatedData['status'] === 'completed') {
             $validatedData['processed_at'] = now();
         }
 
-        Payment::create($validatedData);
-        return redirect()->route('payment::admin.payments.index')->with('success', 'Payment created successfully.');
+        $payment = Payment::create($validatedData);
+        return redirect()->route('payment::admin.payments.show', $payment)->with('success', 'Custom payment created successfully.');
     }
 
     public function show(Payment $payment)
     {
-        $payment->load(['booking.user', 'customPayment']);
+        $payment->load(['booking.user']);
         return view('payment::payments.show', compact('payment'));
     }
 
     public function edit(Payment $payment)
     {
-        $bookings = Booking::with('user')->orderBy('created_at', 'desc')->limit(100)->get();
-        $customPayments = CustomPayment::orderBy('created_at', 'desc')->limit(100)->get();
-        return view('payment::payments.edit', compact('payment', 'bookings', 'customPayments'));
+        return view('payment::payments.edit', compact('payment'));
     }
 
     public function update(Request $request, Payment $payment)
@@ -184,13 +184,20 @@ class PaymentController extends Controller
         $validatedData = $request->validate([
             'amount' => 'required|numeric|min:0.01',
             'status' => 'required|in:pending,processing,completed,failed,cancelled,refunded',
-            'payment_method' => 'nullable|in:sslcommerz,bkash,nagad,city_bank,brac_bank,bank_transfer,cash,other',
+            'payment_method' => 'nullable|in:sslcommerz,manual_payment',
             'transaction_id' => 'nullable|string|max:255|unique:payments,transaction_id,' . $payment->id,
             'gateway_payment_id' => 'nullable|string|max:255',
             'gateway_reference' => 'nullable|string|max:255',
             'payment_date' => 'nullable|date',
             'receipt_number' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
+            'admin_notes' => 'nullable|string',
+            // Custom payment fields
+            'name' => 'nullable|string|max:255',
+            'email_address' => 'nullable|email|max:255',
+            'mobile' => 'nullable|string|max:20',
+            'purpose' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
         // Set processed_at if status changed to completed
@@ -209,7 +216,7 @@ class PaymentController extends Controller
         }
 
         $payment->update($validatedData);
-        return redirect()->route('payment::admin.payments.index')->with('success', 'Payment updated successfully.');
+        return redirect()->route('payment::admin.payments.show', $payment)->with('success', 'Payment updated successfully.');
     }
 
     public function destroy(Payment $payment)

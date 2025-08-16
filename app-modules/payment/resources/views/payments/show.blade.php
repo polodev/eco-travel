@@ -52,7 +52,7 @@
                                 <div class="mt-1">
                                     @if($payment->booking_id)
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100">Booking Payment</span>
-                                    @elseif($payment->custom_payment_id)
+                                    @elseif($payment->payment_type === 'custom_payment')
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100">Custom Payment</span>
                                     @else
                                         <span class="text-gray-400">Unknown</span>
@@ -84,24 +84,30 @@
                                     <div class="text-gray-900 dark:text-gray-100">{{ ucfirst($payment->booking->booking_type) }}</div>
                                 </div>
                             </div>
-                        @elseif($payment->customPayment)
+                        @elseif($payment->payment_type === 'custom_payment')
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <span class="text-sm text-gray-600 dark:text-gray-400">Customer Name:</span>
-                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->customPayment->name }}</div>
+                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->name }}</div>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600 dark:text-gray-400">Email:</span>
-                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->customPayment->email ?? 'N/A' }}</div>
+                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->email_address ?? 'N/A' }}</div>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600 dark:text-gray-400">Mobile:</span>
-                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->customPayment->mobile }}</div>
+                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ $payment->mobile }}</div>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600 dark:text-gray-400">Purpose:</span>
-                                    <div class="text-gray-900 dark:text-gray-100">{{ $payment->customPayment->purpose ?? 'N/A' }}</div>
+                                    <div class="text-gray-900 dark:text-gray-100">{{ $payment->purpose ?? 'N/A' }}</div>
                                 </div>
+                                @if($payment->description)
+                                <div class="md:col-span-2">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">Description:</span>
+                                    <div class="text-gray-900 dark:text-gray-100">{{ $payment->description }}</div>
+                                </div>
+                                @endif
                             </div>
                         @else
                             <p class="text-gray-500 dark:text-gray-400">No customer information available</p>
@@ -195,11 +201,24 @@
                     </div>
                     @endif
 
-                    <!-- Notes -->
+                    <!-- Customer Notes -->
                     @if($payment->notes)
                     <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Notes</h3>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Customer Notes</h3>
                         <div class="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{{ $payment->notes }}</div>
+                    </div>
+                    @endif
+
+                    <!-- Admin Notes -->
+                    @if($payment->admin_notes)
+                    <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
+                            <svg class="w-5 h-5 inline mr-2 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Admin Notes <span class="text-xs text-yellow-600 dark:text-yellow-400">(Internal)</span>
+                        </h3>
+                        <div class="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">{{ $payment->admin_notes }}</div>
                     </div>
                     @endif
 
@@ -228,7 +247,7 @@
                         @if($payment->gateway_response)
                         <div>
                             <span class="text-sm text-gray-600 dark:text-gray-400">Gateway Response:</span>
-                            <div class="mt-2 bg-gray-900 text-green-400 p-4 rounded text-xs font-mono min-h-24 max-h-48 overflow-y-auto border border-gray-700">
+                            <div class="mt-2 bg-gray-900 text-green-400 p-4 rounded text-xs font-mono min-h-24 max-h-64 overflow-y-auto border border-gray-700">
                                 <pre class="whitespace-pre-wrap break-words">{{ json_encode(is_string($payment->gateway_response) ? json_decode($payment->gateway_response, true) : $payment->gateway_response, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
                             </div>
                         </div>
@@ -329,16 +348,6 @@
                             </a>
                             @endif
 
-                            @if($payment->customPayment)
-                            <a href="{{ route('payment::admin.custom-payments.show', $payment->customPayment) }}" 
-                               class="w-full inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-green-700 bg-green-100 border border-green-300 rounded-md hover:bg-green-200">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                </svg>
-                                View Custom Payment
-                            </a>
-                            @endif
 
                             <!-- View Frontend Link -->
                             <a href="{{ route('payment::payments.show', $payment->id) }}" 
