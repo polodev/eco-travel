@@ -5,7 +5,7 @@ use Modules\Booking\Controllers\Admin\BookingFlightController;
 use Modules\Booking\Controllers\Admin\BookingHotelController;
 use Modules\Booking\Controllers\Admin\BookingTourController;
 
-Route::prefix('admin-dashboard')->name('booking::admin.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('booking::admin.')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->group(function () {
     
     // Booking Management Routes
     Route::prefix('bookings')->name('bookings.')->group(function () {

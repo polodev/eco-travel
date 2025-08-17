@@ -3,7 +3,7 @@
 use Modules\Tour\Http\Controllers\TourController;
 use Modules\Tour\Http\Controllers\TourItineraryController;
 
-Route::prefix('admin-dashboard')->name('tour::admin.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('tour::admin.')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->group(function () {
     
     // Tour Management Routes
     Route::prefix('tours')->name('tours.')->group(function () {

@@ -5,7 +5,7 @@ use Modules\Hotel\Http\Controllers\HotelRoomController;
 use Modules\Hotel\Http\Controllers\RoomInventoryController;
 use Modules\Hotel\Http\Controllers\DynamicHotelController;
 
-Route::prefix('admin-dashboard')->name('hotel::admin.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('hotel::admin.')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->group(function () {
     
     // Hotel Management Routes
     Route::prefix('hotels')->name('hotels.')->group(function () {

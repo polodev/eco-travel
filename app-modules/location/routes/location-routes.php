@@ -11,7 +11,7 @@ use Modules\Location\Http\Controllers\AirportController;
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin-dashboard')->name('location::admin.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('location::admin.')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->group(function () {
     
     // Country Management Routes
     Route::prefix('countries')->name('countries.')->group(function () {

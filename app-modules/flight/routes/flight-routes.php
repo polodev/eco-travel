@@ -6,7 +6,7 @@ use Modules\Flight\Http\Controllers\FlightScheduleController;
 use Modules\Flight\Http\Controllers\DynamicFlightController;
 
 
-Route::prefix('admin-dashboard')->name('flight::admin.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('flight::admin.')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->group(function () {
     
     // Airline Management Routes
     Route::prefix('airlines')->name('airlines.')->group(function () {

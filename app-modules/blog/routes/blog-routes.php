@@ -6,7 +6,7 @@ use Modules\Blog\Http\Controllers\BlogFrontendController;
 use Modules\Blog\Http\Controllers\TagController;
 
 // Admin Routes (No localization - admin/dashboard only)
-Route::prefix('admin-dashboard')->name('blog::admin.')->middleware(['web', 'auth'])->group(function () {
+Route::prefix('admin-dashboard')->name('blog::admin.')->middleware(['web', 'auth', 'role.access:developer,admin,employee,accounts'])->group(function () {
     
     // Blog Management Routes
     Route::prefix('blog')->name('blog.')->group(function () {
