@@ -44,6 +44,7 @@
         "modules/tour": "*",
         "modules/user-data": "*",
         "modules/utility": "*",
+        "modules/visa-processing": "*",
         "opcodesio/log-viewer": "^3.18",
         "owenvoke/blade-fontawesome": "^2.9",
         "spatie/laravel-activitylog": "^4.10",

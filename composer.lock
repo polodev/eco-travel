@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "843dcb729d354aee14af3d441d77b76d",
+    "content-hash": "52e4ef69e7d9b9f3a965dfdc27e7cbd0",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -4470,6 +4470,38 @@
                     "Modules\\Utility\\Tests\\": "tests/",
                     "Modules\\Utility\\Database\\Factories\\": "database/factories/",
                     "Modules\\Utility\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/visa-processing",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/visa-processing",
+                "reference": "8b625b3dbfc99e2c9fe8265f006956a1446ec39d"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\VisaProcessing\\Providers\\VisaProcessingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\VisaProcessing\\": "src/",
+                    "Modules\\VisaProcessing\\Tests\\": "tests/",
+                    "Modules\\VisaProcessing\\Database\\Factories\\": "database/factories/",
+                    "Modules\\VisaProcessing\\Database\\Seeders\\": "database/seeders/"
                 }
             },
             "license": [

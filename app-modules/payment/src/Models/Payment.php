@@ -18,6 +18,7 @@ class Payment extends Model implements HasMedia
     protected $fillable = [
         'payment_type',
         'booking_id',
+        'visa_processing_id',
         'created_by',
         'amount',
         'email_address',
@@ -64,6 +65,14 @@ class Payment extends Model implements HasMedia
     public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
+    }
+
+    /**
+     * Get the visa processing that owns this payment.
+     */
+    public function visaProcessing(): BelongsTo
+    {
+        return $this->belongsTo(\Modules\VisaProcessing\Models\VisaProcessing::class);
     }
 
 
@@ -113,6 +122,14 @@ class Payment extends Model implements HasMedia
     public function scopeForCustomPayments($query)
     {
         return $query->where('payment_type', 'custom_payment');
+    }
+
+    /**
+     * Scope for visa processing payments.
+     */
+    public function scopeForVisaProcessing($query)
+    {
+        return $query->where('payment_type', 'visa-processing');
     }
 
     /**

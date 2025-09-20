@@ -45,6 +45,9 @@ class ModelRelationMapProvider extends ServiceProvider
             'airline' => \Modules\Flight\Models\Airline::class,
             'flight' => \Modules\Flight\Models\Flight::class,
             'contact' => \Modules\Contact\Models\Contact::class,
+            'visa_processing' => \Modules\VisaProcessing\Models\VisaProcessing::class,
+            'visa_application' => \Modules\VisaProcessing\Models\VisaApplication::class,
+            'payment' => \Modules\Payment\Models\Payment::class,
         ]);
     }
 }

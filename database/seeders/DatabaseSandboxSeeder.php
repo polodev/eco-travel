@@ -21,6 +21,7 @@ use Modules\Option\Database\Seeders\OptionSeeder;
 use Modules\Page\Database\Seeders\PageSeeder;
 use Modules\Payment\Database\Seeders\PaymentSeeder;
 use Modules\Tour\Database\Seeders\TourSeeder;
+use Modules\VisaProcessing\Database\Seeders\VisaProcessingSeeder;
 
 class DatabaseSandboxSeeder extends Seeder
 {
@@ -61,6 +62,9 @@ class DatabaseSandboxSeeder extends Seeder
 
             // contact
             ContactSeeder::class,
+
+            // Visa Processing Module
+            VisaProcessingSeeder::class,
         ]);
     }
 }

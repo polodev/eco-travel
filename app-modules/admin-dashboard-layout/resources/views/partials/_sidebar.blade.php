@@ -7,6 +7,7 @@
            flightOpen: false,
            hotelOpen: false,
            tourOpen: false,
+           visaProcessingOpen: false,
            bookingOpen: false,
            paymentOpen: false,
            contentManagementOpen: false,
@@ -161,6 +162,27 @@
                         <div x-show="tourOpen" x-transition class="ml-8 space-y-1" x-cloak>
                             <a href="{{ route('tour::admin.tours.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('tour::admin.tours.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Tours</a>
                             <a href="{{ route('tour::admin.itineraries.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('tour::admin.itineraries.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Itineraries</a>
+                        </div>
+                    </div>
+
+                    <!-- Visa Processing Management -->
+                    <div>
+                        <button @click="visaProcessingOpen = !visaProcessingOpen"
+                                class="w-full flex items-center justify-between px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span>Visa Processing</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-90': visaProcessingOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="visaProcessingOpen" x-transition class="ml-8 space-y-1" x-cloak>
+                            <a href="{{ route('visa-processing::admin.visa-processings.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('visa-processing::admin.visa-processings.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">All Visa Services</a>
+                            <a href="{{ route('visa-processing::admin.visa-processings.create') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('visa-processing::admin.visa-processings.create') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Add New Service</a>
+                            <a href="{{ route('visa-processing::admin.visa-applications.index') }}" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors {{ request()->routeIs('visa-processing::admin.visa-applications.*') ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : '' }}">Visa Applications</a>
                         </div>
                     </div>
 

@@ -23,6 +23,7 @@ yarn-error.log
 /.vscode
 /.zed
 /.ignore
+/temps
 
 # Redis persistence files
 dump.rdb

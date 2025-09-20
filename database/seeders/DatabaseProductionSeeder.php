@@ -13,6 +13,7 @@ use Modules\Page\Database\Seeders\PageSeederProduction;
 use Modules\Location\Database\Seeders\CountrySeederProduction;
 use Modules\Location\Database\Seeders\CitySeederProduction;
 use Modules\Location\Database\Seeders\AirportSeederProduction;
+use Modules\VisaProcessing\Database\Seeders\VisaProcessingSeederProduction;
 
 class DatabaseProductionSeeder extends Seeder
 {
@@ -32,6 +33,9 @@ class DatabaseProductionSeeder extends Seeder
             // CountrySeederProduction::class,
             // CitySeederProduction::class,
             // AirportSeederProduction::class,
+
+            // Visa Processing Module
+            VisaProcessingSeederProduction::class,
 
            
         ]);
