@@ -135,7 +135,7 @@
                                    class="text-blue-600 hover:text-blue-800 dark:text-blue-400 text-sm font-medium">
                                     Download
                                 </a>
-                                @if(in_array($document['media']->mime_type, ['image/jpeg', 'image/png', 'image/jpg']))
+                                @if(in_array($document['media']->mime_type, ['image/jpeg', 'image/png', 'image/jpg', 'image/webp']))
                                 <button onclick="viewDocument('{{ $document['url'] }}', '{{ $document['label'] }}')" 
                                         class="text-green-600 hover:text-green-800 dark:text-green-400 text-sm font-medium">
                                     View

@@ -225,7 +225,7 @@ class VisaProcessingFrontendController extends Controller
             $payment = Payment::create([
                 'payment_type' => 'visa-processing',
                 'booking_id' => null,
-                'visa_processing_id' => $visaProcessing->id,
+                'visa_application_id' => $visaApplication->id,
                 'amount' => $visaProcessing->price,
                 'email_address' => $request->email,
                 'name' => $request->name,

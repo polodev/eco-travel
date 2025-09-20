@@ -20,8 +20,8 @@ return new class extends Migration
             // Reference to booking (only used when payment_type = 'booking')
             $table->foreignId('booking_id')->nullable();
             
-            // Reference to visa processing (only used when payment_type = 'visa-processing')
-            $table->foreignId('visa_processing_id')->nullable();
+            // Reference to visa application (only used when payment_type = 'visa-processing')
+            $table->foreignId('visa_application_id')->nullable();
             
             // Who created this payment record
             $table->foreignId('created_by')->nullable(); // User ID of creator (admin/employee or auto-generated)
@@ -68,7 +68,7 @@ return new class extends Migration
             
             // Indexes
             $table->index(['booking_id', 'status']);
-            $table->index(['visa_processing_id', 'status']);
+            $table->index(['visa_application_id', 'status']);
             $table->index(['payment_type', 'status']);
             $table->index(['status', 'payment_method']);
             $table->index(['transaction_id']);
@@ -80,9 +80,9 @@ return new class extends Migration
             $table->index(['ip_address', 'created_at']); // For rate limiting
             
             // Note: Application-level validation will ensure proper payment_type handling:
-            // - When payment_type = 'booking': booking_id should be NOT NULL, visa_processing_id should be NULL
-            // - When payment_type = 'visa-processing': visa_processing_id should be NOT NULL, booking_id should be NULL
-            // - When payment_type = 'custom_payment': both booking_id and visa_processing_id should be NULL
+            // - When payment_type = 'booking': booking_id should be NOT NULL, visa_application_id should be NULL
+            // - When payment_type = 'visa-processing': visa_application_id should be NOT NULL, booking_id should be NULL
+            // - When payment_type = 'custom_payment': both booking_id and visa_application_id should be NULL
             
             // Note: Foreign key constraints removed - validation handled at application level
         });
